@@ -128,6 +128,4 @@ if predict_btn:
     else:
         st.error("Intelligence Core missing. Please ensure `forecast_prophet.pkl` is in the `models/` folder.")
 
-st.sidebar.divider()
-st.sidebar.info("Prophet Forecasting Active")
 st.sidebar.markdown("**SIT Pune | Group 18**")

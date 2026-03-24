@@ -196,3 +196,5 @@ try:
 
 except:
     pass
+
+st.sidebar.markdown("**SIT Pune | Group 18**")

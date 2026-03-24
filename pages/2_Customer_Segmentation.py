@@ -209,3 +209,5 @@ if kmeans and scaler:
 
 else:
     st.error("Model files missing.")
+
+st.sidebar.markdown("**SIT Pune | Group 18**")
