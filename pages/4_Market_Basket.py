@@ -193,6 +193,17 @@ def random_sample_basket():
     return codes[:3]
 
 
+def set_random_basket():
+    """Callback to set random basket and trigger UI update."""
+    codes = random_sample_basket()
+    padded = (codes + ["", "", ""])[:3]
+    st.session_state["sample_codes"] = padded
+
+
+def clear_basket():
+    st.session_state["sample_codes"] = ["", "", ""]
+
+
 # ─────────────────────────────────────────
 # HEADER
 # ─────────────────────────────────────────
@@ -228,13 +239,9 @@ with left:
     # Sample / Clear buttons
     col_sample, col_clear = st.columns(2)
     with col_sample:
-        if st.button("🎲 Random Basket"):
-            codes = random_sample_basket()
-            padded = (codes + ["", "", ""])[:3]
-            st.session_state["sample_codes"] = padded
+        st.button("🎲 Random Basket", on_click=set_random_basket)
     with col_clear:
-        if st.button("🗑️ Clear"):
-            st.session_state["sample_codes"] = ["", "", ""]
+        st.button("🗑️ Clear", on_click=clear_basket)
 
     def _default_idx(code):
         if not code:
