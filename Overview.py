@@ -29,10 +29,16 @@ This system addresses these challenges by combining machine learning models with
 - Single RFM input feeds both models in parallel for a unified retention recommendation  
 - 4-chart analytics dashboard: segment distribution, churn-by-segment, feature importance, risk heat matrix  
 
-**Demand Forecasting**
-- Time-series demand prediction using Prophet  
+**Demand Forecasting** *(Historical Reference)*
+- Time-series demand prediction using a pre-trained Prophet model  
 - Detection of seasonal trends and demand spikes  
 - Inventory planning support  
+
+**Live Forecasting** *(New — Upload Your Data)*
+- Upload any sales CSV and train a fresh Prophet model in real time  
+- Forecast from today (2026-04-07) into the future (4–52 weeks)  
+- Agentic spike detection and inventory recommendations  
+- Download forecast CSV for use in Excel or Tableau  
 
 ---
 
