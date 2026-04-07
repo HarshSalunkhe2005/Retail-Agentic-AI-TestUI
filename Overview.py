@@ -3,7 +3,7 @@ import streamlit as st;
 st.title("Retail Agentic AI System")
 
 st.markdown("""
-A data-driven decision support system designed to optimize retail operations through intelligent pricing, customer segmentation, and demand forecasting.
+A data-driven decision support system designed to optimize retail operations through intelligent pricing, customer health intelligence, and demand forecasting.
 
 ---
 
@@ -23,10 +23,11 @@ This system addresses these challenges by combining machine learning models with
 - Competitive positioning analysis  
 - Margin-aware decision logic  
 
-**Customer Segmentation**
-- RFM-based clustering of customers  
-- Identification of behavioral segments  
-- Strategy recommendations for each segment  
+**Customer Health Intelligence** *(Unified Module)*
+- RFM-based KMeans clustering → behavioural segment (Core / Regular / Lapsing / Dormant)  
+- XGBoost churn risk prediction → probability score and risk tier (Safe / Low / Medium / High)  
+- Single RFM input feeds both models in parallel for a unified retention recommendation  
+- 4-chart analytics dashboard: segment distribution, churn-by-segment, feature importance, risk heat matrix  
 
 **Demand Forecasting**
 - Time-series demand prediction using Prophet  
@@ -37,7 +38,7 @@ This system addresses these challenges by combining machine learning models with
 
 ### System Workflow
 
-Input Data → Machine Learning Models → Business Rules → Actionable Recommendations
+Input Data → Parallel ML Models → Business Rules → Unified Actionable Recommendations
 
 ---
 
