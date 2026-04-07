@@ -101,9 +101,6 @@ with left:
 
     run = st.button("Generate Pricing Strategy")
 
-    st.markdown("---")
-    st.subheader("Analytics")
-
 # ───────── RIGHT (OUTPUT)
 with right:
     if run and model and scaler:
