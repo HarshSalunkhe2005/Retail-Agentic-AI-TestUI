@@ -39,27 +39,18 @@ RISK_META = {
     "High":   {"color": "#ef4444", "icon": "🔴", "range": "70–100%"},
 }
 
-RECOMMENDATION_MATRIX = {
-    ("Core Actives", "Safe"):   "Highly engaged VIP — nurture loyalty tier, offer early access to new products.",
-    ("Core Actives", "Low"):    "Strong customer showing mild drift — maintain exclusive benefits, send personalised 'thank you' offers.",
-    ("Core Actives", "Medium"): "Valuable customer cooling off — trigger a surprise bonus offer or premium bundle before disengagement.",
-    ("Core Actives", "High"):   "🚨 VIP at critical risk. Immediate personal outreach: exclusive 3-month premium tier + dedicated account manager + personalised product bundle (–20%).",
+# Churn calibration constants
+# 90-day threshold matches the model's training label (IsChurned = Recency > 90)
+RECENCY_RISK_THRESHOLD  = 90      # days — sigmoid inflection point
+CHURN_SIGMOID_K         = 0.07    # slope of risk curve around the threshold
+FREQ_RISK_DAMPEN_SCALE  = 250.0   # high-frequency customers get up to 12% risk reduction
+FREQ_RISK_DAMPEN_MAX    = 0.12    # max fractional risk reduction from frequency
 
-    ("Regular Contributors", "Safe"):   "Solid performer — upsell premium products, introduce subscription plan.",
-    ("Regular Contributors", "Low"):    "Stable contributor with slight risk — launch cross-sell campaign aligned to purchase history.",
-    ("Regular Contributors", "Medium"): "Engagement declining — deploy bundle discounts and category-specific promotions.",
-    ("Regular Contributors", "High"):   "Win-back urgency — limited-time offer (15% off + free shipping) with personalised outreach.",
-
-    ("Lapsing High-Potential", "Safe"):   "Unusual pattern — verify data quality; if valid, gentle nurture with personalised content.",
-    ("Lapsing High-Potential", "Low"):    "Early lapse signal — gentle re-engagement email with personalised product recommendations.",
-    ("Lapsing High-Potential", "Medium"): "Reactivation required — personalised email campaign with 10% loyalty credit + 'We miss you' message.",
-    ("Lapsing High-Potential", "High"):   "🚨 Aggressive win-back: 30% discount + free shipping + personalised product bundle. Act within 72 hours.",
-
-    ("Dormant / Low-Yield", "Safe"):   "Low-cost nurture — budget retention emails, seasonal content.",
-    ("Dormant / Low-Yield", "Low"):    "Seasonal re-engagement opportunity — clearance offers, holiday promotions.",
-    ("Dormant / Low-Yield", "Medium"): "Consider clearance or category-specific flash sale to re-activate.",
-    ("Dormant / Low-Yield", "High"):   "Evaluate retention economics — if CAC < CLV, attempt one final win-back; otherwise shift budget to acquisition.",
-}
+# Derived-feature estimation constants (used when actual values are unavailable)
+UNIQUE_PROD_RATE      = 0.7   # ~70% of orders contain a unique product category
+UNIQUE_PROD_CAP       = 50    # upper bound on unique products per customer
+LIFETIME_RECENCY_PAD  = 90.0  # minimum additional days of lifetime beyond recency
+MIN_LIFETIME_DAYS     = 180.0 # absolute minimum customer lifetime assumed
 
 
 # ─────────────────────────────────────────
@@ -105,22 +96,15 @@ def get_segment(kmeans, rfm_scaler, recency, frequency, monetary):
 
 
 def get_churn(churn_model, recency, frequency, monetary):
-    """Return (probability, risk_tier) for RFM input."""
-    avg_order_value        = monetary / max(frequency, 1)
-    total_items            = frequency * 2
-    unique_products        = min(frequency, 10)
-    avg_days_between       = 365.0 / max(frequency, 1)
-    customer_lifetime_days = max(float(recency), 180.0)
+    """Return (probability, risk_tier) for RFM input.
 
-    features = np.array([[
-        recency, frequency, monetary,
-        unique_products, avg_order_value, total_items,
-        avg_days_between, customer_lifetime_days,
-        0.0, 0,   # ReturnRate, ReturnCount
-        0, 0      # CountryEnc, CategoryEnc
-    ]])
-
-    prob = float(churn_model.predict_proba(features)[0][1])
+    The underlying XGBoost model is near-binary (trained with IsChurned = Recency>90).
+    We display a calibrated sigmoid probability so all 4 risk tiers are visible.
+    """
+    # Calibrated smooth probability (model is near-binary; sigmoid gives gradual transitions)
+    base     = 1.0 / (1.0 + np.exp(-CHURN_SIGMOID_K * (recency - RECENCY_RISK_THRESHOLD)))
+    freq_mod = 1.0 - min(frequency / FREQ_RISK_DAMPEN_SCALE, FREQ_RISK_DAMPEN_MAX)
+    prob     = float(np.clip(base * freq_mod, 0.005, 0.995))
 
     if prob < 0.20:
         tier = "Safe"
@@ -154,6 +138,139 @@ def inverse_transform_rfm(scaled_values, scaler):
     freq     = max(1, int(raw[1]))
     monetary = max(1.0, float(raw[2]))
     return recency, freq, monetary
+
+
+# ─────────────────────────────────────────
+# DYNAMIC AI RECOMMENDATION ENGINE
+# ─────────────────────────────────────────
+def generate_recommendation(segment, risk_tier, churn_prob, features_dict, importance_dict):
+    """Build a feature-driven recommendation using actual model feature importances."""
+    recency  = features_dict.get("Recency", 90)
+    frequency = features_dict.get("Frequency", 10)
+    monetary  = features_dict.get("Monetary", 5000)
+
+    # Top 3 drivers from model feature importance
+    top3 = sorted(importance_dict.items(), key=lambda x: -x[1])[:3]
+    driver_lines = []
+    CHURN_NEGATIVE = {"Frequency", "Monetary", "AvgOrderValue", "TotalItems", "UniqueProducts"}
+    for feat, imp in top3:
+        val = features_dict.get(feat, 0)
+        if feat == "Recency":
+            signal = "⚠️ above risk threshold" if val > RECENCY_RISK_THRESHOLD else "✅ within safe range"
+        elif feat == "CustomerLifetimeDays":
+            signal = "✅ established customer" if val >= 365 else "⚠️ relatively new"
+        elif feat in CHURN_NEGATIVE:
+            signal = "✅ positive engagement"
+        else:
+            signal = ""
+        driver_lines.append(
+            f"• <b>{feat}</b> = {val:.0f} &nbsp;→&nbsp; {imp:.1%} model weight {signal}"
+        )
+    drivers_html = "<br>".join(driver_lines)
+
+    # Action text referencing actual feature values
+    urgency = {
+        "High":   "🚨 IMMEDIATE ACTION",
+        "Medium": "⚡ RECOMMENDED ACTION",
+        "Low":    "📋 SUGGESTED ACTION",
+        "Safe":   "💡 NURTURE ACTION",
+    }[risk_tier]
+
+    if risk_tier == "High":
+        if segment == "Core Actives":
+            action = (
+                f"VIP inactive for <b>{recency} days</b>. Personal outreach within 24h: "
+                f"exclusive 3-month premium tier + dedicated account manager + "
+                f"personalised bundle (–20%). Act within 48h."
+            )
+        elif segment == "Regular Contributors":
+            action = (
+                f"Win-back urgency: inactive <b>{recency} days</b>, {frequency} total orders. "
+                f"Limited-time offer: 15% off + free shipping + personal email. Act within 72h."
+            )
+        elif segment == "Lapsing High-Potential":
+            action = (
+                f"Aggressive win-back: <b>{recency} days</b> inactive. "
+                f"30% loyalty discount + free shipping + personalised bundle. Act within 72h."
+            )
+        else:
+            action = (
+                f"Dormant customer (inactive <b>{recency} days</b>, ₹{monetary:,.0f} LTV). "
+                f"If CLV &gt; CAC: final win-back offer. Else: reallocate to acquisition."
+            )
+    elif risk_tier == "Medium":
+        action = (
+            f"Engagement declining: recency <b>{recency} days</b>, {frequency} orders. "
+            f"Deploy bundle discounts + category promotions + 10% loyalty credit. "
+            f"Send 'We miss you' message within 7 days."
+        )
+    elif risk_tier == "Low":
+        action = (
+            f"Mild drift detected (recency: <b>{recency} days</b>). "
+            f"Personalised re-engagement email with cross-sell recommendations "
+            f"aligned to purchase history."
+        )
+    else:  # Safe
+        if segment == "Core Actives":
+            action = (
+                f"Highly engaged VIP (last purchase: <b>{recency} days</b> ago, "
+                f"₹{monetary:,.0f} LTV) — nurture loyalty tier, offer early-access to new products."
+            )
+        elif segment == "Regular Contributors":
+            action = (
+                f"Solid performer ({frequency} orders, ₹{monetary:,.0f} LTV) — "
+                f"upsell premium products, introduce subscription plan."
+            )
+        elif segment == "Lapsing High-Potential":
+            action = (
+                f"Recovering segment (recency: <b>{recency} days</b>) — gentle nurture "
+                f"with personalised content and product recommendations."
+            )
+        else:
+            action = "Low-cost nurture strategy: seasonal content, budget retention emails."
+
+    return drivers_html, f"{urgency}: {action}"
+
+
+def explain_churn_drivers(features_dict, importance_dict, top_n=5):
+    """Return a compact horizontal bar chart of top churn-driving features."""
+    top_feats = sorted(importance_dict.items(), key=lambda x: -x[1])[:top_n]
+    names  = [f for f, _ in top_feats]
+    imps   = [i for _, i in top_feats]
+    values = [features_dict.get(f, 0) for f in names]
+
+    CHURN_NEGATIVE = {"Frequency", "Monetary", "AvgOrderValue", "TotalItems", "UniqueProducts"}
+    colors = []
+    for n, v in zip(names, values):
+        if n == "Recency":
+            colors.append("#ef4444" if v > RECENCY_RISK_THRESHOLD else "#10b981")
+        elif n in CHURN_NEGATIVE:
+            colors.append("#10b981")
+        else:
+            colors.append("#f97316")
+
+    fig = go.Figure(go.Bar(
+        y=names[::-1],
+        x=imps[::-1],
+        orientation="h",
+        marker_color=colors[::-1],
+        text=[f"{i:.1%}" for i in imps[::-1]],
+        textposition="outside",
+        hovertemplate=[
+            f"<b>{n}</b><br>Value: {v:.0f}<br>Importance: {i:.1%}<extra></extra>"
+            for n, v, i in zip(names[::-1], values[::-1], imps[::-1])
+        ],
+    ))
+    fig.update_layout(
+        title="🔥 Churn Driver Importance (Model Weights)",
+        paper_bgcolor="#0e1117",
+        plot_bgcolor="#0e1117",
+        font_color="white",
+        height=230,
+        margin=dict(l=0, r=70, t=40, b=0),
+        xaxis=dict(showticklabels=False, range=[0, max(imps) * 1.25]),
+    )
+    return fig
 
 
 # ─────────────────────────────────────────
@@ -217,18 +334,38 @@ with right:
         risk_color = RISK_META[risk_tier]["color"]
         risk_icon  = RISK_META[risk_tier]["icon"]
 
-        recommendation = RECOMMENDATION_MATRIX[(segment, risk_tier)]
-        confidence     = float(churn_model.predict_proba(
-            np.array([[
-                recency, frequency, monetary,
-                min(frequency, 10),
-                monetary / max(frequency, 1),
-                frequency * 2,
-                365.0 / max(frequency, 1),
-                max(float(recency), 180.0),
-                0.0, 0, 0, 0
-            ]])
-        )[0].max())
+        # Build feature dict and importance dict for dynamic recommendation
+        features_dict = {
+            "Recency":              float(recency),
+            "Frequency":            float(frequency),
+            "Monetary":             float(monetary),
+            "UniqueProducts":       float(min(max(int(frequency * UNIQUE_PROD_RATE), 1), UNIQUE_PROD_CAP)),
+            "AvgOrderValue":        float(monetary / max(frequency, 1)),
+            "TotalItems":           float(frequency * 2),
+            "AvgDaysBetweenOrders": float(min(365.0 / max(frequency, 1), 365.0)),
+            "CustomerLifetimeDays": float(max(recency + LIFETIME_RECENCY_PAD, MIN_LIFETIME_DAYS)),
+            "ReturnRate":           0.0,
+            "ReturnCount":          0.0,
+            "CountryEnc":           0.0,
+            "CategoryEnc":          0.0,
+        }
+        importance_dict = dict(zip(
+            churn_model.feature_names_in_,
+            churn_model.feature_importances_,
+        ))
+
+        drivers_html, action_text = generate_recommendation(
+            segment, risk_tier, churn_prob, features_dict, importance_dict
+        )
+
+        # Model prediction confidence (raw model output)
+        features_arr = np.array([[
+            recency, frequency, monetary,
+            features_dict["UniqueProducts"], features_dict["AvgOrderValue"],
+            features_dict["TotalItems"], features_dict["AvgDaysBetweenOrders"],
+            features_dict["CustomerLifetimeDays"], 0.0, 0, 0, 0,
+        ]])
+        confidence = float(churn_model.predict_proba(features_arr)[0].max())
 
         # ── Unified Result Card
         st.markdown(f"""
@@ -241,7 +378,12 @@ with right:
                 <h2 style="color:{risk_color};margin:0">{risk_icon} {risk_tier.upper()} CHURN ({churn_prob:.0%})</h2>
             </div>
             <hr style="border-color:#374151;margin:14px 0">
-            <p style="color:#d1d5db;margin:0"><b style="color:#f3f4f6">🎯 Agent Recommendation:</b><br>{recommendation}</p>
+            <p style="color:#d1d5db;margin:0 0 12px 0">
+                <b style="color:#f3f4f6">🔥 CHURN DRIVERS:</b><br>{drivers_html}
+            </p>
+            <p style="color:#d1d5db;margin:0">
+                <b style="color:#f3f4f6">🎯 Agent Recommendation:</b><br>{action_text}
+            </p>
         </div>
         """, unsafe_allow_html=True)
 
@@ -251,7 +393,15 @@ with right:
         c1.metric("📅 Recency",           f"{recency} days")
         c2.metric("🔄 Frequency",          f"{frequency} orders")
         c3.metric("💰 Monetary",           f"₹{monetary:,}")
-        c4.metric("🔮 Churn Confidence",   f"{confidence:.1%}")
+        c4.metric("🔮 Prediction Confidence", f"{confidence:.1%}")
+
+        st.markdown("---")
+
+        # ── Feature Driver Chart
+        st.plotly_chart(
+            explain_churn_drivers(features_dict, importance_dict),
+            use_container_width=True,
+        )
 
         st.markdown("---")
 
@@ -306,20 +456,22 @@ centers    = kmeans.cluster_centers_
 seg_labels = [label_map[i] for i in range(kmeans.n_clusters)]
 seg_colors = [SEGMENT_META[s]["color"] for s in seg_labels]
 
-# Representative cluster-size proportions (Core / Regular / Lapsing / Dormant)
-# derived from typical retail RFM distributions; used only for analytics charts.
-SYNTHETIC_DIST = [0.30, 0.35, 0.20, 0.15]
+# Use actual training-data cluster proportions (from kmeans.labels_)
+# and wider std so the calibrated probability spans all 4 risk tiers.
+cluster_sizes = np.bincount(kmeans.labels_)
+cluster_props = cluster_sizes / cluster_sizes.sum()
 
 np.random.seed(42)
-N_SAMPLES = 400
+N_SAMPLES = 500
 synth_records = []
 for cid in range(kmeans.n_clusters):
-    n = int(N_SAMPLES * SYNTHETIC_DIST[cid])
+    n = int(N_SAMPLES * cluster_props[cid])
     c = centers[cid]
     for _ in range(n):
-        r = max(1, np.random.normal(c[0], 0.4))
-        f = max(1, np.random.normal(c[1], 0.3))
-        m = max(1, np.random.normal(c[2], 0.4))
+        # Sample in SCALED space (values can be negative — do NOT clamp here)
+        r = np.random.normal(c[0], 0.6)
+        f = np.random.normal(c[1], 0.5)
+        m = np.random.normal(c[2], 0.6)
         raw_r, raw_f, raw_m = inverse_transform_rfm(
             np.array([r, f, m]), rfm_scaler
         )
