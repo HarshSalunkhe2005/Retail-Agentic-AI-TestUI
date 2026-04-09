@@ -6,7 +6,7 @@ export interface CSVRow {
   [key: string]: string | number;
 }
 
-export type ModelKey = 'pricing' | 'churn' | 'demand' | 'basket';
+export type ModelKey = 'pricing' | 'churn' | 'demand' | 'basket' | 'inventory';
 
 export interface ModelResult {
   name: string;
@@ -73,6 +73,7 @@ const defaultModelResults: Record<ModelKey, ModelResult> = {
   churn: { name: 'Customer Churn', status: 'idle', data: null },
   demand: { name: 'Demand Forecasting', status: 'idle', data: null },
   basket: { name: 'Market Basket Analysis', status: 'idle', data: null },
+  inventory: { name: 'Inventory Reorder', status: 'idle', data: null },
 };
 
 export const useWizardStore = create<WizardState>((set) => ({
@@ -80,7 +81,7 @@ export const useWizardStore = create<WizardState>((set) => ({
   csvFile: null,
   csvData: [],
   csvHeaders: [],
-  selectedModels: ['pricing', 'churn', 'demand', 'basket'],
+  selectedModels: ['pricing', 'churn', 'demand', 'basket', 'inventory'],
   compatibleModels: null,
   modelResults: defaultModelResults,
   kpiMetrics: null,
@@ -123,7 +124,7 @@ export const useWizardStore = create<WizardState>((set) => ({
       csvFile: null,
       csvData: [],
       csvHeaders: [],
-      selectedModels: ['pricing', 'churn', 'demand', 'basket'],
+      selectedModels: ['pricing', 'churn', 'demand', 'basket', 'inventory'],
       compatibleModels: null,
       modelResults: defaultModelResults,
       kpiMetrics: null,

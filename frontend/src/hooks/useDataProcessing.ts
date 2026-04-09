@@ -21,6 +21,21 @@ async function callModel(endpoint: string, file: File): Promise<Record<string, u
   return json as Record<string, unknown>;
 }
 
+async function callInventory(
+  file: File,
+  basketRules: unknown[],
+): Promise<Record<string, unknown>> {
+  const fd = new FormData();
+  fd.append('file', file);
+  fd.append('basket_rules', JSON.stringify(basketRules));
+  const response = await fetch(`${API_BASE}/models/inventory`, {
+    method: 'POST',
+    body: fd,
+  });
+  const json = await response.json();
+  return json as Record<string, unknown>;
+}
+
 // ── KPI + segment builders from API responses ────────────────────────────────
 
 function buildKpiFromResponses(
@@ -124,13 +139,16 @@ export function useDataProcessing() {
 
     const apiResults: Partial<Record<ModelKey, Record<string, unknown>>> = {};
 
-    const modelPromises = selectedModels.map(async (model) => {
+    // Run non-inventory models first (in parallel)
+    const nonInventoryModels = selectedModels.filter((m) => m !== 'inventory');
+    const inventorySelected  = selectedModels.includes('inventory');
+
+    const nonInventoryPromises = nonInventoryModels.map(async (model) => {
       useWizardStore.getState().updateModelResult(model, { status: 'running' });
 
       const endpoint = MODEL_ENDPOINTS[model];
 
       if (!endpoint || !csvFile) {
-        // inventory or no file — mark done with empty data
         useWizardStore.getState().updateModelResult(model, {
           status: 'done',
           data: { processed: true, model, timestamp: Date.now() },
@@ -158,7 +176,37 @@ export function useDataProcessing() {
       useWizardStore.setState({ processingProgress: Math.round((completed / total) * 100) });
     });
 
-    await Promise.all(modelPromises);
+    await Promise.all(nonInventoryPromises);
+
+    // Run inventory model last, passing basket rules from Model 5
+    if (inventorySelected && csvFile && !cancelRef.current) {
+      useWizardStore.getState().updateModelResult('inventory', { status: 'running' });
+
+      try {
+        // Extract basket rules from basket model result (pipeline: Model 5 → Model 6)
+        const basketResult = apiResults.basket;
+        const basketRules = (basketResult?.rules as unknown[]) ?? [];
+
+        const result = await callInventory(csvFile, basketRules);
+        if (!cancelRef.current) {
+          apiResults.inventory = result;
+          useWizardStore.getState().updateModelResult('inventory', {
+            status: result.status === 'error' ? 'error' : 'done',
+            data: result,
+          });
+        }
+      } catch (err) {
+        if (!cancelRef.current) {
+          useWizardStore.getState().updateModelResult('inventory', {
+            status: 'error',
+            data: { error: String(err), model: 'inventory' },
+          });
+        }
+      }
+
+      completed++;
+      useWizardStore.setState({ processingProgress: Math.round((completed / total) * 100) });
+    }
 
     if (cancelRef.current) return;
 
