@@ -1,7 +1,6 @@
 import { useCallback, useRef } from 'react';
 import { useWizardStore } from '../store/wizardStore';
-import { generateMockResults } from '../utils/chartUtils';
-import type { ModelKey } from '../store/wizardStore';
+import type { ModelKey, KPIMetrics } from '../store/wizardStore';
 
 const MODEL_DURATIONS: Record<ModelKey, number> = {
   pricing: 2200,
@@ -28,7 +27,7 @@ export function useDataProcessing() {
 
     cancelRef.current = false;
 
-    const { selectedModels, csvData, startProcessing } = useWizardStore.getState();
+    const { selectedModels, startProcessing } = useWizardStore.getState();
     startProcessing();
 
     let completed = 0;
@@ -55,8 +54,15 @@ export function useDataProcessing() {
 
     if (cancelRef.current) return;
 
-    const { kpi, segments, inventory } = generateMockResults(csvData);
-    useWizardStore.getState().setResults(kpi, segments, inventory);
+    const zeroKpi: KPIMetrics = {
+      fillRate: 0,
+      inventoryTurns: 0,
+      stockoutRate: 0,
+      totalRevenue: 0,
+      avgOrderValue: 0,
+      activeCustomers: 0,
+    };
+    useWizardStore.getState().setResults(zeroKpi, [], []);
 
     useWizardStore.setState({ isProcessing: false, processingProgress: 100 });
     setTimeout(() => {

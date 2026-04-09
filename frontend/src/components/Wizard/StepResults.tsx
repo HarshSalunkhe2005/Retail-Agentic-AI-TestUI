@@ -21,15 +21,10 @@ import {
 import {
   formatCurrency,
   formatNumber,
-  generateDemandData,
-  generatePricingData,
   CHART_COLORS,
 } from '../../utils/chartUtils';
 import { exportAsCSV, exportAsJSON } from '../../utils/csvParser';
 import { SkeletonKPI, SkeletonChart } from '../Common/SkeletonCard';
-
-const demandData = generateDemandData(12);
-const pricingData = generatePricingData();
 
 type Tab = 'overview' | 'segments' | 'inventory' | 'demand' | 'pricing';
 
@@ -193,7 +188,7 @@ export default function StepResults() {
             <MetricsChart
               title="Demand Forecast"
               subtitle="Actual vs predicted (last 12 months)"
-              data={demandData}
+              data={[]}
               type="area"
               xDataKey="month"
               dataKeys={[
@@ -267,7 +262,7 @@ export default function StepResults() {
           <MetricsChart
             title="Demand Forecast — 12-Month View"
             subtitle="Historical actuals with forecast bands"
-            data={demandData}
+            data={[]}
             type="area"
             xDataKey="month"
             dataKeys={[
@@ -280,7 +275,7 @@ export default function StepResults() {
           <MetricsChart
             title="Sales Volume Trend"
             subtitle="Monthly comparison"
-            data={demandData}
+            data={[]}
             type="bar"
             xDataKey="month"
             dataKeys={[
@@ -296,7 +291,7 @@ export default function StepResults() {
           <MetricsChart
             title="Current vs Optimal Pricing by Category"
             subtitle="Recommendations from pricing intelligence model"
-            data={pricingData}
+            data={[]}
             type="bar"
             xDataKey="category"
             dataKeys={[
@@ -307,7 +302,7 @@ export default function StepResults() {
           <MetricsChart
             title="Revenue by Category"
             subtitle="Estimated revenue after pricing optimization"
-            data={pricingData}
+            data={[]}
             type="bar"
             xDataKey="category"
             dataKeys={[
@@ -316,25 +311,7 @@ export default function StepResults() {
           />
           <div className="glass rounded-2xl p-5">
             <h3 className="text-sm font-semibold text-white mb-4">Price Elasticity by Category</h3>
-            <div className="space-y-3">
-              {pricingData.map((item) => (
-                <div key={item.category} className="flex items-center gap-3">
-                  <span className="text-xs text-slate-400 w-24 shrink-0">{item.category}</span>
-                  <div className="flex-1 h-2 bg-white/10 rounded-full overflow-hidden">
-                    <div
-                      className="h-full rounded-full"
-                      style={{
-                        width: `${Math.min(100, Math.abs(item.elasticity) * 40)}%`,
-                        background: Math.abs(item.elasticity) > 1.5 ? CHART_COLORS.red : Math.abs(item.elasticity) > 1 ? CHART_COLORS.orange : CHART_COLORS.green,
-                      }}
-                    />
-                  </div>
-                  <span className="text-xs font-mono text-slate-300 w-14 text-right">
-                    {item.elasticity.toFixed(2)}
-                  </span>
-                </div>
-              ))}
-            </div>
+            <p className="text-xs text-slate-500">No pricing data available</p>
           </div>
         </motion.div>
       )}
