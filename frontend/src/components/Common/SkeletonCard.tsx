@@ -3,6 +3,12 @@ interface SkeletonCardProps {
   rows?: number;
 }
 
+// Fixed bar heights for SkeletonChart — avoids calling Math.random() inside
+// the render function, which produces a different value on every render and
+// triggers React's StrictMode purity check to flag the component as impure,
+// causing extra reconciliation work.
+const SKELETON_BAR_HEIGHTS = [45, 70, 55, 90, 60, 80, 40, 75];
+
 export function SkeletonCard({ className = '', rows = 3 }: SkeletonCardProps) {
   return (
     <div
@@ -26,11 +32,11 @@ export function SkeletonChart({ className = '' }: { className?: string }) {
         <div className="h-4 bg-white/10 rounded-lg w-1/3" />
         <div className="h-3 bg-white/5 rounded-lg w-1/4" />
         <div className="h-48 bg-white/5 rounded-xl mt-4 flex items-end gap-2 p-3">
-          {Array.from({ length: 8 }).map((_, i) => (
+          {SKELETON_BAR_HEIGHTS.map((h, i) => (
             <div
               key={i}
               className="flex-1 bg-white/10 rounded-t"
-              style={{ height: `${30 + Math.random() * 70}%` }}
+              style={{ height: `${h}%` }}
             />
           ))}
         </div>

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useWizardStore } from '../store/wizardStore';
+import { useShallow } from 'zustand/react/shallow';
 import KPICard from '../components/Dashboard/KPICard';
 import MetricsChart from '../components/Dashboard/MetricsChart';
 import SegmentComparison from '../components/Dashboard/SegmentComparison';
@@ -30,7 +31,13 @@ const DEMO_DATA = generateMockResults([]);
 const demandData = generateDemandData(12);
 
 export default function Dashboard() {
-  const { kpiMetrics, segmentData, inventoryItems } = useWizardStore();
+  const { kpiMetrics, segmentData, inventoryItems } = useWizardStore(
+    useShallow((s) => ({
+      kpiMetrics: s.kpiMetrics,
+      segmentData: s.segmentData,
+      inventoryItems: s.inventoryItems,
+    }))
+  );
   const navigate = useNavigate();
   const [isLive] = useState(true);
 

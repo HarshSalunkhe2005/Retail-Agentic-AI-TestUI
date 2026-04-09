@@ -12,17 +12,23 @@ const MODEL_DURATIONS: Record<ModelKey, number> = {
 };
 
 export function useDataProcessing() {
-  // cancelRef lets the cleanup function (on unmount) stop in-flight timers
-  const cancelRef = useRef(false);
+  // runIdRef is a generation counter. Every call to runModels increments it
+  // and captures the new value as `runId`. Every async checkpoint compares the
+  // live counter against `runId`; if they differ it means a newer run (or a
+  // cancelModels call) has superseded this one, so we bail out.
+  //
+  // This correctly handles React StrictMode's double-invoke pattern:
+  //   1. Mount   → runId = 1, timers check runId === 1
+  //   2. Cleanup → cancelModels() increments counter to 2, runId-1 timers bail
+  //   3. Remount → runId = 3, fresh timers check runId === 3
+  // The stale timers from step 1 see counter=3 ≠ 1 and do nothing.
+  const runIdRef = useRef(0);
 
   // runModels has an empty dependency array so its reference is stable.
   // All store access is done via useWizardStore.getState() to read the
-  // latest state at call-time without subscribing to the store here, which
-  // previously caused useCallback to recreate runModels on every state
-  // change, which in turn triggered the useEffect in StepExecute on every
-  // render — creating an infinite model-execution loop.
+  // latest state at call-time without subscribing to the store here.
   const runModels = useCallback(async () => {
-    cancelRef.current = false;
+    const runId = ++runIdRef.current;
 
     const { selectedModels, csvData, startProcessing } = useWizardStore.getState();
     startProcessing();
@@ -36,7 +42,7 @@ export function useDataProcessing() {
 
       await new Promise<void>((r) => setTimeout(r, duration));
 
-      if (cancelRef.current) return;
+      if (runIdRef.current !== runId) return;
 
       useWizardStore.getState().updateModelResult(model, {
         status: 'done',
@@ -49,19 +55,19 @@ export function useDataProcessing() {
 
     await Promise.all(modelPromises);
 
-    if (cancelRef.current) return;
+    if (runIdRef.current !== runId) return;
 
     const { kpi, segments, inventory } = generateMockResults(csvData);
     useWizardStore.getState().setResults(kpi, segments, inventory);
 
     useWizardStore.setState({ isProcessing: false, processingProgress: 100 });
     setTimeout(() => {
-      if (!cancelRef.current) useWizardStore.getState().nextStep();
+      if (runIdRef.current === runId) useWizardStore.getState().nextStep();
     }, 800);
   }, []); // stable reference — no store subscription
 
   const cancelModels = useCallback(() => {
-    cancelRef.current = true;
+    runIdRef.current++;
   }, []);
 
   return { runModels, cancelModels };
