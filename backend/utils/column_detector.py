@@ -53,8 +53,11 @@ def detect_churn(columns: list[str]) -> DetectionResult:
 
 def detect_demand(columns: list[str]) -> DetectionResult:
     required = {
-        "Date":  ["date", "ds", "week", "time", "period", "day", "month", "orderdate", "transactiondate"],
-        "Sales": ["sales", "revenue", "quantity", "qty", "y", "amount", "value", "turnover", "income", "units"],
+        "Date":  ["date", "ds", "week", "time", "period", "day", "month", "year",
+                  "orderdate", "transactiondate", "invoicedate", "purchasedate",
+                  "saledate", "timestamp", "created"],
+        "Sales": ["sales", "revenue", "quantity", "qty", "y", "amount", "value",
+                  "turnover", "income", "units", "total", "sold", "demand"],
     }
     return _detect(columns, required, {})
 

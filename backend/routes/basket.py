@@ -14,7 +14,7 @@ import logging
 import re
 
 import pandas as pd
-from fastapi import APIRouter, UploadFile, File
+from fastapi import APIRouter, UploadFile, File, Query
 from fastapi.responses import JSONResponse
 
 from utils.column_detector import detect_basket
@@ -42,7 +42,11 @@ def _build_product_set(df: pd.DataFrame, invoice_col: str, product_col: str) -> 
 
 
 @router.post("/models/basket")
-async def run_basket(file: UploadFile = File(...)):
+async def run_basket(
+    file: UploadFile = File(...),
+    limit: int = Query(default=10, ge=1, le=100),
+    offset: int = Query(default=0, ge=0),
+):
     content = await validate_csv(file)
     df = parse_csv(content)
 
@@ -139,6 +143,10 @@ async def run_basket(file: UploadFile = File(...)):
 
         rules_out.append(rule_entry)
 
+    # ── Pagination ─────────────────────────────────────────────────────────────
+    total_count = len(rules_out)
+    paginated   = rules_out[offset: offset + limit]
+
     # ── Summary ────────────────────────────────────────────────────────────────
     cross_cat_count = (
         int(top_rules["cross_category"].sum()) if has_cross_category else 0
@@ -153,11 +161,18 @@ async def run_basket(file: UploadFile = File(...)):
     )
 
     summary: dict = {
-        "total_rules":           len(rules_out),
+        "total_rules":           total_count,
         "cross_category_rules":  cross_cat_count,
         "products_analyzed":     products_analyzed,
     }
     if avg_composite is not None:
         summary["avg_composite_score"] = avg_composite
 
-    return format_basket_response(rules_out, summary)
+    pagination = {
+        "total_count": total_count,
+        "limit":       limit,
+        "offset":      offset,
+        "returned":    len(paginated),
+    }
+
+    return format_basket_response(paginated, summary, pagination=pagination)
