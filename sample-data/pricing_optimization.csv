@@ -1,0 +1,119 @@
+ProductID,ProductName,current_price,competitor_price,rating,category
+PROD-001,Wireless Mouse,1500,1156.0,4.1,Electronics
+PROD-002,Wireless Mouse v2,1318.0,1113.0,4.2,Electronics
+PROD-003,USB Hub 4-Port,800,935.0,3.9,Accessories
+PROD-004,USB Hub 4-Port v2,931.0,1182.0,3.7,Accessories
+PROD-005,Mechanical Keyboard,3500,3225.0,4.6,Electronics
+PROD-006,Mechanical Keyboard v2,3557.0,3002.0,4.3,Electronics
+PROD-007,Mechanical Keyboard v3,4109.0,3978.0,4.6,Electronics
+PROD-008,Mechanical Keyboard v4,3015.0,2932.0,4.5,Electronics
+PROD-009,27-inch Monitor,18000,18946.0,4.3,Electronics
+PROD-010,27-inch Monitor v2,20472.0,22971.0,4.2,Electronics
+PROD-011,27-inch Monitor v3,18853.0,20007.0,4.5,Electronics
+PROD-012,27-inch Monitor v4,19565.0,20677.0,4.2,Electronics
+PROD-013,Laptop Stand,1200,1164.0,4.1,Accessories
+PROD-014,Laptop Stand v2,1324.0,1258.0,4.4,Accessories
+PROD-015,Laptop Stand v3,1043.0,981.0,4.3,Accessories
+PROD-016,Laptop Stand v4,1163.0,1152.0,4.4,Accessories
+PROD-017,USB-C Cable 2m,350,445.0,3.6,Accessories
+PROD-018,USB-C Cable 2m v2,375.0,510.0,3.6,Accessories
+PROD-019,Webcam 1080p,2500,2173.0,4.1,Electronics
+PROD-020,Webcam 1080p v2,2503.0,2266.0,4.2,Electronics
+PROD-021,Webcam 1080p v3,2200.0,1973.0,4.3,Electronics
+PROD-022,Noise-Cancelling Earbuds,4500,4611.0,4.5,Electronics
+PROD-023,Noise-Cancelling Earbuds v2,4423.0,4716.0,4.3,Electronics
+PROD-024,SSD 500GB,4200,3895.0,4.4,Storage
+PROD-025,SSD 500GB v2,3578.0,3225.0,4.3,Storage
+PROD-026,Ergonomic Chair,12000,12937.0,4.6,Office
+PROD-027,Ergonomic Chair v2,12010.0,13089.0,4.6,Office
+PROD-028,Desk Lamp LED,900,1085.0,3.8,Office
+PROD-029,Desk Lamp LED v2,794.0,1008.0,3.7,Office
+PROD-030,Desk Lamp LED v3,886.0,1071.0,3.7,Office
+PROD-031,Desk Lamp LED v4,792.0,1054.0,4.0,Office
+PROD-032,Monitor Riser,600,558.0,3.7,Office
+PROD-033,Monitor Riser v2,654.0,527.0,3.6,Office
+PROD-034,HDMI Cable 1.8m,250,327.0,3.3,Accessories
+PROD-035,HDMI Cable 1.8m v2,251.0,347.0,3.3,Accessories
+PROD-036,Laptop Bag 15in,2200,2092.0,3.9,Accessories
+PROD-037,Laptop Bag 15in v2,2425.0,2351.0,4.0,Accessories
+PROD-038,Smart Plug,700,801.0,4.1,Home
+PROD-039,Smart Plug v2,827.0,926.0,4.2,Home
+PROD-040,LED Strip 5m,1100,1020.0,4.0,Home
+PROD-041,LED Strip 5m v2,1101.0,1042.0,4.1,Home
+PROD-042,LED Strip 5m v3,1164.0,1014.0,4.1,Home
+PROD-043,Power Bank 10000mAh,1800,1838.0,4.3,Mobile
+PROD-044,Power Bank 10000mAh v2,2138.0,2321.0,4.2,Mobile
+PROD-045,Phone Case iPhone,400,619.0,3.6,Mobile
+PROD-046,Phone Case iPhone v2,449.0,655.0,3.5,Mobile
+PROD-047,Phone Case iPhone v3,450.0,660.0,3.9,Mobile
+PROD-048,Phone Case iPhone v4,368.0,596.0,3.4,Mobile
+PROD-049,Screen Protector,200,347.0,3.2,Mobile
+PROD-050,Screen Protector v2,202.0,334.0,3.2,Mobile
+PROD-051,Screen Protector v3,190.0,313.0,3.4,Mobile
+PROD-052,Screen Protector v4,226.0,356.0,3.2,Mobile
+PROD-053,Wireless Charger 15W,1300,1209.0,4.1,Mobile
+PROD-054,Wireless Charger 15W v2,1175.0,1068.0,4.0,Mobile
+PROD-055,Wireless Charger 15W v3,1309.0,1223.0,4.1,Mobile
+PROD-056,Wireless Charger 15W v4,1348.0,1324.0,4.3,Mobile
+PROD-057,Bluetooth Speaker,3200,3416.0,4.4,Electronics
+PROD-058,Bluetooth Speaker v2,3506.0,3939.0,4.5,Electronics
+PROD-059,Bluetooth Speaker v3,3744.0,3756.0,4.2,Electronics
+PROD-060,Smart Bulb RGB,550,676.0,3.9,Home
+PROD-061,Smart Bulb RGB v2,476.0,615.0,4.0,Home
+PROD-062,Smart Bulb RGB v3,544.0,679.0,4.2,Home
+PROD-063,Smart Bulb RGB v4,550.0,608.0,3.8,Home
+PROD-064,Cable Organizer,280,379.0,3.5,Accessories
+PROD-065,Cable Organizer v2,305.0,393.0,3.4,Accessories
+PROD-066,Cable Organizer v3,283.0,393.0,3.6,Accessories
+PROD-067,Cable Organizer v4,253.0,369.0,3.5,Accessories
+PROD-068,Mouse Pad XL,450,371.0,4.0,Accessories
+PROD-069,Mouse Pad XL v2,401.0,373.0,3.8,Accessories
+PROD-070,Desk Fan,1400,1297.0,3.8,Home
+PROD-071,Desk Fan v2,1445.0,1325.0,3.6,Home
+PROD-072,Air Purifier,5500,5687.0,4.4,Home
+PROD-073,Air Purifier v2,5253.0,5679.0,4.2,Home
+PROD-074,Extension Cord 3m,380,521.0,3.6,Home
+PROD-075,Extension Cord 3m v2,429.0,587.0,3.7,Home
+PROD-076,Extension Cord 3m v3,392.0,506.0,3.5,Home
+PROD-077,Extension Cord 3m v4,380.0,483.0,3.8,Home
+PROD-078,Keyboard Wrist Rest,320,365.0,3.6,Accessories
+PROD-079,Keyboard Wrist Rest v2,320.0,325.0,3.7,Accessories
+PROD-080,Keyboard Wrist Rest v3,294.0,328.0,3.5,Accessories
+PROD-081,Keyboard Wrist Rest v4,351.0,368.0,3.8,Accessories
+PROD-082,Webcam Cover,80,155.0,3.1,Accessories
+PROD-083,Webcam Cover v2,90.0,140.0,3.0,Accessories
+PROD-084,Pen Set Premium,250,232.0,3.9,Office
+PROD-085,Pen Set Premium v2,288.0,304.0,4.0,Office
+PROD-086,Pen Set Premium v3,265.0,283.0,4.0,Office
+PROD-087,Pen Set Premium v4,243.0,269.0,4.0,Office
+PROD-088,Notepad A4,150,199.0,3.9,Office
+PROD-089,Notepad A4 v2,176.0,200.0,4.0,Office
+PROD-090,Notepad A4 v3,144.0,155.0,3.7,Office
+PROD-091,Whiteboard Marker Set,180,182.0,3.8,Office
+PROD-092,Whiteboard Marker Set v2,179.0,182.0,3.7,Office
+PROD-093,Whiteboard Marker Set v3,165.0,182.0,3.9,Office
+PROD-094,Laptop Cooling Pad,950,860.0,4.2,Accessories
+PROD-095,Laptop Cooling Pad v2,863.0,742.0,4.0,Accessories
+PROD-096,Laptop Cooling Pad v3,1087.0,986.0,4.4,Accessories
+PROD-097,Laptop Cooling Pad v4,1124.0,998.0,4.0,Accessories
+PROD-098,USB-C to HDMI Adapter,650,612.0,3.9,Accessories
+PROD-099,USB-C to HDMI Adapter v2,665.0,657.0,3.8,Accessories
+PROD-100,USB-C to HDMI Adapter v3,744.0,713.0,3.6,Accessories
+PROD-101,USB-C to HDMI Adapter v4,560.0,560.0,3.8,Accessories
+PROD-102,8K HDMI Cable,550,648.0,3.6,Accessories
+PROD-103,8K HDMI Cable v2,618.0,762.0,3.8,Accessories
+PROD-104,Portable SSD 1TB,7500,7800.0,4.5,Storage
+PROD-105,Portable SSD 1TB v2,6675.0,7248.0,4.7,Storage
+PROD-106,Portable SSD 1TB v3,7338.0,8025.0,4.2,Storage
+PROD-107,Portable SSD 1TB v4,8262.0,8656.0,4.8,Storage
+PROD-108,RAM 16GB DDR4,4800,4616.0,4.4,Storage
+PROD-109,RAM 16GB DDR4 v2,4580.0,4798.0,4.4,Storage
+PROD-110,RGB Gaming Mouse,2800,2533.0,4.5,Electronics
+PROD-111,RGB Gaming Mouse v2,3228.0,2758.0,4.7,Electronics
+PROD-112,RGB Gaming Mouse v3,2586.0,2443.0,4.6,Electronics
+PROD-113,Gaming Keyboard RGB,4500,4311.0,4.6,Electronics
+PROD-114,Gaming Keyboard RGB v2,4086.0,3658.0,4.4,Electronics
+PROD-115,Gaming Keyboard RGB v3,4151.0,3665.0,4.5,Electronics
+PROD-116,Monitor Arm,3500,3793.0,4.5,Office
+PROD-117,Monitor Arm v2,4174.0,4399.0,4.5,Office
+PROD-118,Monitor Arm v3,4142.0,4525.0,4.7,Office
