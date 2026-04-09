@@ -1,3 +1,4 @@
+import React from 'react';
 import { motion } from 'framer-motion';
 import {
   LineChart,
@@ -52,7 +53,7 @@ export default function MetricsChart({
   xDataKey,
   delay = 0,
 }: MetricsChartProps) {
-  const renderChart = () => {
+  const renderChart = (): React.ReactElement => {
     const commonProps = {
       data,
       margin: { top: 5, right: 10, left: 0, bottom: 5 },
@@ -144,7 +145,7 @@ export default function MetricsChart({
         {subtitle && <p className="text-xs text-slate-400 mt-0.5">{subtitle}</p>}
       </div>
       <ResponsiveContainer width="100%" height={220}>
-        {renderChart() as React.ReactElement}
+        {renderChart()}
       </ResponsiveContainer>
     </motion.div>
   );
