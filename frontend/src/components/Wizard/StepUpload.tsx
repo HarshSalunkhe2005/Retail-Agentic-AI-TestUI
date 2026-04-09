@@ -1,23 +1,36 @@
 import { useCallback, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Upload, FileText, X, AlertCircle } from 'lucide-react';
+import { Upload, FileText, X, AlertCircle, CheckCircle2, Loader2 } from 'lucide-react';
 import { useWizardStore } from '../../store/wizardStore';
 import { useShallow } from 'zustand/react/shallow';
 import { parseCSV } from '../../utils/csvParser';
+import { checkCompatibleModels } from '../../utils/api';
+import type { ModelKey } from '../../store/wizardStore';
 import Button from '../Common/Button';
 
+const MODEL_LABELS: Record<string, string> = {
+  churn: 'Churn',
+  demand: 'Demand',
+  basket: 'Basket',
+  pricing: 'Pricing',
+};
+
 export default function StepUpload() {
-  const { setCsvFile, setCsvData, nextStep, csvFile } = useWizardStore(
+  const { setCsvFile, setCsvData, nextStep, csvFile, setCompatibleModels, setSelectedModels } = useWizardStore(
     useShallow((s) => ({
       setCsvFile: s.setCsvFile,
       setCsvData: s.setCsvData,
       nextStep: s.nextStep,
       csvFile: s.csvFile,
+      setCompatibleModels: s.setCompatibleModels,
+      setSelectedModels: s.setSelectedModels,
     }))
   );
   const [isDragging, setIsDragging] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isDetecting, setIsDetecting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [detectedModels, setDetectedModels] = useState<string[] | null>(null);
 
   const handleFile = useCallback(
     async (file: File) => {
@@ -26,6 +39,7 @@ export default function StepUpload() {
         return;
       }
       setError(null);
+      setDetectedModels(null);
       setIsLoading(true);
       const { data, headers, errors } = await parseCSV(file);
       setIsLoading(false);
@@ -34,8 +48,24 @@ export default function StepUpload() {
       }
       setCsvFile(file);
       setCsvData(data, headers);
+
+      // Auto-detect compatible models
+      setIsDetecting(true);
+      try {
+        const result = await checkCompatibleModels(file);
+        const compatible = (result.compatible_models ?? []) as ModelKey[];
+        setDetectedModels(compatible);
+        setCompatibleModels(compatible);
+        // Pre-select all compatible models
+        if (compatible.length > 0) setSelectedModels(compatible);
+      } catch (err) {
+        // Detection failure is non-fatal — user can still proceed
+        setCompatibleModels(null);
+      } finally {
+        setIsDetecting(false);
+      }
     },
-    [setCsvFile, setCsvData]
+    [setCsvFile, setCsvData, setCompatibleModels, setSelectedModels]
   );
 
   const onDrop = useCallback(
@@ -56,6 +86,8 @@ export default function StepUpload() {
   const clearFile = () => {
     setCsvFile(null);
     setCsvData([], []);
+    setCompatibleModels(null);
+    setDetectedModels(null);
     setError(null);
   };
 
@@ -67,7 +99,7 @@ export default function StepUpload() {
         className="text-center mb-8"
       >
         <h2 className="text-2xl font-bold text-white mb-2">Upload Your Data</h2>
-        <p className="text-slate-400">Upload a CSV file with your retail sales and inventory data</p>
+        <p className="text-slate-400">Upload a CSV file with your retail sales and customer data</p>
       </motion.div>
 
       {/* Drop zone */}
@@ -112,7 +144,7 @@ export default function StepUpload() {
               <div className="flex gap-3 text-xs text-slate-500">
                 <span className="px-2 py-1 rounded bg-white/5 border border-white/10">CSV</span>
                 <span className="px-2 py-1 rounded bg-white/5 border border-white/10">UTF-8</span>
-                <span className="px-2 py-1 rounded bg-white/5 border border-white/10">Max 50MB</span>
+                <span className="px-2 py-1 rounded bg-white/5 border border-white/10">Max 100MB</span>
               </div>
             </motion.div>
 
@@ -150,6 +182,42 @@ export default function StepUpload() {
                 <X className="w-4 h-4" />
               </button>
             </div>
+
+            {/* Compatible models detection */}
+            <div className="mt-4 pt-4 border-t border-white/10">
+              {isDetecting ? (
+                <div className="flex items-center gap-2 text-slate-400 text-sm">
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  <span>Detecting compatible models…</span>
+                </div>
+              ) : detectedModels !== null ? (
+                <div>
+                  <p className="text-xs text-slate-500 mb-2 uppercase tracking-wider">Compatible models</p>
+                  <div className="flex flex-wrap gap-2">
+                    {(['churn', 'demand', 'basket', 'pricing'] as const).map((key) => {
+                      const isCompatible = detectedModels.includes(key);
+                      return (
+                        <span
+                          key={key}
+                          className={`flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-full font-medium ${
+                            isCompatible
+                              ? 'bg-green-500/20 text-green-300 border border-green-500/30'
+                              : 'bg-white/5 text-slate-500 border border-white/10'
+                          }`}
+                        >
+                          {isCompatible ? (
+                            <CheckCircle2 className="w-3 h-3" />
+                          ) : (
+                            <span className="w-3 h-3 flex items-center justify-center text-slate-600">✕</span>
+                          )}
+                          {MODEL_LABELS[key]}
+                        </span>
+                      );
+                    })}
+                  </div>
+                </div>
+              ) : null}
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
@@ -176,11 +244,11 @@ export default function StepUpload() {
         transition={{ delay: 0.3 }}
         className="text-center text-xs text-slate-500 mt-6"
       >
-        Expected columns: Date, Product, Category, Sales, Price, Quantity, Customer_ID, etc.
+        Try <strong className="text-slate-400">complete_dataset.csv</strong> from the sample-data folder — works with all 4 models.
       </motion.p>
 
       {/* Next button */}
-      {csvFile && (
+      {csvFile && !isDetecting && (
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}

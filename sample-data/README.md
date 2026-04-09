@@ -1,124 +1,88 @@
-# Sample Data for Retail Agentic AI TestUI
+# Sample Data — Retail Agentic AI
 
-This folder contains ready-to-use CSV files for testing the Retail Agentic AI UI application. Each file can be uploaded directly through the wizard without any modification.
+This folder contains ready-to-use CSV files for testing the Retail Agentic AI UI. Upload any file directly through the wizard — compatible models are auto-detected.
 
 ---
 
 ## Files
 
-| File | Rows | Purpose |
-|------|------|---------|
-| `retail_sales_data.csv` | 520 | Sales & revenue history |
-| `inventory_data.csv` | 110 | Inventory status & reorder signals |
-| `customer_data.csv` | 210 | Customer segmentation & health |
+| File | Rows | Compatible Models |
+|------|------|-------------------|
+| `complete_dataset.csv` | 520 | ✅ **ALL 4 models** (Churn, Demand, Basket, Pricing) |
+| `customer_data.csv` | 210 | ✅ Churn only |
+| `retail_sales_data.csv` | 520 | ✅ Demand, Basket |
+
+> **Tip:** Use `complete_dataset.csv` to test all four AI models in a single run.
 
 ---
 
-## retail_sales_data.csv
+## Quick Start
 
-Daily sales transactions covering the last 12 months with realistic seasonal patterns (holiday spikes in November/December, summer lift in July/August).
+1. Start the backend:
+   ```bash
+   cd backend
+   pip install -r requirements.txt
+   uvicorn app:app --reload
+   ```
 
-### Columns
-
-| Column | Type | Description |
-|--------|------|-------------|
-| `Date` | `YYYY-MM-DD` | Transaction date |
-| `ProductID` | string | Human-readable product identifier |
-| `SKU` | string | Stock-keeping unit (`SKU-XXXX`) |
-| `Category` | string | Product category (Electronics, Clothing, Food & Beverage, Home & Garden, Sports, Beauty, Toys, Books) |
-| `OldSegment` | string | Legacy customer segment (Premium / Standard / Budget) |
-| `NewSegment` | string | New AI-derived segment (Premium / Standard / Budget / New Discovery) |
-| `Quantity` | integer | Units sold in the transaction |
-| `UnitPrice` | float | Selling price per unit (USD) |
-| `Revenue` | float | Gross revenue after discount (`Quantity × UnitPrice × (1 − Discount)`) |
-| `COGS` | float | Cost of goods sold (40–65% of revenue) |
-| `Discount` | float | Discount rate applied (0.00–0.20) |
-
-### Data generation notes
-- Prices are category-anchored (e.g. Electronics baseline ~$150, Books baseline ~$20) with ±15 % variation.
-- Seasonal multipliers applied per month (December = 1.40×, February = 0.80×).
-- `NewSegment` includes a "New Discovery" class (~15 % of rows) that carries a slightly higher discount.
-
----
-
-## inventory_data.csv
-
-Snapshot of 110 SKUs with current stock levels, reorder thresholds, and urgency classification.
-
-### Columns
-
-| Column | Type | Description |
-|--------|------|-------------|
-| `SKU` | string | Stock-keeping unit (`SKU-XXXX`) |
-| `ProductName` | string | Descriptive product name |
-| `Category` | string | Same category taxonomy as sales data |
-| `CurrentStock` | integer | Units on hand right now |
-| `ReorderPoint` | integer | Trigger level for placing a replenishment order |
-| `SafetyStock` | integer | Minimum buffer to absorb demand variability |
-| `LeadTime` | integer | Supplier lead time in days |
-| `DemandForecast` | float | Projected weekly demand (units) |
-| `ABCClass` | string | ABC inventory classification (A = high-value, C = low-value) |
-| `UrgencyLevel` | string | Reorder urgency (Critical / High / Medium / Low) |
-
-### Urgency rules
-| Level | Condition |
-|-------|-----------|
-| **Critical** | `CurrentStock ≤ SafetyStock` |
-| **High** | `SafetyStock < CurrentStock ≤ ReorderPoint` |
-| **Medium** | `ReorderPoint < CurrentStock ≤ ReorderPoint × 1.5` |
-| **Low** | `CurrentStock > ReorderPoint × 1.5` |
-
-### ABC distribution
-- **A class** (~20%): high-velocity, high-value items — tight stock control.
-- **B class** (~30%): moderate movers.
-- **C class** (~50%): slow movers — bulk stock held.
-
----
-
-## customer_data.csv
-
-210 customer records across six RFM-based segments with churn risk and health scores.
-
-### Columns
-
-| Column | Type | Description |
-|--------|------|-------------|
-| `CustomerID` | string | Unique customer identifier (`CUST-XXXXX`) |
-| `Segment` | string | RFM segment label (see below) |
-| `LTValue` | float | Lifetime value estimate (USD) |
-| `RecencyDays` | integer | Days since last purchase |
-| `FrequencyMonths` | float | Average purchases per month |
-| `MonetaryValue` | float | Average order value (USD) |
-| `ChurnRisk` | float | Predicted churn probability (0–100%) |
-| `HealthScore` | float | Overall customer health (0–100) |
-
-### Segments & approximate distribution
-
-| Segment | Share | Churn Risk | Health |
-|---------|-------|-----------|--------|
-| Champions | 15% | 0–15% | 80–100 |
-| Loyal Customers | 25% | 5–25% | 65–90 |
-| Potential Loyalists | 20% | 15–40% | 55–80 |
-| At Risk | 15% | 50–80% | 25–55 |
-| Can't Lose Them | 10% | 40–70% | 30–60 |
-| Hibernating | 15% | 70–95% | 5–35 |
-
----
-
-## Usage — Testing the UI
-
-1. Start the dev server:
+2. Start the frontend:
    ```bash
    cd frontend
    npm install   # first time only
    npm run dev
    ```
-2. Open [http://localhost:5173](http://localhost:5173) in your browser.
-3. Click **Launch Wizard** on the home screen.
-4. **Step 1 – Upload**: drag-and-drop (or browse for) **`retail_sales_data.csv`**.
-5. **Step 2 – Preview**: inspect the first 10 rows and toggle the customer segments you want to analyse.
-6. **Step 3 – Select Models**: choose one or more AI models (Pricing Intelligence, Customer Churn, Demand Forecasting, Market Basket Analysis, Inventory Reorder).
-7. **Step 4 – Execute**: watch the skeleton-card progress while models run.
-8. **Step 5 – Results**: explore KPI cards, segment comparison charts, and the inventory urgency matrix.
 
-> **Tip:** You can also upload `inventory_data.csv` or `customer_data.csv` to exercise the data-preview table with different column sets.
+3. Open [http://localhost:5173](http://localhost:5173) → **Launch Wizard**
+
+4. **Step 1 – Upload**: drag-and-drop `complete_dataset.csv`
+   - The app auto-detects which models are compatible
+   - All 4 models should show as ✅ available
+
+5. **Step 2 – Preview**: inspect the data columns
+
+6. **Step 3 – Select Models**: all compatible models are pre-selected
+
+7. **Step 4 – Execute**: models run in parallel with real-time progress
+
+8. **Step 5 – Results**: results displayed in order:
+   - 👥 Customer Churn
+   - 📊 Demand Forecasting
+   - 🛒 Market Basket Analysis
+   - 📈 Pricing Intelligence
+
+---
+
+## File Details
+
+### complete_dataset.csv — Use with ALL models
+
+520 rows combining retail sales data with customer RFM metrics.
+Each row represents one sales transaction linked to a customer.
+
+**Columns added beyond retail_sales_data.csv:**
+- `InvoiceID` — transaction identifier (for Basket model)
+- `CompetitorPrice` — competitor pricing (for Pricing model)
+- `CustomerID`, `Segment`, `LTValue`, `RecencyDays`, `FrequencyMonths`, `MonetaryValue`, `ChurnRisk`, `HealthScore` — from customer_data.csv (for Churn model)
+
+---
+
+### customer_data.csv — Churn model only
+
+210 customer records with RFM (Recency, Frequency, Monetary) metrics and health scores.
+
+**Required columns for Churn model:** `RecencyDays`, `FrequencyMonths`, `MonetaryValue`
+
+---
+
+### retail_sales_data.csv — Demand & Basket models
+
+520 daily sales transactions with product, category, pricing and revenue data.
+
+**Required columns:**
+- Demand model: `Date`, `Revenue` (or `Quantity`)
+- Basket model: `SKU` (ProductName), `ProductID` + any invoice column
+
+---
+
+See `data_descriptions.md` for full column-by-column reference.
+
