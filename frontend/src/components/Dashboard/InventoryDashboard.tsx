@@ -789,7 +789,13 @@ function AnalysisTab({
                   <td className="py-2.5 pr-3 text-slate-300 font-medium">
                     {r.StockCode}
                     {r.ColdStart && (
-                      <span className="ml-1 text-xs text-yellow-400" title="Cold-start: <14 days history">❄</span>
+                      <span
+                        className="ml-1 text-xs text-yellow-400"
+                        title="Cold-start: less than 14 days history"
+                        aria-label="Cold-start: less than 14 days history"
+                      >
+                        ❄
+                      </span>
                     )}
                   </td>
                   <td className="py-2.5 pr-3 text-center"><ABCBadge abc={r.ABCClass} /></td>
@@ -806,9 +812,14 @@ function AnalysisTab({
                   </td>
                   <td className="py-2.5 text-center">
                     {r.ActivePO ? (
-                      <span className="px-1.5 py-0.5 rounded text-xs font-medium bg-green-500/20 text-green-300">✓</span>
+                      <span
+                        className="px-1.5 py-0.5 rounded text-xs font-medium bg-green-500/20 text-green-300"
+                        aria-label="Active purchase order"
+                      >
+                        ✓
+                      </span>
                     ) : (
-                      <span className="text-slate-600 text-xs">—</span>
+                      <span className="text-slate-600 text-xs" aria-label="No active purchase order">—</span>
                     )}
                   </td>
                 </tr>

@@ -301,8 +301,9 @@ async def run_inventory(
     committed = (sku_df["Stock_On_Hand"] * 0.15).round(0).astype(int)
     sku_df["Available_Stock"] = (sku_df["Stock_On_Hand"] - committed).clip(lower=0)
 
-    # ── ML features for risk scoring ───────────────────────────────────────────
-    # NOTE: days_to_stockout is NOT included (data leakage prevention — FIX-1)
+    # ML features for risk scoring
+    # NOTE: days_to_stockout is excluded — it is computed from Stock_On_Hand / daily_demand,
+    # so including it would create a circular dependency (data leakage) in the model.
     ML_FEATURES = [
         "AnnualDemand",
         "Stock_On_Hand",
@@ -439,34 +440,34 @@ async def run_inventory(
     all_records: list[dict] = []
     po_records:  list[dict] = []
 
-    for _, row in sku_df.iterrows():
+    for row in sku_df.itertuples(index=False):
         rec: dict = {
-            "StockCode":         str(row["StockCode"]),
-            "Description":       str(row["StockCode"]),
-            "Category":          str(row.get("Category", "General")),
-            "ABCClass":          str(row["ABCClass"]),
-            "DemandType":        str(row["DemandType"]),
-            "Stock_On_Hand":     int(row["Stock_On_Hand"]),
-            "Available_Stock":   int(row["Available_Stock"]),
-            "ReorderPoint":      int(row["ReorderPoint"]),
-            "SafetyStock":       int(row["SafetyStock"]),
-            "EOQ":               int(row["EOQ"]),
-            "LeadTimeDays":      int(row["LeadTimeDays"]),
-            "Forecast_Demand":   int(row["Forecast_Demand"]),
-            "Order_Quantity":    int(row["Order_Quantity"]),
-            "PO_Value_GBP":      round(float(row["PO_Value_GBP"]), 2),
-            "UnitPrice":         round(float(row["UnitPrice"]), 2),
-            "RiskScore":         round(float(row["RiskScore"]), 4),
-            "Priority":          str(row["Priority"]),
-            "Urgency":           str(row["Urgency"]),
-            "Days_To_Stockout":  int(row["DaysToStockout"]),
-            "AnnualDemand":      int(row["AnnualDemand"]),
-            "ActivePO":          bool(row["ActivePO"]),
-            "ColdStart":         bool(row["ColdStart"]),
-            "Reason":            str(row["Reason"]),
+            "StockCode":         str(row.StockCode),
+            "Description":       str(row.StockCode),
+            "Category":          str(row.Category) if hasattr(row, "Category") else "General",
+            "ABCClass":          str(row.ABCClass),
+            "DemandType":        str(row.DemandType),
+            "Stock_On_Hand":     int(row.Stock_On_Hand),
+            "Available_Stock":   int(row.Available_Stock),
+            "ReorderPoint":      int(row.ReorderPoint),
+            "SafetyStock":       int(row.SafetyStock),
+            "EOQ":               int(row.EOQ),
+            "LeadTimeDays":      int(row.LeadTimeDays),
+            "Forecast_Demand":   int(row.Forecast_Demand),
+            "Order_Quantity":    int(row.Order_Quantity),
+            "PO_Value_GBP":      round(float(row.PO_Value_GBP), 2),
+            "UnitPrice":         round(float(row.UnitPrice), 2),
+            "RiskScore":         round(float(row.RiskScore), 4),
+            "Priority":          str(row.Priority),
+            "Urgency":           str(row.Urgency),
+            "Days_To_Stockout":  int(row.DaysToStockout),
+            "AnnualDemand":      int(row.AnnualDemand),
+            "ActivePO":          bool(row.ActivePO),
+            "ColdStart":         bool(row.ColdStart),
+            "Reason":            str(row.Reason),
         }
         all_records.append(rec)
-        if row["ActivePO"]:
+        if row.ActivePO:
             po_records.append(rec)
 
     # ── Summary ────────────────────────────────────────────────────────────────
