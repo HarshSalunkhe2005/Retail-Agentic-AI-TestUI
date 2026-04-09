@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useRef } from 'react';
 import { useWizardStore } from '../store/wizardStore';
 import { generateMockResults } from '../utils/chartUtils';
 import type { ModelKey } from '../store/wizardStore';
@@ -12,22 +12,33 @@ const MODEL_DURATIONS: Record<ModelKey, number> = {
 };
 
 export function useDataProcessing() {
-  const store = useWizardStore();
+  // cancelRef lets the cleanup function (on unmount) stop in-flight timers
+  const cancelRef = useRef(false);
 
+  // runModels has an empty dependency array so its reference is stable.
+  // All store access is done via useWizardStore.getState() to read the
+  // latest state at call-time without subscribing to the store here, which
+  // previously caused useCallback to recreate runModels on every state
+  // change, which in turn triggered the useEffect in StepExecute on every
+  // render — creating an infinite model-execution loop.
   const runModels = useCallback(async () => {
-    const { selectedModels, csvData } = store;
-    store.startProcessing();
+    cancelRef.current = false;
+
+    const { selectedModels, csvData, startProcessing } = useWizardStore.getState();
+    startProcessing();
 
     let completed = 0;
     const total = selectedModels.length;
 
     const modelPromises = selectedModels.map(async (model) => {
       const duration = MODEL_DURATIONS[model] + Math.random() * 800;
-      store.updateModelResult(model, { status: 'running' });
+      useWizardStore.getState().updateModelResult(model, { status: 'running' });
 
-      await new Promise((r) => setTimeout(r, duration));
+      await new Promise<void>((r) => setTimeout(r, duration));
 
-      store.updateModelResult(model, {
+      if (cancelRef.current) return;
+
+      useWizardStore.getState().updateModelResult(model, {
         status: 'done',
         data: { processed: true, model, timestamp: Date.now() },
       });
@@ -38,12 +49,20 @@ export function useDataProcessing() {
 
     await Promise.all(modelPromises);
 
+    if (cancelRef.current) return;
+
     const { kpi, segments, inventory } = generateMockResults(csvData);
-    store.setResults(kpi, segments, inventory);
+    useWizardStore.getState().setResults(kpi, segments, inventory);
 
     useWizardStore.setState({ isProcessing: false, processingProgress: 100 });
-    setTimeout(() => store.nextStep(), 800);
-  }, [store]);
+    setTimeout(() => {
+      if (!cancelRef.current) useWizardStore.getState().nextStep();
+    }, 800);
+  }, []); // stable reference — no store subscription
 
-  return { runModels };
+  const cancelModels = useCallback(() => {
+    cancelRef.current = true;
+  }, []);
+
+  return { runModels, cancelModels };
 }

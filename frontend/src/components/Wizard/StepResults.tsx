@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useWizardStore } from '../../store/wizardStore';
+import { useShallow } from 'zustand/react/shallow';
 import { useNavigate } from 'react-router-dom';
 import KPICard from '../Dashboard/KPICard';
 import MetricsChart from '../Dashboard/MetricsChart';
@@ -33,7 +34,14 @@ const pricingData = generatePricingData();
 type Tab = 'overview' | 'segments' | 'inventory' | 'demand' | 'pricing';
 
 export default function StepResults() {
-  const { kpiMetrics, segmentData, inventoryItems, reset } = useWizardStore();
+  const { kpiMetrics, segmentData, inventoryItems, reset } = useWizardStore(
+    useShallow((s) => ({
+      kpiMetrics: s.kpiMetrics,
+      segmentData: s.segmentData,
+      inventoryItems: s.inventoryItems,
+      reset: s.reset,
+    }))
+  );
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<Tab>('overview');
   const [showingSkeletons] = useState(false);

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useWizardStore } from '../../store/wizardStore';
+import { useShallow } from 'zustand/react/shallow';
 import Button from '../Common/Button';
 import { Check, Table2 } from 'lucide-react';
 
@@ -63,7 +64,16 @@ const badgeMap: Record<string, string> = {
 
 export default function StepPreview() {
   const { csvData, csvHeaders, selectedSegments, setSelectedSegments, nextStep, prevStep } =
-    useWizardStore();
+    useWizardStore(
+      useShallow((s) => ({
+        csvData: s.csvData,
+        csvHeaders: s.csvHeaders,
+        selectedSegments: s.selectedSegments,
+        setSelectedSegments: s.setSelectedSegments,
+        nextStep: s.nextStep,
+        prevStep: s.prevStep,
+      }))
+    );
   const [tab, setTab] = useState<'data' | 'segments'>('data');
 
   const toggleSegment = (id: string) => {
