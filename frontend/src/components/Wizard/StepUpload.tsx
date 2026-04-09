@@ -242,16 +242,6 @@ export default function StepUpload() {
         )}
       </AnimatePresence>
 
-      {/* Sample hint */}
-      <motion.p
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.3 }}
-        className="text-center text-xs text-slate-500 mt-6"
-      >
-        Try <strong className="text-slate-400">complete_dataset.csv</strong> from the sample-data folder — works with all 4 models.
-      </motion.p>
-
       {/* Next button */}
       {csvFile && !isDetecting && (
         <motion.div
