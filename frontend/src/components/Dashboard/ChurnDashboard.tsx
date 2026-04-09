@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import {
   PieChart,
@@ -57,6 +57,15 @@ const CustomTooltip = ({ active, payload }: { active?: boolean; payload?: Array<
 export default function ChurnDashboard({ data, summary }: ChurnDashboardProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
+
+  // Reset to page 1 only when new data arrives
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [data]);
+
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage);
+  };
 
   const sortedData = [...data].sort((a, b) => b.churn_risk - a.churn_risk);
   const totalPages = Math.ceil(sortedData.length / itemsPerPage);
@@ -230,7 +239,7 @@ export default function ChurnDashboard({ data, summary }: ChurnDashboardProps) {
             totalPages={totalPages}
             totalItems={sortedData.length}
             itemsPerPage={itemsPerPage}
-            onPageChange={setCurrentPage}
+            onPageChange={handlePageChange}
           />
         </motion.div>
       )}
