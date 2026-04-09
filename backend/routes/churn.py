@@ -107,6 +107,10 @@ async def run_churn(file: UploadFile = File(...)):
     df["_M"] = pd.to_numeric(df[m_col], errors="coerce")
     df = df.dropna(subset=["_R", "_F", "_M"])
 
+    # Deduplicate by customer ID so each customer appears only once
+    if id_col and id_col in df.columns:
+        df = df.drop_duplicates(subset=[id_col], keep="first")
+
     if df.empty:
         return JSONResponse(
             status_code=422,
