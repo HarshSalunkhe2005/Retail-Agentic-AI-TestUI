@@ -21,23 +21,18 @@ import {
 import {
   formatCurrency,
   formatNumber,
-  generateDemandData,
   CHART_COLORS,
-  generateMockResults,
 } from '../utils/chartUtils';
-
-const DEMO_DATA = generateMockResults([]);
-const demandData = generateDemandData(12);
 
 export default function Dashboard() {
   const { kpiMetrics, segmentData, inventoryItems } = useWizardStore();
   const navigate = useNavigate();
   const [isLive] = useState(true);
 
-  // Use wizard data if available, else use demo data
-  const kpi = kpiMetrics ?? DEMO_DATA.kpi;
-  const segments = segmentData.length > 0 ? segmentData : DEMO_DATA.segments;
-  const inventory = inventoryItems.length > 0 ? inventoryItems : DEMO_DATA.inventory;
+  // Use wizard data if available, else show zeros/empty
+  const kpi = kpiMetrics;
+  const segments = segmentData;
+  const inventory = inventoryItems;
 
   const showSkeleton = !kpi;
 
@@ -150,7 +145,7 @@ export default function Dashboard() {
                 <MetricsChart
                   title="Demand Forecast"
                   subtitle="12-month historical + forecast"
-                  data={demandData}
+                  data={[]}
                   type="area"
                   xDataKey="month"
                   dataKeys={[
@@ -168,7 +163,7 @@ export default function Dashboard() {
               <MetricsChart
                 title="Sales Volume by Month"
                 subtitle="Actual vs forecast comparison"
-                data={demandData}
+                data={[]}
                 type="bar"
                 xDataKey="month"
                 dataKeys={[
@@ -190,7 +185,7 @@ export default function Dashboard() {
             className="mt-6 glass rounded-xl p-4 border border-purple-500/20 flex items-center justify-between"
           >
             <p className="text-sm text-slate-400">
-              📊 Showing demo data — run the wizard to see your actual analysis results
+              📊 No analysis data yet — run the wizard to see your actual results
             </p>
             <Button
               size="sm"
