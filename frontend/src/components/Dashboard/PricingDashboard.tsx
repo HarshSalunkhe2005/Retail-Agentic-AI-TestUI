@@ -14,6 +14,7 @@ import Pagination from '../Common/Pagination';
 
 interface PricingRecord {
   product_id: string;
+  product_name: string;
   current_price: number;
   competitor_price: number;
   recommended_action: string;
@@ -87,7 +88,6 @@ export default function PricingDashboard({ data, summary }: PricingDashboardProp
   const pieData = [
     { name: 'Increase', value: summary.increase_count, fill: ACTION_COLORS.increase },
     { name: 'Decrease', value: summary.decrease_count, fill: ACTION_COLORS.decrease },
-    { name: 'Discount', value: summary.discount_count, fill: ACTION_COLORS.discount },
     { name: 'Hold', value: summary.hold_count, fill: ACTION_COLORS.hold },
   ].filter((d) => d.value > 0);
 
@@ -174,7 +174,7 @@ export default function PricingDashboard({ data, summary }: PricingDashboardProp
         >
           <h3 className="text-sm font-semibold text-white mb-4">Action Summary</h3>
           <div className="space-y-3">
-            {(['increase', 'hold', 'discount', 'decrease'] as const).map((action) => {
+            {(['increase', 'hold', 'decrease'] as const).map((action) => {
               const countKey = `${action}_count` as keyof PricingSummary;
               const count = summary[countKey] as number;
               const pct = summary.total_products > 0
@@ -222,7 +222,7 @@ export default function PricingDashboard({ data, summary }: PricingDashboardProp
               <tbody>
                 {paginatedData.map((r) => (
                   <tr key={r.product_id} className="border-b border-white/5 hover:bg-white/3 transition-colors">
-                    <td className="py-2.5 pr-4 text-slate-300 font-mono">#{r.product_id}</td>
+                    <td className="py-2.5 pr-4 text-slate-300">{r.product_name}</td>
                     <td className="py-2.5 pr-4 text-right text-white">${r.current_price.toFixed(2)}</td>
                     <td className="py-2.5 pr-4 text-right text-slate-400">${r.competitor_price.toFixed(2)}</td>
                     <td className="py-2.5 pr-4 text-right text-white font-medium">${r.recommended_price.toFixed(2)}</td>
