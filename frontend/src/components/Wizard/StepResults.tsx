@@ -311,25 +311,7 @@ export default function StepResults() {
           />
           <div className="glass rounded-2xl p-5">
             <h3 className="text-sm font-semibold text-white mb-4">Price Elasticity by Category</h3>
-            <div className="space-y-3">
-              {[].map((item: { category: string; elasticity: number }) => (
-                <div key={item.category} className="flex items-center gap-3">
-                  <span className="text-xs text-slate-400 w-24 shrink-0">{item.category}</span>
-                  <div className="flex-1 h-2 bg-white/10 rounded-full overflow-hidden">
-                    <div
-                      className="h-full rounded-full"
-                      style={{
-                        width: `${Math.min(100, Math.abs(item.elasticity) * 40)}%`,
-                        background: Math.abs(item.elasticity) > 1.5 ? CHART_COLORS.red : Math.abs(item.elasticity) > 1 ? CHART_COLORS.orange : CHART_COLORS.green,
-                      }}
-                    />
-                  </div>
-                  <span className="text-xs font-mono text-slate-300 w-14 text-right">
-                    {item.elasticity.toFixed(2)}
-                  </span>
-                </div>
-              ))}
-            </div>
+            <p className="text-xs text-slate-500">No pricing data available</p>
           </div>
         </motion.div>
       )}
