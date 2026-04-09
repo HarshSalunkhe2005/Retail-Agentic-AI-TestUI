@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { ShoppingCart, Link2, Package, Star } from 'lucide-react';
+import { Link2, Package, Star } from 'lucide-react';
 import KPICard from './KPICard';
 import Pagination from '../Common/Pagination';
 
@@ -54,7 +54,7 @@ export default function BasketDashboard({ rules, summary }: BasketDashboardProps
   return (
     <div className="space-y-6">
       {/* KPI Cards */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
         <KPICard
           title="Total Rules"
           value={summary.total_rules.toLocaleString()}
@@ -64,20 +64,12 @@ export default function BasketDashboard({ rules, summary }: BasketDashboardProps
           delay={0}
         />
         <KPICard
-          title="Cross-Category"
-          value={summary.cross_category_rules.toLocaleString()}
-          subtitle="Rules across categories"
-          icon={<ShoppingCart className="w-5 h-5" />}
-          accentColor="purple"
-          delay={0.05}
-        />
-        <KPICard
           title="Products Analyzed"
           value={summary.products_analyzed.toLocaleString()}
           subtitle="Unique products"
           icon={<Package className="w-5 h-5" />}
           accentColor="cyan"
-          delay={0.1}
+          delay={0.05}
         />
         {summary.avg_composite_score !== undefined && (
           <KPICard
@@ -86,7 +78,7 @@ export default function BasketDashboard({ rules, summary }: BasketDashboardProps
             subtitle="Composite rule quality"
             icon={<Star className="w-5 h-5" />}
             accentColor="orange"
-            delay={0.15}
+            delay={0.1}
           />
         )}
       </div>
