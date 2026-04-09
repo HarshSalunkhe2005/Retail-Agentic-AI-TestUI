@@ -45,7 +45,6 @@ export interface WizardState {
   csvFile: File | null;
   csvData: CSVRow[];
   csvHeaders: string[];
-  selectedSegments: string[];
   selectedModels: ModelKey[];
   compatibleModels: ModelKey[] | null;
   modelResults: Record<ModelKey, ModelResult>;
@@ -60,7 +59,6 @@ export interface WizardState {
   prevStep: () => void;
   setCsvFile: (file: File | null) => void;
   setCsvData: (data: CSVRow[], headers: string[]) => void;
-  setSelectedSegments: (segments: string[]) => void;
   toggleModel: (model: ModelKey) => void;
   setSelectedModels: (models: ModelKey[]) => void;
   setCompatibleModels: (models: ModelKey[] | null) => void;
@@ -82,7 +80,6 @@ export const useWizardStore = create<WizardState>((set) => ({
   csvFile: null,
   csvData: [],
   csvHeaders: [],
-  selectedSegments: [],
   selectedModels: ['pricing', 'churn', 'demand', 'basket'],
   compatibleModels: null,
   modelResults: defaultModelResults,
@@ -97,7 +94,6 @@ export const useWizardStore = create<WizardState>((set) => ({
   prevStep: () => set((s) => ({ currentStep: Math.max(1, s.currentStep - 1) as WizardStep })),
   setCsvFile: (file) => set({ csvFile: file }),
   setCsvData: (data, headers) => set({ csvData: data, csvHeaders: headers }),
-  setSelectedSegments: (segments) => set({ selectedSegments: segments }),
   toggleModel: (model) =>
     set((s) => ({
       selectedModels: s.selectedModels.includes(model)
@@ -127,7 +123,6 @@ export const useWizardStore = create<WizardState>((set) => ({
       csvFile: null,
       csvData: [],
       csvHeaders: [],
-      selectedSegments: [],
       selectedModels: ['pricing', 'churn', 'demand', 'basket'],
       compatibleModels: null,
       modelResults: defaultModelResults,
