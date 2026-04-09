@@ -1,19 +1,18 @@
 # Sample Data — Retail Agentic AI
 
-This folder contains four focused CSV files — one per AI model. Each dataset is designed to be compatible with **exactly one** model, preventing false positives during auto-detection.
+This folder contains sample CSV files for the AI platform. Use the focused files to test individual models, or upload the complete dataset to run all four models at once.
 
 ---
 
 ## Files
 
-| File | Rows | Compatible Model |
-|------|------|-----------------|
+| File | Rows | Compatible Model(s) |
+|------|------|---------------------|
 | `churn_analysis.csv` | 150 | ✅ **Churn** ONLY |
 | `demand_forecast.csv` | 104 | ✅ **Demand** ONLY |
-| `market_basket.csv` | ~670 | ✅ **Basket** ONLY |
+| `market_basket.csv` | ~3,700 | ✅ **Basket** ONLY |
 | `pricing_optimization.csv` | ~120 | ✅ **Pricing** ONLY |
-
-> **Rule:** Upload a file and only its matching model will show as compatible — no false positives.
+| `complete_retail_data.csv` | ~155 | ✅ **ALL 4 models** |
 
 ---
 
@@ -35,11 +34,11 @@ This folder contains four focused CSV files — one per AI model. Each dataset i
 
 3. Open [http://localhost:5173](http://localhost:5173) → **Launch Wizard**
 
-4. **Step 1 – Upload**: drag-and-drop any of the four CSVs
-   - The app auto-detects which model is compatible
-   - Only the matching model should show as ✅ available
+4. **Step 1 – Upload**: drag-and-drop any CSV
+   - The app auto-detects which models are compatible
+   - Only matching models will show as ✅ available
 
-5. Follow the wizard steps to run the model and view results.
+5. Follow the wizard steps to run models and view results.
 
 ---
 
@@ -49,7 +48,7 @@ This folder contains four focused CSV files — one per AI model. Each dataset i
 
 150 customer records with RFM (Recency, Frequency, Monetary) metrics across five lifecycle segments.
 
-**Required columns:** `RecencyDays`, `FrequencyMonths`, `MonetaryValue`  
+**Required columns:** `RecencyDays`, `FrequencyMonths`, `MonetaryValue`
 **Optional column:** `CustomerID`
 
 **Segments included:**
@@ -76,17 +75,23 @@ This folder contains four focused CSV files — one per AI model. Each dataset i
 
 ### `market_basket.csv` — Market Basket Analysis Model
 
-~670 transaction line-items across 400 orders, with cross-category purchase patterns.
+~3,700 transaction line-items across ~1,400 orders, with strong cross-category purchase patterns.
 
-**Required columns:** `Invoice`, `ProductName`  
+**Required columns:** `Invoice`, `ProductName`
 **Optional column:** `Category`
 
-**Item categories:** Electronics, Accessories, Office, Mobile, Home  
-**Association patterns built in:**
-- Laptop → USB-C Cable, Laptop Bag, Mouse, Keyboard
-- Monitor → Monitor Riser, HDMI Cable
-- Wireless Charger → Power Bank, Phone Case
-- Smart Bulb → Smart Plug, Extension Cord
+**Item categories:** Furniture, Kitchen, Decor, Office
+
+**Association patterns built in (with cross-category rules):**
+- Sofa → Area Rug, Throw Pillow (Furniture → Decor)
+- Office Desk + Office Chair → Desk Lamp (Office → Decor)
+- Dining Table + Dining Chair → Dishware Set (Furniture → Kitchen)
+- Cookware Set → Utensil Set + Dishware Set (within Kitchen)
+
+**Expected results after upload:**
+- Total rules: ~100–130
+- Cross-category rules: ~50+ (e.g., Furniture→Decor, Office→Decor)
+- High-lift cross-category: Area Rug+Floor Lamp → Bed Frame (lift ~8x)
 
 ---
 
@@ -94,7 +99,7 @@ This folder contains four focused CSV files — one per AI model. Each dataset i
 
 ~120 products with current price, competitor price, ratings, and categories.
 
-**Required columns:** `current_price`, `competitor_price`  
+**Required columns:** `current_price`, `competitor_price`
 **Optional columns:** `ProductID`, `ProductName`, `rating`, `category`
 
 **Pricing scenarios:**
@@ -104,16 +109,47 @@ This folder contains four focused CSV files — one per AI model. Each dataset i
 
 ---
 
+### `complete_retail_data.csv` — All 4 Models (Full Platform Demo)
+
+155 transaction rows spanning 2024, covering 20 customers, 19 products, and 4 categories. Upload this file **once** to enable all four AI models simultaneously.
+
+**Columns:**
+
+| Column | Used by |
+|--------|---------|
+| `Date` | Demand |
+| `CustomerID` | Churn |
+| `Invoice` | Basket |
+| `ProductName` | Basket, Pricing |
+| `Category` | Basket, Pricing |
+| `Sales` | Demand |
+| `CurrentPrice` | Pricing |
+| `CompetitorPrice` | Pricing |
+| `Rating` | Pricing |
+| `RecencyDays` | Churn |
+| `FrequencyMonths` | Churn |
+| `MonetaryValue` | Churn |
+
+**Use cases:**
+- Full platform demo — show all capabilities in one upload
+- Select any subset of models (e.g., Churn + Basket, or all four)
+- Cross-category basket rules visible alongside pricing and RFM data
+
+**Expected compatibility:**
+```
+complete_retail_data.csv → Compatible: Churn ✅  Demand ✅  Basket ✅  Pricing ✅
+```
+
+---
+
 ## Validation
 
-To verify strict model compatibility, upload each file and confirm:
+Upload each focused file and confirm strict model compatibility:
 
 ```
 churn_analysis.csv        → Compatible: Churn ONLY   ✅
 demand_forecast.csv       → Compatible: Demand ONLY  ✅
 market_basket.csv         → Compatible: Basket ONLY  ✅
 pricing_optimization.csv  → Compatible: Pricing ONLY ✅
+complete_retail_data.csv  → Compatible: ALL 4 models ✅
 ```
-
-No other model should appear as compatible for any file.
-
