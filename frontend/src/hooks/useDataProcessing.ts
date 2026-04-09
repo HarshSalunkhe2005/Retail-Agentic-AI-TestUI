@@ -119,7 +119,7 @@ export function useDataProcessing() {
       pricing:   '/models/pricing',
       churn:     '/models/churn',
       demand:    '/models/demand',
-      basket:    '/models/basket',
+      basket:    '/models/basket?limit=100',
     };
 
     const apiResults: Partial<Record<ModelKey, Record<string, unknown>>> = {};

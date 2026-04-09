@@ -55,6 +55,7 @@ async def run_pricing(file: UploadFile = File(...)):
     competitor_price_col = mapped["competitor_price"]
     rating_col           = mapped.get("rating")
     rating_count_col     = mapped.get("rating_count")
+    product_name_col     = mapped.get("product_name")
 
     df["_current_price"]    = pd.to_numeric(df[current_price_col], errors="coerce")
     df["_competitor_price"] = pd.to_numeric(df[competitor_price_col], errors="coerce")
@@ -110,12 +111,14 @@ async def run_pricing(file: UploadFile = File(...)):
             rec_price = max(rec_price, cur * 0.70)
             rec_price = min(rec_price, comp * 1.20)
 
-        product_id = str(i + 1)
+        product_id   = str(i + 1)
+        product_name = str(row[product_name_col]) if product_name_col else f"Product {i + 1}"
         action_counts[action] = action_counts.get(action, 0) + 1
         total_confidence += confidence
 
         records.append({
             "product_id":         product_id,
+            "product_name":       product_name,
             "current_price":      round(cur, 2),
             "competitor_price":   round(comp, 2),
             "recommended_action": action,

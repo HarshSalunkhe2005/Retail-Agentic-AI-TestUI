@@ -40,6 +40,7 @@ def detect_pricing(columns: list[str]) -> DetectionResult:
         "competitor_price": ["competitorprice", "competitiveprice", "marketprice"],
     }
     optional = {
+        "product_name": ["productname", "productdesc", "name", "title", "item"],
         "rating":       ["rating"],
         "rating_count": ["ratingcount", "ratingvol", "reviewcount", "numratings"],
         "category":     ["category", "cat", "productcat"],
