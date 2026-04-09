@@ -30,7 +30,8 @@ export default function StepExecute() {
   useEffect(() => {
     runModels();
     return () => cancelModels();
-  }, [runModels, cancelModels]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const allDone = selectedModels.length > 0 && selectedModels.every((m) => modelResults[m]?.status === 'done');
 
