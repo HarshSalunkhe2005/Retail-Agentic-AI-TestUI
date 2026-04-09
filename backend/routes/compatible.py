@@ -20,7 +20,7 @@ DETECTORS = {
 }
 
 
-@router.get("/compatible-models")
+@router.post("/compatible-models")
 async def compatible_models(file: UploadFile = File(...)):
     content = await validate_csv(file)
     df = parse_csv(content)

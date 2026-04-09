@@ -40,7 +40,9 @@ function buildKpiFromResponses(
   if (demand?.status === 'success') {
     const forecastData = demand.forecast_data as Array<{ forecast: number; actual: number | null }> | undefined;
     if (forecastData) {
-      const actuals = forecastData.filter((r) => r.actual !== null).map((r) => r.actual as number);
+      const actuals = forecastData
+        .filter((r): r is { forecast: number; actual: number } => r.actual !== null)
+        .map((r) => r.actual);
       kpi.totalRevenue = actuals.length > 0 ? Math.round(actuals.reduce((a, b) => a + b, 0)) : 0;
     }
   }
@@ -52,7 +54,7 @@ function buildKpiFromResponses(
     if (summary) {
       kpi.activeCustomers = (summary.total_customers as number) ?? 0;
     }
-    const data = churn.data as Array<{ monetary: number }> | undefined;
+    const data = churn.data as Array<{ segment: string; churn_risk: number; monetary: number }> | undefined;
     if (data && data.length > 0) {
       kpi.avgOrderValue = Math.round(data.reduce((acc, r) => acc + (r.monetary ?? 0), 0) / data.length);
     }
@@ -81,15 +83,20 @@ function buildSegmentsFromChurn(
 
   const dist = (summary.segment_distribution ?? {}) as Record<string, number>;
 
-  return Object.entries(dist).map(([segment, customers]) => ({
-    segment,
-    customers,
-    oldRevenue: customers * 500,
-    newRevenue: customers * 550,
-    churnRisk: (churnResult.data as Array<{ segment: string; churn_risk: number }>)
-      ?.filter((r) => r.segment === segment)
-      .reduce((acc, r, _, arr) => acc + r.churn_risk / arr.length, 0) ?? 0,
-  }));
+  return Object.entries(dist).map(([segment, customers]) => {
+    const data = (churnResult.data as Array<{ segment: string; churn_risk: number }>) ?? [];
+    const segRisks = data.filter((r) => r.segment === segment).map((r) => r.churn_risk);
+    const avgRisk = segRisks.length > 0
+      ? segRisks.reduce((a, b) => a + b, 0) / segRisks.length
+      : 0;
+    return {
+      segment,
+      customers,
+      oldRevenue: customers * 500,
+      newRevenue: customers * 550,
+      churnRisk: Math.round(avgRisk * 10) / 10,
+    };
+  });
 }
 
 // ── main hook ─────────────────────────────────────────────────────────────────

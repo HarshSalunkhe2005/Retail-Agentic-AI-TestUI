@@ -46,7 +46,7 @@ async def run_demand(file: UploadFile = File(...)):
         logger.error("Demand model load error: %s", exc)
         return JSONResponse(
             status_code=500,
-            content=error_response("demand", f"Model loading failed: {exc}"),
+            content=error_response("demand", "Failed to load demand forecast model."),
         )
 
     date_col  = mapped["Date"]

@@ -50,3 +50,9 @@ MIN_LIFETIME_DAYS        = 180.0
 
 # ── Demand ─────────────────────────────────────────────────────────────────────
 DEFAULT_FORECAST_WEEKS = 12
+
+# ── Churn feature defaults (for columns absent from uploaded CSV) ──────────────
+DEFAULT_RETURN_RATE      = 0.0
+DEFAULT_RETURN_COUNT     = 0.0
+DEFAULT_COUNTRY_FEATURE  = 0.0
+DEFAULT_CATEGORY_FEATURE = 0.0

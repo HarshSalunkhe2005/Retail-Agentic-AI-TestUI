@@ -18,6 +18,10 @@ from config import (
     UNIQUE_PROD_CAP,
     LIFETIME_RECENCY_PAD,
     MIN_LIFETIME_DAYS,
+    DEFAULT_RETURN_RATE,
+    DEFAULT_RETURN_COUNT,
+    DEFAULT_COUNTRY_FEATURE,
+    DEFAULT_CATEGORY_FEATURE,
 )
 from utils.column_detector import detect_churn
 from utils.data_validation import validate_csv, parse_csv
@@ -86,7 +90,7 @@ async def run_churn(file: UploadFile = File(...)):
         logger.error("Churn model load error: %s", exc)
         return JSONResponse(
             status_code=500,
-            content=error_response("churn", f"Model loading failed: {exc}"),
+            content=error_response("churn", "Failed to load churn model files."),
         )
 
     label_map = _build_label_map(kmeans)
@@ -122,7 +126,10 @@ async def run_churn(file: UploadFile = File(...)):
             float(f * 2),                                                     # TotalItems
             float(min(365.0 / max(f, 1), 365.0)),                            # AvgDaysBetweenOrders
             float(max(r + LIFETIME_RECENCY_PAD, MIN_LIFETIME_DAYS)),         # CustomerLifetimeDays
-            0.0, 0.0, 0.0, 0.0,                                               # Return/Country/Category
+            DEFAULT_RETURN_RATE,
+            DEFAULT_RETURN_COUNT,
+            DEFAULT_COUNTRY_FEATURE,
+            DEFAULT_CATEGORY_FEATURE,
         ]
 
     features_matrix = np.array([

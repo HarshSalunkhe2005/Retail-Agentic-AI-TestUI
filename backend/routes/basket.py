@@ -68,7 +68,7 @@ async def run_basket(file: UploadFile = File(...)):
         logger.error("Basket model load error: %s", exc)
         return JSONResponse(
             status_code=500,
-            content=error_response("basket", f"Model loading failed: {exc}"),
+            content=error_response("basket", "Failed to load basket analysis model."),
         )
 
     if rules_df is None or rules_df.empty:

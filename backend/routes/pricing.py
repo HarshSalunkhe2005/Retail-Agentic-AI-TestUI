@@ -47,7 +47,7 @@ async def run_pricing(file: UploadFile = File(...)):
         logger.error("Pricing model load error: %s", exc)
         return JSONResponse(
             status_code=500,
-            content=error_response("pricing", f"Model loading failed: {exc}"),
+            content=error_response("pricing", "Failed to load pricing model files."),
         )
 
     # ── Prepare features ───────────────────────────────────────────────────────

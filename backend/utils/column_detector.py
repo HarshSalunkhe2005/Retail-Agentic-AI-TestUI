@@ -8,7 +8,7 @@ from typing import NamedTuple
 # ── helpers ────────────────────────────────────────────────────────────────────
 
 def _norm(name: str) -> str:
-    """Lowercase and strip non-alphanumeric characters."""
+    """Lowercase and remove all non-alphanumeric characters."""
     return re.sub(r"[^a-z0-9]", "", name.lower())
 
 
