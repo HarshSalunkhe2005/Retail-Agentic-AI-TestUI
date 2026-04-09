@@ -22,6 +22,10 @@ export function useDataProcessing() {
   // change, which in turn triggered the useEffect in StepExecute on every
   // render — creating an infinite model-execution loop.
   const runModels = useCallback(async () => {
+    // Guard: don't start a new run if one is already in progress.
+    // This handles React Strict Mode's double-invocation of effects.
+    if (useWizardStore.getState().isProcessing) return;
+
     cancelRef.current = false;
 
     const { selectedModels, csvData, startProcessing } = useWizardStore.getState();
@@ -62,6 +66,9 @@ export function useDataProcessing() {
 
   const cancelModels = useCallback(() => {
     cancelRef.current = true;
+    // Reset processing flag so the effect can cleanly re-run when needed
+    // (handles React Strict Mode double-invocation and navigation away mid-run).
+    useWizardStore.setState({ isProcessing: false });
   }, []);
 
   return { runModels, cancelModels };
