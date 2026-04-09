@@ -1,0 +1,111 @@
+SKU,ProductName,Category,CurrentStock,ReorderPoint,SafetyStock,LeadTime,DemandForecast,ABCClass,UrgencyLevel
+SKU-1001,Wireless Headphones,Electronics,27,117,38,21,90.0,B,Critical
+SKU-1002,Bluetooth Speaker,Sports,195,117,36,21,60.4,B,Low
+SKU-1003,Smart Watch,Clothing,50,62,23,7,161.2,B,High
+SKU-1004,USB-C Hub,Food & Beverage,12,10,2,14,7.6,A,Medium
+SKU-1005,Laptop Stand,Home & Garden,83,58,13,21,52.5,C,Medium
+SKU-1006,Mechanical Keyboard,Beauty,220,274,71,10,319.0,C,High
+SKU-1007,Gaming Mouse,Toys,198,216,77,30,121.0,C,High
+SKU-1008,Webcam HD,Books,12,51,13,10,76.9,B,Critical
+SKU-1009,LED Desk Lamp,Electronics,46,34,11,3,169.3,A,Medium
+SKU-1010,Power Bank,Sports,76,31,10,30,26.6,B,Low
+SKU-1011,Running Shoes,Clothing,37,85,34,7,179.6,B,High
+SKU-1012,Sports T-Shirt,Food & Beverage,118,73,24,14,80.7,C,Low
+SKU-1013,Yoga Mat,Home & Garden,141,147,51,14,172.5,C,High
+SKU-1014,Resistance Bands,Beauty,260,199,71,14,212.7,C,Medium
+SKU-1015,Water Bottle,Toys,179,179,62,3,760.1,C,High
+SKU-1016,Denim Jacket,Books,270,284,65,7,590.0,C,High
+SKU-1017,Casual Sneakers,Electronics,28,211,63,7,376.7,C,Critical
+SKU-1018,Backpack,Sports,11,79,25,14,86.3,B,Critical
+SKU-1019,Sunglasses,Clothing,56,22,7,14,30.8,A,Low
+SKU-1020,Baseball Cap,Food & Beverage,424,267,72,30,126.7,C,Low
+SKU-1021,Coffee Maker,Home & Garden,33,12,3,7,31.2,A,Low
+SKU-1022,Blender,Beauty,134,99,25,30,35.9,C,Medium
+SKU-1023,Air Fryer,Toys,40,15,4,3,91.8,A,Low
+SKU-1024,Rice Cooker,Books,388,238,64,7,389.0,C,Low
+SKU-1025,Toaster Oven,Electronics,175,105,34,5,362.6,C,Low
+SKU-1026,Instant Noodles Pack,Sports,16,75,15,10,84.0,C,High
+SKU-1027,Protein Powder,Clothing,45,33,10,5,90.4,A,Medium
+SKU-1028,Energy Drink,Food & Beverage,29,68,14,21,36.7,C,High
+SKU-1029,Green Tea,Home & Garden,562,224,49,30,169.7,C,Low
+SKU-1030,Granola Bars,Beauty,362,174,67,10,244.2,C,Low
+SKU-1031,Garden Hose,Toys,89,39,13,14,54.0,A,Low
+SKU-1032,Plant Pots Set,Books,1,9,2,7,26.8,A,Critical
+SKU-1033,Lawn Mower,Electronics,80,71,19,10,67.2,B,Medium
+SKU-1034,Garden Gloves,Sports,271,263,52,3,1198.8,C,Medium
+SKU-1035,Fertilizer Bag,Clothing,78,198,63,7,259.9,C,High
+SKU-1036,Face Moisturizer,Food & Beverage,162,107,32,21,71.6,B,Low
+SKU-1037,Shampoo,Home & Garden,200,102,32,21,107.6,C,Low
+SKU-1038,Conditioner,Beauty,22,38,12,30,21.9,B,High
+SKU-1039,Lip Balm,Toys,48,66,19,14,48.1,B,High
+SKU-1040,Sunscreen SPF50,Books,17,195,39,7,318.1,C,Critical
+SKU-1041,Building Blocks,Electronics,16,28,8,14,42.2,A,High
+SKU-1042,Action Figure,Sports,72,132,30,14,162.7,C,High
+SKU-1043,Puzzle 1000pcs,Clothing,367,279,64,30,136.6,C,Medium
+SKU-1044,Board Game,Food & Beverage,33,163,57,3,782.1,C,Critical
+SKU-1045,RC Car,Home & Garden,53,33,9,10,47.0,B,Low
+SKU-1046,Novel - Bestseller,Beauty,150,61,13,5,206.4,C,Low
+SKU-1047,Self-Help Guide,Toys,112,72,26,5,306.4,B,Low
+SKU-1048,Cookbook,Books,21,44,12,7,59.2,B,High
+SKU-1049,Science Textbook,Electronics,2,17,5,14,19.7,A,Critical
+SKU-1050,Comics Vol1,Sports,41,26,8,7,39.5,A,Low
+SKU-1051,Wireless Headphones v3,Clothing,96,67,16,5,192.1,B,Medium
+SKU-1052,Bluetooth Speaker v3,Food & Beverage,157,188,50,30,100.6,C,High
+SKU-1053,Smart Watch v3,Home & Garden,185,122,37,14,120.0,B,Low
+SKU-1054,USB-C Hub v3,Beauty,29,65,25,14,77.5,B,High
+SKU-1055,Laptop Stand v3,Toys,226,105,34,7,213.6,C,Low
+SKU-1056,Mechanical Keyboard v3,Books,175,184,66,21,161.6,C,High
+SKU-1057,Gaming Mouse v3,Electronics,143,100,35,14,87.3,B,Medium
+SKU-1058,Webcam HD v3,Sports,18,123,43,5,221.5,B,Critical
+SKU-1059,LED Desk Lamp v3,Clothing,122,126,47,10,119.5,B,High
+SKU-1060,Power Bank v3,Food & Beverage,25,164,59,5,669.4,C,Critical
+SKU-1061,Running Shoes v3,Home & Garden,28,39,13,14,36.9,B,High
+SKU-1062,Sports T-Shirt v3,Beauty,72,35,8,21,27.3,A,Low
+SKU-1063,Yoga Mat v3,Toys,426,233,46,7,541.2,C,Low
+SKU-1064,Resistance Bands v3,Books,121,72,18,21,68.5,B,Low
+SKU-1065,Water Bottle v3,Electronics,111,141,32,14,134.6,C,High
+SKU-1066,Denim Jacket v3,Sports,257,257,64,30,100.5,C,High
+SKU-1067,Casual Sneakers v3,Clothing,66,90,24,21,56.7,B,High
+SKU-1068,Backpack v3,Food & Beverage,28,16,5,5,28.9,A,Low
+SKU-1069,Sunglasses v3,Home & Garden,100,42,15,3,207.9,B,Low
+SKU-1070,Baseball Cap v3,Beauty,50,78,17,3,244.0,C,High
+SKU-1071,Coffee Maker v3,Toys,217,285,71,30,127.9,C,High
+SKU-1072,Blender v3,Books,327,130,37,14,127.4,C,Low
+SKU-1073,Air Fryer v3,Electronics,12,32,8,3,156.8,A,High
+SKU-1074,Rice Cooker v3,Sports,130,54,17,3,338.7,B,Low
+SKU-1075,Toaster Oven v3,Clothing,0,4,1,5,16.5,A,Critical
+SKU-1076,Instant Noodles Pack v3,Food & Beverage,32,11,2,10,14.9,A,Low
+SKU-1077,Protein Powder v3,Home & Garden,532,278,105,14,326.2,C,Low
+SKU-1078,Energy Drink v3,Beauty,92,281,67,14,200.2,C,High
+SKU-1079,Green Tea v3,Toys,146,95,25,30,42.7,B,Low
+SKU-1080,Granola Bars v3,Books,88,219,65,14,173.3,C,High
+SKU-1081,Garden Hose v3,Electronics,9,59,16,10,119.8,B,Critical
+SKU-1082,Plant Pots Set v3,Sports,75,45,9,10,41.9,A,Low
+SKU-1083,Lawn Mower v3,Clothing,61,36,13,30,17.7,A,Low
+SKU-1084,Garden Gloves v3,Food & Beverage,293,342,71,10,393.1,C,High
+SKU-1085,Fertilizer Bag v3,Home & Garden,72,35,10,21,38.9,A,Low
+SKU-1086,Face Moisturizer v3,Beauty,58,51,14,7,118.3,C,Medium
+SKU-1087,Shampoo v3,Toys,172,188,43,7,348.5,C,High
+SKU-1088,Conditioner v3,Books,39,32,12,10,40.1,A,Medium
+SKU-1089,Lip Balm v3,Electronics,17,17,5,14,15.1,A,High
+SKU-1090,Sunscreen SPF50 v3,Sports,374,245,51,14,298.8,C,Low
+SKU-1091,Building Blocks v3,Clothing,233,88,29,21,88.9,C,Low
+SKU-1092,Action Figure v3,Food & Beverage,70,305,106,3,943.1,C,Critical
+SKU-1093,Puzzle 1000pcs v3,Home & Garden,35,36,11,5,73.9,A,High
+SKU-1094,Board Game v3,Beauty,4,34,7,21,22.0,B,Critical
+SKU-1095,RC Car v3,Toys,36,99,28,30,62.8,C,High
+SKU-1096,Novel - Bestseller v3,Books,232,107,22,10,134.1,C,Low
+SKU-1097,Self-Help Guide v3,Electronics,50,104,38,10,104.5,C,High
+SKU-1098,Cookbook v3,Sports,28,32,12,14,31.5,B,High
+SKU-1099,Science Textbook v3,Clothing,146,71,20,3,316.5,B,Low
+SKU-1100,Comics Vol1 v3,Food & Beverage,25,13,4,14,22.3,A,Low
+SKU-1101,Wireless Headphones v4,Home & Garden,106,91,22,7,223.2,C,Medium
+SKU-1102,Bluetooth Speaker v4,Beauty,156,142,32,5,328.8,C,Medium
+SKU-1103,Smart Watch v4,Toys,24,47,9,7,111.0,B,High
+SKU-1104,USB-C Hub v4,Books,93,67,18,7,118.8,B,Medium
+SKU-1105,Laptop Stand v4,Electronics,35,172,41,14,173.0,C,Critical
+SKU-1106,Mechanical Keyboard v4,Sports,393,159,54,3,870.1,C,Low
+SKU-1107,Gaming Mouse v4,Clothing,10,13,4,7,25.4,A,High
+SKU-1108,Webcam HD v4,Food & Beverage,289,154,55,14,169.5,C,Low
+SKU-1109,LED Desk Lamp v4,Home & Garden,200,136,51,10,205.9,C,Medium
+SKU-1110,Power Bank v4,Beauty,313,193,69,10,191.7,C,Low

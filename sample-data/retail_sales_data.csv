@@ -1,0 +1,521 @@
+Date,ProductID,SKU,Category,OldSegment,NewSegment,Quantity,UnitPrice,Revenue,COGS,Discount
+2024-04-08,Product-1015,SKU-1015,Books,Budget,Standard,40,21.99,853.21,426.61,0.03
+2024-04-09,Product-1076,SKU-1076,Sports,Budget,Standard,5,88.19,401.26,164.52,0.09
+2024-04-10,Product-1103,SKU-1103,Books,Budget,Premium,45,20.99,944.55,613.96,0.0
+2024-04-10,Product-1017,SKU-1017,Clothing,Standard,Standard,8,57.59,414.65,223.91,0.1
+2024-04-10,Product-1117,SKU-1117,Beauty,Standard,Standard,10,38.24,378.58,200.65,0.01
+2024-04-10,Product-1100,SKU-1100,Sports,Budget,Budget,12,95.39,1076.0,591.8,0.06
+2024-04-11,Product-1097,SKU-1097,Clothing,Premium,New Discovery,3,65.39,176.55,98.87,0.1
+2024-04-11,Product-1110,SKU-1110,Toys,Premium,New Discovery,6,31.14,179.37,80.72,0.04
+2024-04-13,Product-1068,SKU-1068,Sports,Standard,Standard,5,90.89,449.91,247.45,0.01
+2024-04-13,Product-1061,SKU-1061,Beauty,Standard,Standard,13,48.14,569.5,284.75,0.09
+2024-04-16,Product-1031,SKU-1031,Books,Standard,Premium,40,19.39,729.06,393.69,0.06
+2024-04-16,Product-1031,SKU-1031,Books,Budget,Premium,34,20.79,657.38,276.1,0.07
+2024-04-17,Product-1081,SKU-1081,Clothing,Budget,Budget,14,61.19,779.56,405.37,0.09
+2024-04-17,Product-1033,SKU-1033,Clothing,Standard,Standard,4,53.39,196.48,121.82,0.08
+2024-04-18,Product-1014,SKU-1014,Toys,Standard,Standard,10,39.19,391.9,180.27,0.0
+2024-04-18,Product-1094,SKU-1094,Toys,Budget,New Discovery,13,29.74,363.42,178.08,0.06
+2024-04-18,Product-1096,SKU-1096,Electronics,Standard,Standard,8,139.49,1104.76,640.76,0.01
+2024-04-18,Product-1075,SKU-1075,Home & Garden,Budget,Budget,10,79.19,776.06,341.47,0.02
+2024-04-19,Product-1086,SKU-1086,Toys,Standard,New Discovery,5,30.79,141.63,70.81,0.08
+2024-04-19,Product-1055,SKU-1055,Books,Standard,New Discovery,27,18.39,407.15,191.36,0.18
+2024-04-19,Product-1068,SKU-1068,Sports,Budget,Premium,18,77.39,1337.3,815.75,0.04
+2024-04-21,Product-1051,SKU-1051,Home & Garden,Premium,Standard,16,83.19,1237.87,606.56,0.07
+2024-04-22,Product-1070,SKU-1070,Toys,Premium,Premium,12,35.69,428.28,171.31,0.0
+2024-04-23,Product-1047,SKU-1047,Books,Standard,New Discovery,19,18.99,317.51,180.98,0.12
+2024-04-23,Product-1005,SKU-1005,Beauty,Budget,Standard,7,39.14,260.28,111.92,0.05
+2024-04-24,Product-1034,SKU-1034,Food & Beverage,Standard,New Discovery,39,21.49,670.49,395.59,0.2
+2024-04-25,Product-1069,SKU-1069,Beauty,Standard,Premium,12,47.24,561.21,359.17,0.01
+2024-04-25,Product-1083,SKU-1083,Home & Garden,Standard,Premium,1,75.99,72.95,45.96,0.04
+2024-04-25,Product-1021,SKU-1021,Beauty,Standard,Budget,1,40.04,40.04,23.62,0.0
+2024-04-26,Product-1046,SKU-1046,Toys,Budget,Standard,8,34.29,266.09,156.99,0.03
+2024-04-26,Product-1048,SKU-1048,Electronics,Budget,Standard,3,133.49,392.46,251.17,0.02
+2024-04-27,Product-1018,SKU-1018,Food & Beverage,Standard,Budget,33,21.49,673.71,431.17,0.05
+2024-04-28,Product-1047,SKU-1047,Books,Budget,Standard,23,17.59,400.52,176.23,0.01
+2024-04-29,Product-1002,SKU-1002,Food & Beverage,Standard,Standard,10,26.99,245.61,115.44,0.09
+2024-04-29,Product-1108,SKU-1108,Sports,Standard,New Discovery,1,78.29,75.94,44.05,0.03
+2024-05-01,Product-1045,SKU-1045,Beauty,Standard,Standard,15,40.49,558.76,329.67,0.08
+2024-05-01,Product-1038,SKU-1038,Toys,Standard,New Discovery,13,31.14,380.53,232.12,0.06
+2024-05-02,Product-1070,SKU-1070,Toys,Standard,New Discovery,6,30.44,166.2,106.37,0.09
+2024-05-02,Product-1090,SKU-1090,Food & Beverage,Standard,Premium,11,23.24,245.41,103.07,0.04
+2024-05-03,Product-1105,SKU-1105,Clothing,Standard,Premium,18,65.39,1082.86,606.4,0.08
+2024-05-04,Product-1018,SKU-1018,Food & Beverage,Premium,Budget,42,25.99,1080.66,648.4,0.01
+2024-05-04,Product-1072,SKU-1072,Electronics,Standard,Standard,7,157.49,1058.33,476.25,0.04
+2024-05-05,Product-1085,SKU-1085,Beauty,Standard,Standard,12,48.14,577.68,294.62,0.0
+2024-05-05,Product-1016,SKU-1016,Electronics,Standard,Premium,4,164.99,626.96,319.75,0.05
+2024-05-07,Product-1019,SKU-1019,Home & Garden,Budget,Budget,7,87.99,560.5,358.72,0.09
+2024-05-07,Product-1010,SKU-1010,Food & Beverage,Standard,Standard,36,28.49,1025.64,594.87,0.0
+2024-05-07,Product-1094,SKU-1094,Toys,Standard,Standard,16,36.39,529.84,275.52,0.09
+2024-05-09,Product-1021,SKU-1021,Beauty,Budget,New Discovery,20,50.84,904.95,380.08,0.11
+2024-05-09,Product-1063,SKU-1063,Books,Budget,Standard,11,19.19,198.42,113.1,0.06
+2024-05-12,Product-1046,SKU-1046,Toys,Standard,Premium,19,31.14,567.99,363.51,0.04
+2024-05-12,Product-1060,SKU-1060,Sports,Premium,Premium,19,80.99,1477.26,871.58,0.04
+2024-05-12,Product-1062,SKU-1062,Toys,Budget,Budget,15,34.64,488.42,263.75,0.06
+2024-05-12,Product-1023,SKU-1023,Books,Premium,Budget,25,17.39,421.71,248.81,0.03
+2024-05-12,Product-1051,SKU-1051,Home & Garden,Standard,Premium,18,72.79,1231.61,800.55,0.06
+2024-05-13,Product-1027,SKU-1027,Home & Garden,Standard,Premium,13,89.59,1106.44,531.09,0.05
+2024-05-14,Product-1109,SKU-1109,Beauty,Budget,Premium,7,40.49,272.09,111.56,0.04
+2024-05-15,Product-1043,SKU-1043,Home & Garden,Premium,Budget,18,90.39,1594.48,892.91,0.02
+2024-05-15,Product-1002,SKU-1002,Food & Beverage,Standard,Standard,22,27.49,544.3,250.38,0.1
+2024-05-16,Product-1095,SKU-1095,Books,Standard,Standard,45,20.59,861.69,551.48,0.07
+2024-05-17,Product-1032,SKU-1032,Electronics,Premium,Budget,2,158.99,289.36,156.25,0.09
+2024-05-17,Product-1045,SKU-1045,Beauty,Standard,New Discovery,15,43.64,556.41,283.77,0.15
+2024-05-17,Product-1068,SKU-1068,Sports,Standard,New Discovery,9,100.79,734.76,411.47,0.19
+2024-05-19,Product-1087,SKU-1087,Books,Standard,Standard,6,18.19,106.96,65.25,0.02
+2024-05-19,Product-1101,SKU-1101,Beauty,Standard,Standard,10,48.14,442.89,181.58,0.08
+2024-05-19,Product-1119,SKU-1119,Books,Standard,Standard,36,19.59,669.98,288.09,0.05
+2024-05-19,Product-1096,SKU-1096,Electronics,Standard,Premium,1,149.99,136.49,65.52,0.09
+2024-05-20,Product-1002,SKU-1002,Food & Beverage,Premium,Premium,16,25.24,363.46,228.98,0.1
+2024-05-20,Product-1010,SKU-1010,Food & Beverage,Standard,New Discovery,11,27.24,242.71,118.93,0.19
+2024-05-21,Product-1064,SKU-1064,Electronics,Standard,Premium,12,161.99,1846.69,1126.48,0.05
+2024-05-22,Product-1049,SKU-1049,Clothing,Budget,Standard,13,65.39,850.07,348.53,0.0
+2024-05-22,Product-1007,SKU-1007,Books,Premium,Standard,31,18.59,524.42,241.23,0.09
+2024-05-23,Product-1054,SKU-1054,Toys,Standard,New Discovery,8,30.79,224.15,138.97,0.09
+2024-05-23,Product-1111,SKU-1111,Books,Standard,New Discovery,9,20.19,161.72,84.09,0.11
+2024-05-23,Product-1094,SKU-1094,Toys,Standard,Standard,17,31.84,530.45,281.14,0.02
+2024-05-25,Product-1038,SKU-1038,Toys,Budget,Premium,6,34.99,193.14,83.05,0.08
+2024-05-25,Product-1109,SKU-1109,Beauty,Standard,Standard,17,49.04,792.0,419.76,0.05
+2024-05-27,Product-1078,SKU-1078,Toys,Premium,Budget,1,34.64,33.6,13.78,0.03
+2024-05-28,Product-1089,SKU-1089,Clothing,Standard,Standard,19,62.99,1184.84,746.45,0.01
+2024-05-28,Product-1026,SKU-1026,Food & Beverage,Premium,Standard,2,27.99,55.98,25.19,0.0
+2024-05-29,Product-1035,SKU-1035,Home & Garden,Standard,Premium,14,74.39,1010.22,575.83,0.03
+2024-05-30,Product-1105,SKU-1105,Clothing,Standard,Standard,11,68.39,714.68,414.51,0.05
+2024-06-01,Product-1063,SKU-1063,Books,Premium,Budget,12,18.79,209.7,96.46,0.07
+2024-06-03,Product-1100,SKU-1100,Sports,Standard,New Discovery,13,77.39,875.28,411.38,0.13
+2024-06-04,Product-1096,SKU-1096,Electronics,Standard,Premium,17,137.99,2228.54,913.7,0.05
+2024-06-05,Product-1040,SKU-1040,Electronics,Premium,Budget,15,157.49,2149.74,945.89,0.09
+2024-06-06,Product-1046,SKU-1046,Toys,Premium,Budget,11,32.54,322.15,148.19,0.1
+2024-06-06,Product-1094,SKU-1094,Toys,Premium,Standard,15,37.79,549.84,280.42,0.03
+2024-06-06,Product-1072,SKU-1072,Electronics,Standard,New Discovery,8,151.49,1102.85,485.25,0.09
+2024-06-06,Product-1083,SKU-1083,Home & Garden,Budget,Standard,18,68.79,1238.22,656.26,0.0
+2024-06-06,Product-1026,SKU-1026,Food & Beverage,Standard,Budget,27,21.74,540.02,340.21,0.08
+2024-06-07,Product-1107,SKU-1107,Home & Garden,Budget,Premium,16,86.39,1285.48,707.01,0.07
+2024-06-08,Product-1118,SKU-1118,Toys,Budget,New Discovery,1,37.44,37.44,21.34,0.0
+2024-06-08,Product-1088,SKU-1088,Electronics,Standard,Standard,13,134.99,1649.58,791.8,0.06
+2024-06-09,Product-1022,SKU-1022,Toys,Standard,Standard,15,34.99,509.1,203.64,0.03
+2024-06-09,Product-1010,SKU-1010,Food & Beverage,Standard,Standard,32,26.74,795.78,445.64,0.07
+2024-06-10,Product-1078,SKU-1078,Toys,Premium,New Discovery,14,35.69,459.69,211.46,0.08
+2024-06-10,Product-1040,SKU-1040,Electronics,Standard,Premium,3,149.99,413.97,219.4,0.08
+2024-06-11,Product-1030,SKU-1030,Toys,Standard,Budget,15,38.84,530.17,243.88,0.09
+2024-06-12,Product-1089,SKU-1089,Clothing,Standard,Budget,7,51.59,346.68,169.87,0.04
+2024-06-13,Product-1027,SKU-1027,Home & Garden,Budget,Standard,21,79.19,1529.95,902.67,0.08
+2024-06-13,Product-1017,SKU-1017,Clothing,Standard,Premium,3,58.79,162.26,87.62,0.08
+2024-06-15,Product-1047,SKU-1047,Books,Budget,Premium,50,17.79,809.45,412.82,0.09
+2024-06-18,Product-1013,SKU-1013,Beauty,Budget,Standard,17,44.54,726.89,298.02,0.04
+2024-06-18,Product-1078,SKU-1078,Toys,Budget,Premium,8,33.59,263.35,115.87,0.02
+2024-06-18,Product-1102,SKU-1102,Toys,Standard,Standard,8,34.99,254.73,114.63,0.09
+2024-06-19,Product-1024,SKU-1024,Electronics,Standard,New Discovery,5,148.49,616.23,394.39,0.17
+2024-06-21,Product-1025,SKU-1025,Clothing,Standard,Standard,4,52.79,204.83,131.09,0.03
+2024-06-21,Product-1026,SKU-1026,Food & Beverage,Budget,Standard,14,23.24,305.84,198.8,0.06
+2024-06-22,Product-1065,SKU-1065,Clothing,Standard,New Discovery,16,56.99,857.13,342.85,0.06
+2024-06-22,Product-1019,SKU-1019,Home & Garden,Premium,Premium,10,81.59,750.63,382.82,0.08
+2024-06-22,Product-1085,SKU-1085,Beauty,Standard,Premium,19,40.49,715.46,386.35,0.07
+2024-06-22,Product-1090,SKU-1090,Food & Beverage,Standard,Budget,30,27.74,832.2,507.64,0.0
+2024-06-24,Product-1041,SKU-1041,Clothing,Budget,Standard,7,56.99,359.04,201.06,0.1
+2024-06-27,Product-1052,SKU-1052,Sports,Standard,New Discovery,10,84.59,761.31,418.72,0.1
+2024-06-27,Product-1098,SKU-1098,Food & Beverage,Premium,Premium,19,23.24,437.14,253.54,0.01
+2024-06-28,Product-1013,SKU-1013,Beauty,Standard,Budget,11,46.79,494.1,197.64,0.04
+2024-06-29,Product-1025,SKU-1025,Clothing,Premium,Standard,3,68.99,190.41,108.53,0.08
+2024-06-30,Product-1023,SKU-1023,Books,Standard,Budget,28,20.99,564.21,253.89,0.04
+2024-06-30,Product-1018,SKU-1018,Food & Beverage,Budget,Standard,28,26.74,733.75,293.5,0.02
+2024-07-02,Product-1107,SKU-1107,Home & Garden,Premium,Standard,8,69.59,506.62,293.84,0.09
+2024-07-03,Product-1080,SKU-1080,Electronics,Standard,Budget,2,151.49,275.71,151.64,0.09
+2024-07-04,Product-1036,SKU-1036,Sports,Premium,Standard,7,83.69,579.97,260.99,0.01
+2024-07-05,Product-1089,SKU-1089,Clothing,Standard,New Discovery,2,58.79,98.77,54.32,0.16
+2024-07-06,Product-1039,SKU-1039,Books,Standard,Premium,12,20.79,234.51,128.98,0.06
+2024-07-07,Product-1068,SKU-1068,Sports,Budget,Premium,1,98.09,92.2,47.02,0.06
+2024-07-07,Product-1016,SKU-1016,Electronics,Budget,Standard,11,128.99,1362.13,667.44,0.04
+2024-07-07,Product-1080,SKU-1080,Electronics,Standard,New Discovery,13,143.99,1703.4,919.84,0.09
+2024-07-08,Product-1046,SKU-1046,Toys,Premium,Premium,5,32.54,162.7,104.13,0.0
+2024-07-08,Product-1084,SKU-1084,Sports,Standard,Standard,12,100.79,1100.63,594.34,0.09
+2024-07-08,Product-1047,SKU-1047,Books,Premium,Premium,24,22.59,509.63,321.07,0.06
+2024-07-08,Product-1014,SKU-1014,Toys,Budget,Budget,13,36.74,463.29,240.91,0.03
+2024-07-09,Product-1097,SKU-1097,Clothing,Premium,Premium,3,61.19,172.56,74.2,0.06
+2024-07-09,Product-1010,SKU-1010,Food & Beverage,Budget,Budget,15,26.99,380.56,235.95,0.06
+2024-07-09,Product-1077,SKU-1077,Beauty,Premium,Budget,1,51.29,50.26,30.16,0.02
+2024-07-10,Product-1002,SKU-1002,Food & Beverage,Standard,Premium,33,23.24,759.25,356.85,0.01
+2024-07-11,Product-1073,SKU-1073,Clothing,Standard,Premium,19,56.39,974.98,516.74,0.09
+2024-07-11,Product-1080,SKU-1080,Electronics,Budget,Standard,6,170.99,974.64,516.56,0.05
+2024-07-12,Product-1103,SKU-1103,Books,Standard,Standard,3,22.19,63.91,27.48,0.04
+2024-07-13,Product-1077,SKU-1077,Beauty,Standard,Standard,12,51.74,614.67,362.66,0.01
+2024-07-13,Product-1108,SKU-1108,Sports,Premium,Standard,5,96.29,438.12,276.02,0.09
+2024-07-14,Product-1019,SKU-1019,Home & Garden,Budget,Budget,20,70.39,1323.33,648.43,0.06
+2024-07-14,Product-1070,SKU-1070,Toys,Budget,Budget,6,38.49,221.7,141.89,0.04
+2024-07-14,Product-1041,SKU-1041,Clothing,Premium,Standard,1,68.39,63.6,28.62,0.07
+2024-07-15,Product-1117,SKU-1117,Beauty,Budget,Standard,18,46.79,783.26,383.8,0.07
+2024-07-15,Product-1071,SKU-1071,Books,Budget,Standard,17,20.59,325.53,139.98,0.07
+2024-07-16,Product-1064,SKU-1064,Electronics,Standard,Standard,4,143.99,570.2,347.82,0.01
+2024-07-17,Product-1067,SKU-1067,Home & Garden,Budget,Standard,12,87.99,1034.76,475.99,0.02
+2024-07-18,Product-1050,SKU-1050,Food & Beverage,Budget,New Discovery,46,28.24,1195.12,561.71,0.08
+2024-07-19,Product-1025,SKU-1025,Clothing,Standard,New Discovery,8,54.59,384.31,165.25,0.12
+2024-07-19,Product-1044,SKU-1044,Sports,Premium,Premium,4,76.49,281.48,168.89,0.08
+2024-07-19,Product-1017,SKU-1017,Clothing,Standard,Standard,2,65.99,122.74,69.96,0.07
+2024-07-20,Product-1009,SKU-1009,Clothing,Premium,Budget,7,52.19,339.76,139.3,0.07
+2024-07-21,Product-1115,SKU-1115,Home & Garden,Budget,Standard,11,70.39,727.83,342.08,0.06
+2024-07-24,Product-1087,SKU-1087,Books,Budget,New Discovery,46,18.99,838.6,486.39,0.04
+2024-07-24,Product-1079,SKU-1079,Books,Standard,Standard,15,19.59,264.47,132.24,0.1
+2024-07-24,Product-1057,SKU-1057,Clothing,Premium,Standard,4,59.39,218.56,111.47,0.08
+2024-07-24,Product-1100,SKU-1100,Sports,Premium,Budget,13,79.19,998.59,449.37,0.03
+2024-07-24,Product-1115,SKU-1115,Home & Garden,Standard,Premium,7,74.39,489.49,288.8,0.06
+2024-07-25,Product-1046,SKU-1046,Toys,Premium,Premium,12,39.89,473.89,251.16,0.01
+2024-07-25,Product-1061,SKU-1061,Beauty,Standard,Premium,4,51.29,186.7,106.42,0.09
+2024-07-26,Product-1012,SKU-1012,Sports,Standard,Premium,2,80.09,152.17,68.48,0.05
+2024-07-26,Product-1103,SKU-1103,Books,Standard,Standard,8,21.79,162.12,79.44,0.07
+2024-07-27,Product-1104,SKU-1104,Electronics,Premium,Budget,6,142.49,812.19,381.73,0.05
+2024-07-27,Product-1086,SKU-1086,Toys,Premium,Standard,9,36.04,317.87,203.44,0.02
+2024-07-27,Product-1017,SKU-1017,Clothing,Standard,Standard,7,53.99,374.15,157.14,0.01
+2024-07-27,Product-1027,SKU-1027,Home & Garden,Premium,Premium,11,75.99,835.89,493.18,0.0
+2024-07-27,Product-1023,SKU-1023,Books,Premium,Premium,1,20.99,19.52,9.76,0.07
+2024-07-28,Product-1017,SKU-1017,Clothing,Standard,Standard,6,59.99,323.95,200.85,0.1
+2024-07-29,Product-1032,SKU-1032,Electronics,Premium,Standard,18,158.99,2718.73,1440.93,0.05
+2024-07-31,Product-1012,SKU-1012,Sports,Standard,Standard,8,79.19,601.84,324.99,0.05
+2024-07-31,Product-1003,SKU-1003,Home & Garden,Premium,New Discovery,15,88.79,1078.8,474.67,0.19
+2024-08-01,Product-1051,SKU-1051,Home & Garden,Budget,Premium,7,85.59,569.17,301.66,0.05
+2024-08-01,Product-1032,SKU-1032,Electronics,Budget,Premium,20,134.99,2618.81,1361.78,0.03
+2024-08-01,Product-1109,SKU-1109,Beauty,Standard,New Discovery,19,47.24,753.95,339.28,0.16
+2024-08-02,Product-1032,SKU-1032,Electronics,Budget,Standard,9,157.49,1374.89,783.69,0.03
+2024-08-02,Product-1056,SKU-1056,Electronics,Premium,Premium,21,133.49,2550.99,1377.53,0.09
+2024-08-02,Product-1087,SKU-1087,Books,Budget,Standard,27,22.39,574.3,275.66,0.05
+2024-08-03,Product-1082,SKU-1082,Food & Beverage,Standard,Standard,19,22.24,388.76,233.26,0.08
+2024-08-04,Product-1040,SKU-1040,Electronics,Standard,Budget,3,149.99,422.97,249.55,0.06
+2024-08-04,Product-1077,SKU-1077,Beauty,Standard,Premium,17,40.94,661.18,370.26,0.05
+2024-08-06,Product-1066,SKU-1066,Food & Beverage,Budget,New Discovery,30,27.74,674.08,404.45,0.19
+2024-08-07,Product-1040,SKU-1040,Electronics,Standard,Standard,1,169.49,154.24,78.66,0.09
+2024-08-08,Product-1021,SKU-1021,Beauty,Budget,Standard,5,51.74,240.59,103.45,0.07
+2024-08-09,Product-1005,SKU-1005,Beauty,Standard,New Discovery,19,50.84,879.02,492.25,0.09
+2024-08-09,Product-1107,SKU-1107,Home & Garden,Standard,Standard,18,68.79,1126.78,676.07,0.09
+2024-08-11,Product-1016,SKU-1016,Electronics,Budget,Standard,3,146.99,427.74,269.48,0.03
+2024-08-11,Product-1073,SKU-1073,Clothing,Standard,Standard,10,65.99,607.11,248.92,0.08
+2024-08-12,Product-1091,SKU-1091,Home & Garden,Standard,Premium,6,89.59,505.29,237.49,0.06
+2024-08-13,Product-1038,SKU-1038,Toys,Standard,Premium,4,34.29,137.16,78.18,0.0
+2024-08-13,Product-1001,SKU-1001,Clothing,Budget,New Discovery,10,61.19,526.23,310.48,0.14
+2024-08-14,Product-1053,SKU-1053,Beauty,Standard,Budget,6,47.69,280.42,117.78,0.02
+2024-08-14,Product-1017,SKU-1017,Clothing,Standard,Standard,6,61.79,348.5,146.37,0.06
+2024-08-15,Product-1119,SKU-1119,Books,Premium,Premium,21,17.59,339.84,186.91,0.08
+2024-08-15,Product-1101,SKU-1101,Beauty,Standard,Standard,14,39.14,493.16,246.58,0.1
+2024-08-15,Product-1032,SKU-1032,Electronics,Premium,Budget,19,155.99,2726.71,1636.03,0.08
+2024-08-16,Product-1064,SKU-1064,Electronics,Premium,Budget,20,167.99,3225.41,1515.94,0.04
+2024-08-16,Product-1020,SKU-1020,Sports,Premium,Standard,1,81.89,81.89,35.21,0.0
+2024-08-17,Product-1026,SKU-1026,Food & Beverage,Standard,Standard,12,26.49,311.52,127.72,0.02
+2024-08-17,Product-1076,SKU-1076,Sports,Premium,Premium,8,97.19,723.09,325.39,0.07
+2024-08-18,Product-1012,SKU-1012,Sports,Standard,Budget,14,102.59,1378.81,592.89,0.04
+2024-08-18,Product-1088,SKU-1088,Electronics,Premium,Standard,4,140.99,541.4,324.84,0.04
+2024-08-18,Product-1070,SKU-1070,Toys,Budget,Standard,2,32.89,60.52,32.08,0.08
+2024-08-19,Product-1021,SKU-1021,Beauty,Premium,Standard,10,39.14,364.0,167.44,0.07
+2024-08-19,Product-1009,SKU-1009,Clothing,Standard,New Discovery,14,62.39,803.58,490.18,0.08
+2024-08-21,Product-1109,SKU-1109,Beauty,Budget,Premium,2,48.14,89.54,45.67,0.07
+2024-08-21,Product-1057,SKU-1057,Clothing,Standard,Premium,6,51.59,290.97,154.21,0.06
+2024-08-22,Product-1005,SKU-1005,Beauty,Standard,Standard,15,43.19,602.5,271.12,0.07
+2024-08-22,Product-1053,SKU-1053,Beauty,Standard,Premium,12,45.89,506.63,243.18,0.08
+2024-08-22,Product-1014,SKU-1014,Toys,Budget,Standard,21,33.24,635.22,266.79,0.09
+2024-08-24,Product-1025,SKU-1025,Clothing,Premium,Standard,14,64.19,817.78,482.49,0.09
+2024-08-24,Product-1116,SKU-1116,Sports,Standard,Standard,5,102.59,507.82,284.38,0.01
+2024-08-26,Product-1053,SKU-1053,Beauty,Budget,Premium,12,39.59,465.58,302.63,0.02
+2024-08-27,Product-1119,SKU-1119,Books,Premium,Standard,21,19.19,386.87,232.12,0.04
+2024-08-28,Product-1115,SKU-1115,Home & Garden,Budget,Standard,5,79.19,360.31,147.73,0.09
+2024-08-29,Product-1092,SKU-1092,Sports,Premium,Standard,4,82.79,327.85,199.99,0.01
+2024-08-30,Product-1081,SKU-1081,Clothing,Standard,Premium,15,54.59,761.53,441.69,0.07
+2024-08-30,Product-1003,SKU-1003,Home & Garden,Standard,Budget,21,85.59,1779.42,943.09,0.01
+2024-08-30,Product-1006,SKU-1006,Toys,Budget,Budget,1,32.89,32.23,17.73,0.02
+2024-09-01,Product-1083,SKU-1083,Home & Garden,Standard,Standard,16,77.59,1191.78,655.48,0.04
+2024-09-01,Product-1106,SKU-1106,Food & Beverage,Premium,Budget,38,28.49,1039.32,613.2,0.04
+2024-09-02,Product-1065,SKU-1065,Clothing,Premium,Premium,6,60.59,334.46,163.89,0.08
+2024-09-03,Product-1022,SKU-1022,Toys,Premium,New Discovery,12,32.89,347.32,156.29,0.12
+2024-09-04,Product-1030,SKU-1030,Toys,Standard,New Discovery,20,37.79,710.45,341.02,0.06
+2024-09-04,Product-1066,SKU-1066,Food & Beverage,Premium,Budget,35,28.49,907.41,399.26,0.09
+2024-09-04,Product-1038,SKU-1038,Toys,Standard,Standard,7,39.54,257.41,102.96,0.07
+2024-09-05,Product-1010,SKU-1010,Food & Beverage,Budget,Premium,47,27.99,1197.13,550.68,0.09
+2024-09-05,Product-1028,SKU-1028,Sports,Standard,Budget,20,78.29,1534.48,751.9,0.02
+2024-09-06,Product-1024,SKU-1024,Electronics,Premium,New Discovery,3,140.99,418.74,226.12,0.01
+2024-09-07,Product-1039,SKU-1039,Books,Premium,Standard,1,20.99,20.57,9.67,0.02
+2024-09-07,Product-1065,SKU-1065,Clothing,Premium,Standard,2,66.59,121.19,54.54,0.09
+2024-09-09,Product-1090,SKU-1090,Food & Beverage,Standard,New Discovery,43,28.74,1223.46,587.26,0.01
+2024-09-10,Product-1048,SKU-1048,Electronics,Premium,New Discovery,7,139.49,898.32,467.13,0.08
+2024-09-10,Product-1034,SKU-1034,Food & Beverage,Standard,Premium,30,22.99,641.42,339.95,0.07
+2024-09-10,Product-1029,SKU-1029,Beauty,Budget,New Discovery,19,48.14,878.07,482.94,0.04
+2024-09-11,Product-1102,SKU-1102,Toys,Standard,Standard,9,36.74,324.05,158.78,0.02
+2024-09-11,Product-1031,SKU-1031,Books,Standard,Standard,22,18.19,396.18,249.59,0.01
+2024-09-12,Product-1085,SKU-1085,Beauty,Standard,Standard,14,45.89,629.61,289.62,0.02
+2024-09-12,Product-1008,SKU-1008,Electronics,Budget,Premium,3,157.49,434.67,247.76,0.08
+2024-09-13,Product-1119,SKU-1119,Books,Budget,New Discovery,50,20.39,999.11,509.55,0.02
+2024-09-15,Product-1111,SKU-1111,Books,Budget,Budget,24,18.59,432.78,199.08,0.03
+2024-09-16,Product-1062,SKU-1062,Toys,Premium,Standard,15,33.24,488.63,268.75,0.02
+2024-09-19,Product-1111,SKU-1111,Books,Standard,Budget,1,20.59,19.56,9.39,0.05
+2024-09-19,Product-1010,SKU-1010,Food & Beverage,Premium,Standard,48,22.99,1092.48,546.24,0.01
+2024-09-19,Product-1073,SKU-1073,Clothing,Standard,Premium,20,65.39,1255.49,665.41,0.04
+2024-09-21,Product-1017,SKU-1017,Clothing,Standard,Standard,15,52.79,720.58,425.14,0.09
+2024-09-22,Product-1102,SKU-1102,Toys,Standard,Standard,4,39.89,154.77,72.74,0.03
+2024-09-22,Product-1026,SKU-1026,Food & Beverage,Premium,New Discovery,12,23.24,259.36,127.09,0.07
+2024-09-23,Product-1084,SKU-1084,Sports,Standard,New Discovery,10,87.29,820.53,369.24,0.06
+2024-09-24,Product-1040,SKU-1040,Electronics,Standard,Budget,17,142.49,2422.33,1380.73,0.0
+2024-09-24,Product-1080,SKU-1080,Electronics,Premium,Premium,4,127.49,474.26,199.19,0.07
+2024-09-24,Product-1080,SKU-1080,Electronics,Budget,Standard,18,131.99,2280.79,1322.86,0.04
+2024-09-24,Product-1005,SKU-1005,Beauty,Premium,Budget,15,49.04,728.24,400.53,0.01
+2024-09-25,Product-1108,SKU-1108,Sports,Standard,New Discovery,14,100.79,1199.4,707.65,0.15
+2024-09-26,Product-1068,SKU-1068,Sports,Budget,Standard,8,84.59,609.05,341.07,0.1
+2024-09-26,Product-1078,SKU-1078,Toys,Standard,Premium,6,33.59,191.46,82.33,0.05
+2024-09-27,Product-1066,SKU-1066,Food & Beverage,Standard,Premium,6,27.99,154.5,77.25,0.08
+2024-09-27,Product-1026,SKU-1026,Food & Beverage,Budget,Standard,20,22.49,436.31,253.06,0.03
+2024-09-28,Product-1048,SKU-1048,Electronics,Standard,Standard,20,163.49,3040.91,1368.41,0.07
+2024-09-28,Product-1022,SKU-1022,Toys,Standard,Premium,1,39.54,36.77,19.49,0.07
+2024-09-28,Product-1084,SKU-1084,Sports,Standard,Standard,10,83.69,836.9,401.71,0.0
+2024-09-30,Product-1100,SKU-1100,Sports,Premium,Budget,19,80.99,1523.42,716.01,0.01
+2024-09-30,Product-1025,SKU-1025,Clothing,Premium,New Discovery,6,61.79,352.2,200.75,0.05
+2024-10-01,Product-1089,SKU-1089,Clothing,Standard,New Discovery,14,56.99,726.05,406.59,0.09
+2024-10-01,Product-1038,SKU-1038,Toys,Premium,Standard,10,31.14,302.06,157.07,0.03
+2024-10-01,Product-1120,SKU-1120,Electronics,Premium,Standard,5,128.99,632.05,379.23,0.02
+2024-10-02,Product-1076,SKU-1076,Sports,Standard,Premium,5,82.79,384.97,242.53,0.07
+2024-10-02,Product-1075,SKU-1075,Home & Garden,Premium,Budget,19,83.99,1468.15,734.08,0.08
+2024-10-03,Product-1107,SKU-1107,Home & Garden,Standard,Standard,21,71.19,1390.34,750.78,0.07
+2024-10-05,Product-1052,SKU-1052,Sports,Standard,Budget,19,77.39,1382.19,898.42,0.06
+2024-10-05,Product-1071,SKU-1071,Books,Premium,Standard,12,17.39,196.16,127.5,0.06
+2024-10-06,Product-1084,SKU-1084,Sports,Standard,Budget,10,98.99,940.4,441.99,0.05
+2024-10-06,Product-1090,SKU-1090,Food & Beverage,Standard,Premium,43,25.24,1020.2,469.29,0.06
+2024-10-07,Product-1112,SKU-1112,Electronics,Premium,New Discovery,13,154.49,1666.95,733.46,0.17
+2024-10-08,Product-1014,SKU-1014,Toys,Budget,Standard,8,39.89,303.16,145.52,0.05
+2024-10-09,Product-1094,SKU-1094,Toys,Standard,Premium,12,34.64,403.21,245.96,0.03
+2024-10-11,Product-1054,SKU-1054,Toys,Standard,Budget,10,37.79,347.67,191.22,0.08
+2024-10-11,Product-1064,SKU-1064,Electronics,Premium,Standard,21,148.49,3087.11,1512.68,0.01
+2024-10-12,Product-1064,SKU-1064,Electronics,Premium,Standard,13,130.49,1611.55,805.77,0.05
+2024-10-12,Product-1119,SKU-1119,Books,Budget,New Discovery,46,17.79,744.69,454.26,0.09
+2024-10-12,Product-1053,SKU-1053,Beauty,Standard,Premium,6,46.34,272.48,141.69,0.02
+2024-10-12,Product-1092,SKU-1092,Sports,Standard,Premium,14,92.69,1219.8,670.89,0.06
+2024-10-13,Product-1051,SKU-1051,Home & Garden,Standard,Premium,14,70.39,926.33,435.38,0.06
+2024-10-13,Product-1062,SKU-1062,Toys,Premium,New Discovery,8,34.29,257.86,105.72,0.06
+2024-10-14,Product-1070,SKU-1070,Toys,Premium,Standard,12,30.79,365.79,212.16,0.01
+2024-10-14,Product-1015,SKU-1015,Books,Standard,New Discovery,36,17.19,544.58,348.53,0.12
+2024-10-15,Product-1056,SKU-1056,Electronics,Standard,Premium,16,145.49,2188.17,1159.73,0.06
+2024-10-15,Product-1082,SKU-1082,Food & Beverage,Standard,Premium,36,23.49,820.27,475.76,0.03
+2024-10-16,Product-1015,SKU-1015,Books,Premium,New Discovery,23,21.19,443.51,217.32,0.09
+2024-10-17,Product-1070,SKU-1070,Toys,Budget,Standard,4,33.94,133.04,59.87,0.02
+2024-10-18,Product-1054,SKU-1054,Toys,Premium,Standard,16,38.14,579.73,295.66,0.05
+2024-10-18,Product-1001,SKU-1001,Clothing,Budget,Budget,17,59.39,959.15,565.9,0.05
+2024-10-18,Product-1050,SKU-1050,Food & Beverage,Premium,Budget,17,23.49,379.36,204.85,0.05
+2024-10-18,Product-1085,SKU-1085,Beauty,Budget,Standard,13,46.34,602.42,379.52,0.0
+2024-10-18,Product-1075,SKU-1075,Home & Garden,Premium,Premium,16,78.39,1153.9,738.5,0.08
+2024-10-18,Product-1118,SKU-1118,Toys,Premium,Standard,4,39.19,142.65,87.02,0.09
+2024-10-19,Product-1091,SKU-1091,Home & Garden,Standard,Premium,16,90.39,1431.78,758.84,0.01
+2024-10-19,Product-1053,SKU-1053,Beauty,Budget,Budget,9,44.09,361.1,148.05,0.09
+2024-10-21,Product-1048,SKU-1048,Electronics,Standard,Premium,11,170.99,1768.04,954.74,0.06
+2024-10-22,Product-1016,SKU-1016,Electronics,Standard,Standard,13,128.99,1626.56,748.22,0.03
+2024-10-23,Product-1003,SKU-1003,Home & Garden,Standard,Premium,12,75.99,911.88,528.89,0.0
+2024-10-23,Product-1111,SKU-1111,Books,Standard,Budget,30,18.39,535.15,326.44,0.03
+2024-10-23,Product-1052,SKU-1052,Sports,Premium,Standard,1,98.99,96.02,60.49,0.03
+2024-10-23,Product-1029,SKU-1029,Beauty,Budget,Budget,18,44.54,777.67,419.94,0.03
+2024-10-24,Product-1072,SKU-1072,Electronics,Standard,Standard,16,151.49,2326.89,1140.18,0.04
+2024-10-26,Product-1052,SKU-1052,Sports,Standard,New Discovery,1,89.99,88.19,38.8,0.02
+2024-10-26,Product-1119,SKU-1119,Books,Premium,Premium,39,17.19,616.78,339.23,0.08
+2024-10-27,Product-1115,SKU-1115,Home & Garden,Standard,Budget,12,85.59,1027.08,534.08,0.0
+2024-10-28,Product-1110,SKU-1110,Toys,Standard,Premium,9,35.69,289.09,167.67,0.1
+2024-10-29,Product-1088,SKU-1088,Electronics,Premium,New Discovery,8,170.99,1313.2,590.94,0.04
+2024-10-30,Product-1113,SKU-1113,Clothing,Standard,Standard,16,55.79,812.3,463.01,0.09
+2024-10-30,Product-1072,SKU-1072,Electronics,Budget,Premium,17,143.99,2203.05,991.37,0.1
+2024-11-02,Product-1114,SKU-1114,Food & Beverage,Budget,New Discovery,25,26.99,641.01,294.86,0.05
+2024-11-04,Product-1072,SKU-1072,Electronics,Standard,New Discovery,20,127.49,2498.8,1499.28,0.02
+2024-11-04,Product-1053,SKU-1053,Beauty,Premium,Budget,23,49.94,1148.62,712.14,0.0
+2024-11-05,Product-1082,SKU-1082,Food & Beverage,Standard,Premium,11,27.99,292.5,125.77,0.05
+2024-11-05,Product-1048,SKU-1048,Electronics,Budget,Standard,25,170.99,4146.51,1741.53,0.03
+2024-11-05,Product-1073,SKU-1073,Clothing,Budget,Budget,20,56.39,1093.97,536.05,0.03
+2024-11-06,Product-1046,SKU-1046,Toys,Standard,Standard,23,37.44,800.84,336.35,0.07
+2024-11-06,Product-1102,SKU-1102,Toys,Standard,Budget,2,30.44,58.44,32.73,0.04
+2024-11-06,Product-1118,SKU-1118,Toys,Premium,Premium,2,36.39,68.41,36.26,0.06
+2024-11-07,Product-1072,SKU-1072,Electronics,Budget,Standard,17,140.99,2324.93,1162.46,0.03
+2024-11-07,Product-1090,SKU-1090,Food & Beverage,Standard,New Discovery,35,24.99,822.17,345.31,0.06
+2024-11-07,Product-1049,SKU-1049,Clothing,Standard,Standard,12,68.99,786.49,401.11,0.05
+2024-11-07,Product-1044,SKU-1044,Sports,Premium,Budget,13,86.39,1033.22,526.94,0.08
+2024-11-08,Product-1016,SKU-1016,Electronics,Standard,Budget,13,158.99,2025.53,1134.3,0.02
+2024-11-09,Product-1108,SKU-1108,Sports,Premium,Budget,20,87.29,1658.51,696.57,0.05
+2024-11-09,Product-1109,SKU-1109,Beauty,Standard,Budget,15,47.69,693.89,326.13,0.03
+2024-11-09,Product-1080,SKU-1080,Electronics,Standard,Budget,17,133.49,2178.56,1023.92,0.04
+2024-11-09,Product-1057,SKU-1057,Clothing,Premium,Budget,2,67.79,130.16,65.08,0.04
+2024-11-11,Product-1055,SKU-1055,Books,Premium,Standard,60,18.59,1104.25,629.42,0.01
+2024-11-12,Product-1008,SKU-1008,Electronics,Standard,Premium,23,146.99,3144.12,1886.47,0.07
+2024-11-13,Product-1084,SKU-1084,Sports,Budget,Budget,3,80.99,235.68,131.98,0.03
+2024-11-13,Product-1087,SKU-1087,Books,Premium,Premium,55,18.59,1002.0,571.14,0.02
+2024-11-13,Product-1116,SKU-1116,Sports,Standard,Premium,13,102.59,1320.33,845.01,0.01
+2024-11-13,Product-1038,SKU-1038,Toys,Standard,Budget,22,39.54,869.88,495.83,0.0
+2024-11-13,Product-1113,SKU-1113,Clothing,Standard,Budget,16,64.79,953.71,448.24,0.08
+2024-11-14,Product-1119,SKU-1119,Books,Standard,Premium,16,20.39,322.98,184.1,0.01
+2024-11-15,Product-1064,SKU-1064,Electronics,Premium,Standard,20,133.49,2536.31,1394.97,0.05
+2024-11-16,Product-1107,SKU-1107,Home & Garden,Standard,Premium,5,83.19,378.51,246.03,0.09
+2024-11-16,Product-1012,SKU-1012,Sports,Standard,Standard,11,99.89,1054.84,675.1,0.04
+2024-11-16,Product-1106,SKU-1106,Food & Beverage,Standard,Standard,60,23.99,1338.64,829.96,0.07
+2024-11-16,Product-1039,SKU-1039,Books,Premium,Premium,20,22.59,424.69,191.11,0.06
+2024-11-17,Product-1081,SKU-1081,Clothing,Standard,Standard,15,60.59,881.58,537.76,0.03
+2024-11-18,Product-1035,SKU-1035,Home & Garden,Standard,Standard,10,71.99,676.71,406.03,0.06
+2024-11-18,Product-1037,SKU-1037,Beauty,Standard,Standard,2,49.94,99.88,57.93,0.0
+2024-11-19,Product-1047,SKU-1047,Books,Standard,Budget,47,20.79,908.73,427.1,0.07
+2024-11-19,Product-1018,SKU-1018,Food & Beverage,Standard,Premium,11,28.24,285.79,157.18,0.08
+2024-11-19,Product-1007,SKU-1007,Books,Budget,Budget,1,19.99,19.59,8.62,0.02
+2024-11-20,Product-1079,SKU-1079,Books,Budget,Premium,10,22.59,212.35,129.53,0.06
+2024-11-21,Product-1062,SKU-1062,Toys,Premium,New Discovery,20,36.04,641.51,346.42,0.11
+2024-11-21,Product-1038,SKU-1038,Toys,Premium,New Discovery,6,38.14,194.51,93.36,0.15
+2024-11-21,Product-1112,SKU-1112,Electronics,Premium,Premium,22,164.99,3448.29,1413.8,0.05
+2024-11-22,Product-1009,SKU-1009,Clothing,Budget,Standard,15,50.99,749.55,329.8,0.02
+2024-11-22,Product-1054,SKU-1054,Toys,Standard,Standard,7,38.49,266.74,144.04,0.01
+2024-11-24,Product-1112,SKU-1112,Electronics,Premium,Budget,10,128.99,1160.91,475.97,0.1
+2024-11-24,Product-1049,SKU-1049,Clothing,Standard,Standard,6,56.39,324.81,175.4,0.04
+2024-11-24,Product-1075,SKU-1075,Home & Garden,Premium,Premium,15,91.19,1272.1,775.98,0.07
+2024-11-26,Product-1069,SKU-1069,Beauty,Standard,Budget,7,43.64,302.43,127.02,0.01
+2024-11-28,Product-1054,SKU-1054,Toys,Standard,Standard,3,38.14,107.55,66.68,0.06
+2024-11-28,Product-1096,SKU-1096,Electronics,Premium,Standard,20,167.99,3225.41,1354.67,0.04
+2024-11-28,Product-1100,SKU-1100,Sports,Standard,New Discovery,6,77.39,399.33,235.6,0.14
+2024-11-29,Product-1051,SKU-1051,Home & Garden,Standard,Standard,16,90.39,1330.54,665.27,0.08
+2024-11-29,Product-1081,SKU-1081,Clothing,Budget,New Discovery,8,55.19,397.37,226.5,0.1
+2024-11-29,Product-1022,SKU-1022,Toys,Standard,Premium,7,32.89,227.93,118.52,0.01
+2024-11-30,Product-1053,SKU-1053,Beauty,Standard,Standard,2,45.44,85.43,52.97,0.06
+2024-11-30,Product-1066,SKU-1066,Food & Beverage,Standard,Standard,3,27.74,77.39,49.53,0.07
+2024-12-01,Product-1072,SKU-1072,Electronics,Premium,Premium,4,134.99,512.96,230.83,0.05
+2024-12-01,Product-1054,SKU-1054,Toys,Budget,Standard,19,36.04,643.67,334.71,0.06
+2024-12-01,Product-1002,SKU-1002,Food & Beverage,Standard,New Discovery,36,25.24,826.86,446.5,0.09
+2024-12-03,Product-1108,SKU-1108,Sports,Budget,Standard,5,86.39,393.07,231.91,0.09
+2024-12-03,Product-1031,SKU-1031,Books,Budget,Premium,11,19.59,213.34,91.74,0.01
+2024-12-06,Product-1088,SKU-1088,Electronics,Standard,Standard,2,155.99,299.5,173.71,0.04
+2024-12-10,Product-1086,SKU-1086,Toys,Premium,New Discovery,8,37.09,243.31,121.66,0.18
+2024-12-11,Product-1044,SKU-1044,Sports,Standard,Premium,21,100.79,1926.1,770.44,0.09
+2024-12-11,Product-1109,SKU-1109,Beauty,Premium,New Discovery,15,49.94,734.12,374.4,0.02
+2024-12-12,Product-1052,SKU-1052,Sports,Budget,Budget,23,92.69,2003.96,1082.14,0.06
+2024-12-13,Product-1048,SKU-1048,Electronics,Budget,New Discovery,28,145.49,3340.45,1703.63,0.18
+2024-12-13,Product-1047,SKU-1047,Books,Premium,Standard,56,18.59,999.4,599.64,0.04
+2024-12-13,Product-1055,SKU-1055,Books,Premium,Standard,14,17.59,238.87,105.1,0.03
+2024-12-14,Product-1027,SKU-1027,Home & Garden,Budget,Standard,4,79.99,313.56,194.41,0.02
+2024-12-15,Product-1104,SKU-1104,Electronics,Premium,New Discovery,14,142.49,1974.91,868.96,0.01
+2024-12-17,Product-1088,SKU-1088,Electronics,Standard,New Discovery,7,146.99,1018.64,438.02,0.01
+2024-12-17,Product-1046,SKU-1046,Toys,Standard,Budget,16,36.04,524.74,230.89,0.09
+2024-12-19,Product-1080,SKU-1080,Electronics,Budget,New Discovery,4,143.99,472.29,283.37,0.18
+2024-12-19,Product-1044,SKU-1044,Sports,Budget,Standard,15,79.19,1104.7,497.12,0.07
+2024-12-20,Product-1073,SKU-1073,Clothing,Standard,Budget,21,52.79,1042.07,458.51,0.06
+2024-12-22,Product-1025,SKU-1025,Clothing,Premium,Premium,1,55.19,50.22,32.64,0.09
+2024-12-23,Product-1018,SKU-1018,Food & Beverage,Standard,Standard,40,27.99,1030.03,484.11,0.08
+2024-12-24,Product-1056,SKU-1056,Electronics,Budget,Standard,11,164.99,1651.55,1023.96,0.09
+2024-12-25,Product-1095,SKU-1095,Books,Standard,Standard,25,17.59,426.56,255.94,0.03
+2024-12-27,Product-1119,SKU-1119,Books,Premium,Standard,57,20.19,1058.76,487.03,0.08
+2024-12-30,Product-1066,SKU-1066,Food & Beverage,Standard,Standard,29,23.99,653.97,307.37,0.06
+2024-12-31,Product-1046,SKU-1046,Toys,Standard,Premium,26,40.24,1025.32,440.89,0.02
+2024-12-31,Product-1020,SKU-1020,Sports,Premium,Standard,18,81.89,1474.02,619.09,0.0
+2024-12-31,Product-1013,SKU-1013,Beauty,Standard,Budget,2,43.64,80.3,37.74,0.08
+2025-01-01,Product-1093,SKU-1093,Beauty,Premium,Premium,9,46.34,375.35,176.41,0.1
+2025-01-01,Product-1057,SKU-1057,Clothing,Premium,New Discovery,11,65.99,718.63,352.13,0.01
+2025-01-01,Product-1013,SKU-1013,Beauty,Premium,Premium,13,40.94,494.96,282.13,0.07
+2025-01-01,Product-1069,SKU-1069,Beauty,Standard,Premium,6,42.74,235.92,132.12,0.08
+2025-01-01,Product-1023,SKU-1023,Books,Budget,New Discovery,19,22.59,382.0,198.64,0.11
+2025-01-01,Product-1057,SKU-1057,Clothing,Standard,New Discovery,12,60.59,639.83,396.69,0.12
+2025-01-02,Product-1090,SKU-1090,Food & Beverage,Standard,Standard,4,24.49,93.06,58.63,0.05
+2025-01-03,Product-1079,SKU-1079,Books,Premium,Premium,1,22.79,20.74,9.54,0.09
+2025-01-03,Product-1091,SKU-1091,Home & Garden,Premium,Standard,7,72.79,489.15,264.14,0.04
+2025-01-04,Product-1044,SKU-1044,Sports,Budget,Standard,10,85.49,854.9,418.9,0.0
+2025-01-04,Product-1043,SKU-1043,Home & Garden,Budget,Budget,8,87.19,655.67,275.38,0.06
+2025-01-05,Product-1027,SKU-1027,Home & Garden,Premium,Budget,3,72.79,209.64,132.07,0.04
+2025-01-06,Product-1067,SKU-1067,Home & Garden,Budget,Standard,14,86.39,1148.99,471.09,0.05
+2025-01-06,Product-1046,SKU-1046,Toys,Budget,Premium,5,39.89,181.5,105.27,0.09
+2025-01-06,Product-1023,SKU-1023,Books,Standard,Premium,31,21.99,668.06,374.11,0.02
+2025-01-07,Product-1079,SKU-1079,Books,Standard,Budget,35,19.39,631.14,403.93,0.07
+2025-01-07,Product-1047,SKU-1047,Books,Standard,Standard,22,22.19,468.65,201.52,0.04
+2025-01-07,Product-1034,SKU-1034,Food & Beverage,Standard,New Discovery,11,24.99,263.89,145.14,0.04
+2025-01-08,Product-1021,SKU-1021,Beauty,Budget,Standard,7,47.69,327.15,134.13,0.02
+2025-01-09,Product-1013,SKU-1013,Beauty,Premium,Budget,12,41.39,447.01,178.8,0.1
+2025-01-09,Product-1058,SKU-1058,Food & Beverage,Standard,Premium,41,24.99,963.11,443.03,0.06
+2025-01-10,Product-1091,SKU-1091,Home & Garden,Standard,Standard,4,69.59,264.44,113.71,0.05
+2025-01-10,Product-1027,SKU-1027,Home & Garden,Standard,Standard,2,83.19,151.41,95.39,0.09
+2025-01-10,Product-1028,SKU-1028,Sports,Budget,Budget,9,98.99,864.18,406.16,0.03
+2025-01-11,Product-1088,SKU-1088,Electronics,Standard,Standard,3,161.99,442.23,256.49,0.09
+2025-01-12,Product-1097,SKU-1097,Clothing,Budget,Standard,10,61.19,562.95,225.18,0.08
+2025-01-14,Product-1071,SKU-1071,Books,Standard,Premium,28,19.59,510.12,219.35,0.07
+2025-01-15,Product-1114,SKU-1114,Food & Beverage,Standard,Premium,12,25.24,296.82,169.19,0.02
+2025-01-16,Product-1030,SKU-1030,Toys,Standard,Standard,12,38.49,424.93,191.22,0.08
+2025-01-18,Product-1081,SKU-1081,Clothing,Standard,Budget,2,65.39,121.63,76.63,0.07
+2025-01-19,Product-1020,SKU-1020,Sports,Premium,Budget,1,89.09,85.53,45.33,0.04
+2025-01-19,Product-1061,SKU-1061,Beauty,Standard,Standard,16,38.24,605.72,248.35,0.01
+2025-01-20,Product-1080,SKU-1080,Electronics,Budget,Standard,9,158.99,1359.36,543.74,0.05
+2025-01-20,Product-1093,SKU-1093,Beauty,Standard,Standard,17,42.29,704.55,387.5,0.02
+2025-01-21,Product-1002,SKU-1002,Food & Beverage,Standard,Premium,33,26.74,829.47,514.27,0.06
+2025-01-22,Product-1041,SKU-1041,Clothing,Standard,Standard,3,57.59,165.86,79.61,0.04
+2025-01-23,Product-1001,SKU-1001,Clothing,Budget,Standard,10,63.59,578.67,260.4,0.09
+2025-01-26,Product-1064,SKU-1064,Electronics,Budget,Standard,1,131.99,118.79,74.84,0.1
+2025-01-26,Product-1040,SKU-1040,Electronics,Premium,Standard,4,140.99,535.76,305.38,0.05
+2025-01-26,Product-1019,SKU-1019,Home & Garden,Standard,Premium,10,75.99,706.71,360.42,0.07
+2025-01-27,Product-1037,SKU-1037,Beauty,Standard,Standard,5,40.49,200.43,124.27,0.01
+2025-01-28,Product-1012,SKU-1012,Sports,Standard,New Discovery,9,99.89,728.2,327.69,0.19
+2025-01-28,Product-1069,SKU-1069,Beauty,Standard,Budget,5,49.04,245.2,117.7,0.0
+2025-01-29,Product-1103,SKU-1103,Books,Standard,Premium,10,19.59,195.9,127.34,0.0
+2025-01-29,Product-1047,SKU-1047,Books,Budget,Premium,15,17.39,250.42,147.75,0.04
+2025-01-31,Product-1111,SKU-1111,Books,Budget,New Discovery,2,17.19,33.69,15.16,0.02
+2025-02-01,Product-1037,SKU-1037,Beauty,Premium,Standard,6,40.49,228.36,116.46,0.06
+2025-02-02,Product-1067,SKU-1067,Home & Garden,Premium,New Discovery,2,85.59,145.5,80.03,0.15
+2025-02-02,Product-1037,SKU-1037,Beauty,Standard,Budget,8,41.39,307.94,184.76,0.07
+2025-02-02,Product-1030,SKU-1030,Toys,Budget,New Discovery,6,31.84,166.2,83.1,0.13
+2025-02-04,Product-1047,SKU-1047,Books,Budget,Budget,8,20.39,158.23,87.03,0.03
+2025-02-04,Product-1095,SKU-1095,Books,Budget,New Discovery,33,18.19,564.25,259.56,0.06
+2025-02-05,Product-1017,SKU-1017,Clothing,Standard,Standard,15,65.99,940.36,517.2,0.05
+2025-02-05,Product-1005,SKU-1005,Beauty,Budget,Premium,16,43.64,635.4,279.58,0.09
+2025-02-06,Product-1077,SKU-1077,Beauty,Standard,Standard,9,41.84,372.79,182.67,0.01
+2025-02-06,Product-1054,SKU-1054,Toys,Premium,Premium,4,30.79,120.7,66.39,0.02
+2025-02-06,Product-1069,SKU-1069,Beauty,Premium,Budget,5,44.99,204.7,124.87,0.09
+2025-02-06,Product-1020,SKU-1020,Sports,Standard,Premium,15,87.29,1217.7,742.8,0.07
+2025-02-09,Product-1033,SKU-1033,Clothing,Premium,Budget,8,56.39,428.56,235.71,0.05
+2025-02-10,Product-1040,SKU-1040,Electronics,Standard,Standard,12,139.49,1606.92,658.84,0.04
+2025-02-11,Product-1065,SKU-1065,Clothing,Premium,New Discovery,5,57.59,253.4,141.9,0.12
+2025-02-11,Product-1079,SKU-1079,Books,Standard,New Discovery,34,17.79,526.23,299.95,0.13
+2025-02-11,Product-1033,SKU-1033,Clothing,Premium,Budget,7,51.59,346.68,201.07,0.04
+2025-02-11,Product-1109,SKU-1109,Beauty,Premium,Premium,2,51.29,95.4,56.29,0.07
+2025-02-14,Product-1007,SKU-1007,Books,Budget,Budget,34,17.79,574.62,344.77,0.05
+2025-02-14,Product-1050,SKU-1050,Food & Beverage,Standard,Budget,22,27.99,560.36,296.99,0.09
+2025-02-14,Product-1041,SKU-1041,Clothing,Standard,Budget,5,65.99,306.85,190.25,0.07
+2025-02-15,Product-1094,SKU-1094,Toys,Standard,Premium,15,30.09,424.27,246.08,0.06
+2025-02-16,Product-1036,SKU-1036,Sports,Premium,Standard,12,96.29,1155.48,519.97,0.0
+2025-02-18,Product-1046,SKU-1046,Toys,Budget,Standard,12,31.49,347.65,156.44,0.08
+2025-02-19,Product-1076,SKU-1076,Sports,Standard,Budget,8,95.39,709.7,461.31,0.07
+2025-02-20,Product-1105,SKU-1105,Clothing,Budget,Premium,4,51.59,193.98,118.33,0.06
+2025-02-20,Product-1003,SKU-1003,Home & Garden,Budget,Premium,8,86.39,677.3,298.01,0.02
+2025-02-21,Product-1096,SKU-1096,Electronics,Premium,Budget,16,170.99,2599.05,1533.44,0.05
+2025-02-22,Product-1095,SKU-1095,Books,Premium,New Discovery,39,19.39,635.22,304.91,0.16
+2025-02-24,Product-1022,SKU-1022,Toys,Budget,Premium,4,31.14,113.35,69.14,0.09
+2025-02-28,Product-1020,SKU-1020,Sports,Standard,Standard,1,84.59,82.05,45.95,0.03
+2025-02-28,Product-1041,SKU-1041,Clothing,Standard,Standard,16,54.59,855.97,376.63,0.02
+2025-03-01,Product-1009,SKU-1009,Clothing,Standard,New Discovery,14,68.39,832.99,341.53,0.13
+2025-03-01,Product-1109,SKU-1109,Beauty,Standard,New Discovery,16,49.94,759.09,341.59,0.05
+2025-03-01,Product-1010,SKU-1010,Food & Beverage,Budget,Standard,33,22.74,735.41,301.52,0.02
+2025-03-02,Product-1028,SKU-1028,Sports,Standard,Standard,5,98.09,441.41,273.67,0.1
+2025-03-02,Product-1084,SKU-1084,Sports,Premium,Standard,18,84.59,1522.62,730.86,0.0
+2025-03-03,Product-1024,SKU-1024,Electronics,Budget,Budget,6,151.49,845.31,464.92,0.07
+2025-03-05,Product-1065,SKU-1065,Clothing,Budget,Premium,7,53.99,359.03,222.6,0.05
+2025-03-07,Product-1074,SKU-1074,Food & Beverage,Budget,New Discovery,36,24.49,775.84,426.71,0.12
+2025-03-08,Product-1046,SKU-1046,Toys,Standard,Standard,18,34.99,573.14,263.64,0.09
+2025-03-09,Product-1040,SKU-1040,Electronics,Standard,Standard,1,170.99,155.6,96.47,0.09
+2025-03-10,Product-1047,SKU-1047,Books,Premium,Standard,42,21.59,870.51,383.02,0.04
+2025-03-11,Product-1042,SKU-1042,Food & Beverage,Standard,Standard,22,26.49,576.95,230.78,0.01
+2025-03-12,Product-1076,SKU-1076,Sports,Standard,Premium,9,96.29,788.62,410.08,0.09
+2025-03-13,Product-1096,SKU-1096,Electronics,Standard,New Discovery,16,155.99,2271.21,1430.86,0.09
+2025-03-14,Product-1050,SKU-1050,Food & Beverage,Premium,New Discovery,13,25.99,297.33,133.8,0.12
+2025-03-14,Product-1117,SKU-1117,Beauty,Premium,Premium,10,47.24,425.16,208.33,0.1
+2025-03-15,Product-1086,SKU-1086,Toys,Budget,Premium,3,32.19,87.88,56.24,0.09
+2025-03-15,Product-1108,SKU-1108,Sports,Standard,Budget,16,101.69,1594.5,765.36,0.02
+2025-03-16,Product-1063,SKU-1063,Books,Budget,Premium,12,19.99,230.28,110.53,0.04
+2025-03-16,Product-1047,SKU-1047,Books,Premium,Standard,11,20.39,217.56,128.36,0.03
+2025-03-17,Product-1098,SKU-1098,Food & Beverage,Standard,Premium,9,24.99,202.42,105.26,0.1
+2025-03-18,Product-1014,SKU-1014,Toys,Standard,Standard,6,30.44,164.38,85.48,0.1
+2025-03-18,Product-1048,SKU-1048,Electronics,Standard,Premium,16,146.99,2281.28,980.95,0.03
+2025-03-19,Product-1018,SKU-1018,Food & Beverage,Budget,Standard,23,22.24,506.4,207.62,0.01
+2025-03-19,Product-1069,SKU-1069,Beauty,Premium,Premium,11,48.14,497.77,224.0,0.06
+2025-03-19,Product-1052,SKU-1052,Sports,Standard,Premium,7,85.49,580.48,336.68,0.03
+2025-03-19,Product-1084,SKU-1084,Sports,Premium,Standard,13,89.99,1111.38,600.15,0.05
+2025-03-19,Product-1024,SKU-1024,Electronics,Standard,New Discovery,10,142.49,1182.67,626.82,0.17
+2025-03-19,Product-1033,SKU-1033,Clothing,Premium,Premium,12,55.79,636.01,260.76,0.05
+2025-03-20,Product-1074,SKU-1074,Food & Beverage,Budget,Standard,2,27.49,50.03,26.02,0.09
+2025-03-22,Product-1040,SKU-1040,Electronics,Standard,New Discovery,1,139.49,125.54,71.56,0.1
+2025-03-22,Product-1114,SKU-1114,Food & Beverage,Standard,Premium,41,27.99,1124.64,517.33,0.02
+2025-03-25,Product-1001,SKU-1001,Clothing,Standard,Budget,12,61.19,690.22,317.5,0.06
+2025-03-26,Product-1064,SKU-1064,Electronics,Premium,Standard,12,158.99,1736.17,972.26,0.09
+2025-03-27,Product-1001,SKU-1001,Clothing,Standard,Standard,9,60.59,507.14,304.28,0.07
+2025-03-27,Product-1104,SKU-1104,Electronics,Budget,Budget,8,170.99,1340.56,616.66,0.02
+2025-03-28,Product-1071,SKU-1071,Books,Budget,Standard,20,22.19,412.73,181.6,0.07
+2025-03-29,Product-1076,SKU-1076,Sports,Premium,Premium,14,85.49,1196.86,490.71,0.0
+2025-03-29,Product-1046,SKU-1046,Toys,Premium,Standard,9,32.89,296.01,136.16,0.0
+2025-04-03,Product-1114,SKU-1114,Food & Beverage,Standard,Budget,41,25.74,1002.57,501.29,0.05
+2025-04-04,Product-1056,SKU-1056,Electronics,Premium,New Discovery,12,152.99,1633.93,702.59,0.11
+2025-04-06,Product-1058,SKU-1058,Food & Beverage,Standard,Standard,22,25.74,560.62,308.34,0.01
+2025-04-06,Product-1062,SKU-1062,Toys,Budget,New Discovery,1,32.89,27.3,11.19,0.17
+2025-04-07,Product-1074,SKU-1074,Food & Beverage,Standard,Standard,4,25.74,99.87,47.94,0.03
+2025-04-07,Product-1004,SKU-1004,Sports,Budget,Premium,1,97.19,95.25,48.58,0.02
+2025-04-08,Product-1087,SKU-1087,Books,Premium,New Discovery,39,22.39,820.82,361.16,0.06
+2025-04-08,Product-1037,SKU-1037,Beauty,Premium,Standard,13,40.94,489.64,293.78,0.08
