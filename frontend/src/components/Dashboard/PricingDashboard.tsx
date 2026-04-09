@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import {
   PieChart,
@@ -9,6 +10,7 @@ import {
 } from 'recharts';
 import { TrendingUp, TrendingDown, Tag, Target } from 'lucide-react';
 import KPICard from './KPICard';
+import Pagination from '../Common/Pagination';
 
 interface PricingRecord {
   product_id: string;
@@ -75,6 +77,13 @@ function ActionBadge({ action }: { action: string }) {
 }
 
 export default function PricingDashboard({ data, summary }: PricingDashboardProps) {
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+
+  const totalPages = Math.ceil(data.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const paginatedData = data.slice(startIndex, startIndex + itemsPerPage);
+
   const pieData = [
     { name: 'Increase', value: summary.increase_count, fill: ACTION_COLORS.increase },
     { name: 'Decrease', value: summary.decrease_count, fill: ACTION_COLORS.decrease },
@@ -190,7 +199,6 @@ export default function PricingDashboard({ data, summary }: PricingDashboardProp
         </motion.div>
       </div>
 
-      {/* Sample records table */}
       {data.length > 0 && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -198,7 +206,7 @@ export default function PricingDashboard({ data, summary }: PricingDashboardProp
           transition={{ delay: 0.3 }}
           className="glass rounded-2xl p-5"
         >
-          <h3 className="text-sm font-semibold text-white mb-4">Pricing Recommendations (Top 10)</h3>
+          <h3 className="text-sm font-semibold text-white mb-4">Pricing Recommendations</h3>
           <div className="overflow-x-auto">
             <table className="w-full text-xs">
               <thead>
@@ -212,7 +220,7 @@ export default function PricingDashboard({ data, summary }: PricingDashboardProp
                 </tr>
               </thead>
               <tbody>
-                {data.slice(0, 10).map((r) => (
+                {paginatedData.map((r) => (
                   <tr key={r.product_id} className="border-b border-white/5 hover:bg-white/3 transition-colors">
                     <td className="py-2.5 pr-4 text-slate-300 font-mono">#{r.product_id}</td>
                     <td className="py-2.5 pr-4 text-right text-white">${r.current_price.toFixed(2)}</td>
@@ -227,6 +235,13 @@ export default function PricingDashboard({ data, summary }: PricingDashboardProp
               </tbody>
             </table>
           </div>
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            totalItems={data.length}
+            itemsPerPage={itemsPerPage}
+            onPageChange={setCurrentPage}
+          />
         </motion.div>
       )}
     </div>

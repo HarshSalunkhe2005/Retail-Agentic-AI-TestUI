@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import {
   PieChart,
@@ -14,6 +15,7 @@ import {
 } from 'recharts';
 import { Users, AlertTriangle, Activity, TrendingDown } from 'lucide-react';
 import KPICard from './KPICard';
+import Pagination from '../Common/Pagination';
 
 interface ChurnRecord {
   customer_id: string;
@@ -53,6 +55,13 @@ const CustomTooltip = ({ active, payload }: { active?: boolean; payload?: Array<
 };
 
 export default function ChurnDashboard({ data, summary }: ChurnDashboardProps) {
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+
+  const sortedData = [...data].sort((a, b) => b.churn_risk - a.churn_risk);
+  const totalPages = Math.ceil(sortedData.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const paginatedData = sortedData.slice(startIndex, startIndex + itemsPerPage);
   const segmentPieData = Object.entries(summary.segment_distribution).map(
     ([name, value], i) => ({ name, value, fill: PIE_COLORS[i % PIE_COLORS.length] })
   );
@@ -192,10 +201,7 @@ export default function ChurnDashboard({ data, summary }: ChurnDashboardProps) {
                 </tr>
               </thead>
               <tbody>
-                {[...data]
-                  .sort((a, b) => b.churn_risk - a.churn_risk)
-                  .slice(0, 10)
-                  .map((r) => (
+                {paginatedData.map((r) => (
                     <tr key={r.customer_id} className="border-b border-white/5 hover:bg-white/3 transition-colors">
                       <td className="py-2 pr-4 text-white font-mono">{r.customer_id}</td>
                       <td className="py-2 pr-4 text-slate-300">{r.segment}</td>
@@ -219,6 +225,13 @@ export default function ChurnDashboard({ data, summary }: ChurnDashboardProps) {
               </tbody>
             </table>
           </div>
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            totalItems={sortedData.length}
+            itemsPerPage={itemsPerPage}
+            onPageChange={setCurrentPage}
+          />
         </motion.div>
       )}
     </div>

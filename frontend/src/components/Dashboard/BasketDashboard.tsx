@@ -1,6 +1,8 @@
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ShoppingCart, Link2, Package, Star } from 'lucide-react';
 import KPICard from './KPICard';
+import Pagination from '../Common/Pagination';
 
 interface BasketRule {
   antecedent: string[];
@@ -39,9 +41,15 @@ function LiftBadge({ lift }: { lift: number }) {
 }
 
 export default function BasketDashboard({ rules, summary }: BasketDashboardProps) {
-  const top10 = [...rules]
-    .sort((a, b) => (b.composite_score ?? b.lift) - (a.composite_score ?? a.lift))
-    .slice(0, 10);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+
+  const sortedRules = [...rules].sort(
+    (a, b) => (b.composite_score ?? b.lift) - (a.composite_score ?? a.lift)
+  );
+  const totalPages = Math.ceil(sortedRules.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const paginatedRules = sortedRules.slice(startIndex, startIndex + itemsPerPage);
 
   return (
     <div className="space-y-6">
@@ -107,9 +115,9 @@ export default function BasketDashboard({ rules, summary }: BasketDashboardProps
               </tr>
             </thead>
             <tbody>
-              {top10.map((rule, i) => (
+              {paginatedRules.map((rule, i) => (
                 <tr key={i} className="border-b border-white/5 hover:bg-white/3 transition-colors">
-                  <td className="py-2.5 pr-4 text-slate-500">{i + 1}</td>
+                  <td className="py-2.5 pr-4 text-slate-500">{startIndex + i + 1}</td>
                   <td className="py-2.5 pr-4">
                     <div className="flex flex-wrap gap-1">
                       {rule.antecedent.map((item, j) => (
@@ -142,11 +150,13 @@ export default function BasketDashboard({ rules, summary }: BasketDashboardProps
             </tbody>
           </table>
         </div>
-        {rules.length > 10 && (
-          <p className="text-xs text-slate-600 mt-3 text-right">
-            Showing top 10 of {rules.length} rules
-          </p>
-        )}
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          totalItems={sortedRules.length}
+          itemsPerPage={itemsPerPage}
+          onPageChange={setCurrentPage}
+        />
       </motion.div>
     </div>
   );
