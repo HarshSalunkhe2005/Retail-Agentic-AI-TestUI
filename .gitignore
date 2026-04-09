@@ -1,0 +1,11 @@
+venv/
+*.pyc
+__pycache__/
+.DS_Store
+file_hierarchy.txt
+.streamlit/secrets.toml
+.env
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
