@@ -66,7 +66,7 @@ export default function ChurnDashboard({ data, summary }: ChurnDashboardProps) {
     { range: '80-100%', count: 0, fill: '#dc2626' },
   ];
   data.forEach((r) => {
-    const idx = Math.min(Math.floor(r.churn_risk / 20), 4);
+    const idx = Math.min(Math.floor(Math.min(r.churn_risk, 99.99) / 20), 4);
     riskBuckets[idx].count++;
   });
 

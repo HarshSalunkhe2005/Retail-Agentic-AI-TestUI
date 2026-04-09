@@ -72,7 +72,8 @@ All 21 columns — works with **all 4 models**.
 | `Discount` | float | — | Discount rate (0.00–0.20) |
 
 **Demand model required columns:** `Date` + `Revenue` (or `Quantity`)  
-**Basket model required columns:** `SKU` (as ProductName) — *note: no InvoiceID column, so Basket model is not compatible with this file alone*
+**Basket model required columns:** `SKU` (matched as ProductName) + an Invoice/Order ID column  
+> ⚠️ `retail_sales_data.csv` does **not** have an `InvoiceID` column, so the Basket model will not be compatible with this file. Use `complete_dataset.csv` to run Basket analysis.
 
 ---
 

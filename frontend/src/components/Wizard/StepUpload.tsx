@@ -38,6 +38,11 @@ export default function StepUpload() {
         setError('Please upload a CSV file (.csv)');
         return;
       }
+      const maxBytes = 100 * 1024 * 1024; // 100 MB
+      if (file.size > maxBytes) {
+        setError(`File too large (${(file.size / 1024 / 1024).toFixed(1)} MB). Maximum allowed size is 100 MB.`);
+        return;
+      }
       setError(null);
       setDetectedModels(null);
       setIsLoading(true);
