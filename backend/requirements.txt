@@ -9,3 +9,4 @@ prophet>=1.1,<2.0
 xgboost>=2.0,<3.0
 cmdstanpy>=1.1,<2.0
 python-dotenv>=1.0,<2.0
+mlxtend>=0.22,<1.0
