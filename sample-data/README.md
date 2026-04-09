@@ -1,18 +1,19 @@
 # Sample Data — Retail Agentic AI
 
-This folder contains ready-to-use CSV files for testing the Retail Agentic AI UI. Upload any file directly through the wizard — compatible models are auto-detected.
+This folder contains four focused CSV files — one per AI model. Each dataset is designed to be compatible with **exactly one** model, preventing false positives during auto-detection.
 
 ---
 
 ## Files
 
-| File | Rows | Compatible Models |
-|------|------|-------------------|
-| `complete_dataset.csv` | 520 | ✅ **ALL 4 models** (Churn, Demand, Basket, Pricing) |
-| `customer_data.csv` | 210 | ✅ Churn only |
-| `retail_sales_data.csv` | 520 | ✅ Demand, Basket |
+| File | Rows | Compatible Model |
+|------|------|-----------------|
+| `churn_analysis.csv` | 150 | ✅ **Churn** ONLY |
+| `demand_forecast.csv` | 104 | ✅ **Demand** ONLY |
+| `market_basket.csv` | ~670 | ✅ **Basket** ONLY |
+| `pricing_optimization.csv` | ~120 | ✅ **Pricing** ONLY |
 
-> **Tip:** Use `complete_dataset.csv` to test all four AI models in a single run.
+> **Rule:** Upload a file and only its matching model will show as compatible — no false positives.
 
 ---
 
@@ -34,55 +35,85 @@ This folder contains ready-to-use CSV files for testing the Retail Agentic AI UI
 
 3. Open [http://localhost:5173](http://localhost:5173) → **Launch Wizard**
 
-4. **Step 1 – Upload**: drag-and-drop `complete_dataset.csv`
-   - The app auto-detects which models are compatible
-   - All 4 models should show as ✅ available
+4. **Step 1 – Upload**: drag-and-drop any of the four CSVs
+   - The app auto-detects which model is compatible
+   - Only the matching model should show as ✅ available
 
-5. **Step 2 – Preview**: inspect the data columns
-
-6. **Step 3 – Select Models**: all compatible models are pre-selected
-
-7. **Step 4 – Execute**: models run in parallel with real-time progress
-
-8. **Step 5 – Results**: results displayed in order:
-   - 👥 Customer Churn
-   - 📊 Demand Forecasting
-   - 🛒 Market Basket Analysis
-   - 📈 Pricing Intelligence
+5. Follow the wizard steps to run the model and view results.
 
 ---
 
 ## File Details
 
-### complete_dataset.csv — Use with ALL models
+### `churn_analysis.csv` — Customer Churn Model
 
-520 rows combining retail sales data with customer RFM metrics.
-Each row represents one sales transaction linked to a customer.
+150 customer records with RFM (Recency, Frequency, Monetary) metrics across five lifecycle segments.
 
-**Columns added beyond retail_sales_data.csv:**
-- `InvoiceID` — transaction identifier (for Basket model)
-- `CompetitorPrice` — competitor pricing (for Pricing model)
-- `CustomerID`, `Segment`, `LTValue`, `RecencyDays`, `FrequencyMonths`, `MonetaryValue`, `ChurnRisk`, `HealthScore` — from customer_data.csv (for Churn model)
+**Required columns:** `RecencyDays`, `FrequencyMonths`, `MonetaryValue`  
+**Optional column:** `CustomerID`
 
----
-
-### customer_data.csv — Churn model only
-
-210 customer records with RFM (Recency, Frequency, Monetary) metrics and health scores.
-
-**Required columns for Churn model:** `RecencyDays`, `FrequencyMonths`, `MonetaryValue`
+**Segments included:**
+- **Champion** (~25): Recent buyers, high frequency, high spend
+- **Loyal** (~30): Good recency & frequency, solid monetary value
+- **CoreActive** (~35): Moderate metrics across the board
+- **AtRisk** (~30): Declining recency, lower frequency
+- **Dormant** (~30): Haven't purchased in 5–12 months, very low activity
 
 ---
 
-### retail_sales_data.csv — Demand & Basket models
+### `demand_forecast.csv` — Demand Forecasting Model
 
-520 daily sales transactions with product, category, pricing and revenue data.
+104 weekly sales records covering 2 years (2023–2024) with seasonal patterns and an annual upward trend.
 
-**Required columns:**
-- Demand model: `Date`, `Revenue` (or `Quantity`)
-- Basket model: `SKU` (ProductName), `ProductID` + any invoice column
+**Required columns:** `Date`, `Sales`
+
+**Patterns:**
+- Steady upward trend over the 2-year period
+- Q4 holiday spike (November–December)
+- Natural seasonal oscillation throughout the year
 
 ---
 
-See `data_descriptions.md` for full column-by-column reference.
+### `market_basket.csv` — Market Basket Analysis Model
+
+~670 transaction line-items across 400 orders, with cross-category purchase patterns.
+
+**Required columns:** `Invoice`, `ProductName`  
+**Optional column:** `Category`
+
+**Item categories:** Electronics, Accessories, Office, Mobile, Home  
+**Association patterns built in:**
+- Laptop → USB-C Cable, Laptop Bag, Mouse, Keyboard
+- Monitor → Monitor Riser, HDMI Cable
+- Wireless Charger → Power Bank, Phone Case
+- Smart Bulb → Smart Plug, Extension Cord
+
+---
+
+### `pricing_optimization.csv` — Pricing Intelligence Model
+
+~120 products with current price, competitor price, ratings, and categories.
+
+**Required columns:** `current_price`, `competitor_price`  
+**Optional columns:** `ProductID`, `ProductName`, `rating`, `category`
+
+**Pricing scenarios:**
+- **Overpriced** (should decrease): our price > competitor price by >10 %
+- **Underpriced** (should increase): competitor price > our price by >10 %
+- **Competitive** (hold): prices within ~5–10 % of each other
+
+---
+
+## Validation
+
+To verify strict model compatibility, upload each file and confirm:
+
+```
+churn_analysis.csv        → Compatible: Churn ONLY   ✅
+demand_forecast.csv       → Compatible: Demand ONLY  ✅
+market_basket.csv         → Compatible: Basket ONLY  ✅
+pricing_optimization.csv  → Compatible: Pricing ONLY ✅
+```
+
+No other model should appear as compatible for any file.
 
