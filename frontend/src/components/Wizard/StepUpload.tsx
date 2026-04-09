@@ -2,11 +2,19 @@ import { useCallback, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Upload, FileText, X, AlertCircle } from 'lucide-react';
 import { useWizardStore } from '../../store/wizardStore';
+import { useShallow } from 'zustand/react/shallow';
 import { parseCSV } from '../../utils/csvParser';
 import Button from '../Common/Button';
 
 export default function StepUpload() {
-  const { setCsvFile, setCsvData, nextStep, csvFile } = useWizardStore();
+  const { setCsvFile, setCsvData, nextStep, csvFile } = useWizardStore(
+    useShallow((s) => ({
+      setCsvFile: s.setCsvFile,
+      setCsvData: s.setCsvData,
+      nextStep: s.nextStep,
+      csvFile: s.csvFile,
+    }))
+  );
   const [isDragging, setIsDragging] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);

@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { useWizardStore } from '../../store/wizardStore';
+import { useShallow } from 'zustand/react/shallow';
 import type { ModelKey } from '../../store/wizardStore';
 import Button from '../Common/Button';
 import { TrendingUp, Users, BarChart2, ShoppingCart, Package, Check } from 'lucide-react';
@@ -96,7 +97,15 @@ const colorConfig: Record<string, { border: string; bg: string; text: string; ba
 };
 
 export default function StepSelectModels() {
-  const { selectedModels, toggleModel, nextStep, prevStep, setSelectedModels } = useWizardStore();
+  const { selectedModels, toggleModel, nextStep, prevStep, setSelectedModels } = useWizardStore(
+    useShallow((s) => ({
+      selectedModels: s.selectedModels,
+      toggleModel: s.toggleModel,
+      nextStep: s.nextStep,
+      prevStep: s.prevStep,
+      setSelectedModels: s.setSelectedModels,
+    }))
+  );
 
   const toggleAll = () => {
     if (selectedModels.length === MODELS.length) {

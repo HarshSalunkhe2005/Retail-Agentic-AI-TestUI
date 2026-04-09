@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useWizardStore } from '../../store/wizardStore';
+import { useShallow } from 'zustand/react/shallow';
 import { useDataProcessing } from '../../hooks/useDataProcessing';
 import { CheckCircle, Loader2, Clock, AlertCircle } from 'lucide-react';
 import Button from '../Common/Button';
@@ -15,14 +16,23 @@ const MODEL_ICONS: Record<string, string> = {
 
 export default function StepExecute() {
   const { modelResults, selectedModels, isProcessing, processingProgress, prevStep } =
-    useWizardStore();
-  const { runModels } = useDataProcessing();
+    useWizardStore(
+      useShallow((s) => ({
+        modelResults: s.modelResults,
+        selectedModels: s.selectedModels,
+        isProcessing: s.isProcessing,
+        processingProgress: s.processingProgress,
+        prevStep: s.prevStep,
+      }))
+    );
+  const { runModels, cancelModels } = useDataProcessing();
 
   useEffect(() => {
     runModels();
-  }, [runModels]);
+    return () => cancelModels();
+  }, [runModels, cancelModels]);
 
-  const allDone = selectedModels.every((m) => modelResults[m].status === 'done');
+  const allDone = selectedModels.length > 0 && selectedModels.every((m) => modelResults[m].status === 'done');
 
   return (
     <div className="max-w-2xl mx-auto">
@@ -131,7 +141,7 @@ export default function StepExecute() {
         </Button>
         {allDone && (
           <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }}>
-            <Button size="lg">
+            <Button size="lg" onClick={() => useWizardStore.getState().nextStep()}>
               View Results →
             </Button>
           </motion.div>
