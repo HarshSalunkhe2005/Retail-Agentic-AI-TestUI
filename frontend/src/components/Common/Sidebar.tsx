@@ -75,7 +75,7 @@ export default function Sidebar() {
       <div className="mt-auto px-3">
         <div className="glass rounded-xl p-3 text-center">
           <p className="text-xs text-slate-400">Retail Agentic AI</p>
-          <p className="text-xs text-slate-600 mt-0.5">Teacher Demo v1.0</p>
+          <p className="text-xs text-slate-600 mt-0.5">Team </p>
         </div>
       </div>
     </aside>

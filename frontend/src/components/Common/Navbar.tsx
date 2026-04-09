@@ -46,13 +46,6 @@ export default function Navbar() {
             );
           })}
         </div>
-
-        {/* Badge */}
-        <div className="flex items-center gap-2">
-          <div className="px-3 py-1 rounded-full text-xs font-medium bg-purple-500/20 text-purple-300 border border-purple-500/30">
-            v1.0
-          </div>
-        </div>
       </div>
     </nav>
   );
