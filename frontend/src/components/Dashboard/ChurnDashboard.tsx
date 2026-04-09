@@ -197,7 +197,7 @@ export default function ChurnDashboard({ data, summary }: ChurnDashboardProps) {
           transition={{ delay: 0.3 }}
           className="glass rounded-2xl p-5"
         >
-          <h3 className="text-sm font-semibold text-white mb-4">All Customers</h3>
+          <h3 className="text-sm font-semibold text-white mb-4">Top At-Risk Customers</h3>
           <div className="overflow-x-auto">
             <table className="w-full text-xs">
               <thead>
