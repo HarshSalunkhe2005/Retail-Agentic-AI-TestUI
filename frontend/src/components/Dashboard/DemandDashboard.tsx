@@ -149,8 +149,8 @@ export default function DemandDashboard({ forecastData, summary }: DemandDashboa
               type="monotone"
               dataKey="upper"
               name="Upper Bound"
-              stroke="#06b6d4"
-              fill="#06b6d420"
+              stroke="#3b82f620"
+              fill="#3b82f615"
               strokeWidth={1}
               dot={false}
             />
@@ -158,8 +158,8 @@ export default function DemandDashboard({ forecastData, summary }: DemandDashboa
               type="monotone"
               dataKey="lower"
               name="Lower Bound"
-              stroke="#a855f7"
-              fill="#a855f720"
+              stroke="#3b82f620"
+              fill="#0f172a"
               strokeWidth={1}
               dot={false}
             />
