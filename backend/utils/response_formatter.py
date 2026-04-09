@@ -33,5 +33,8 @@ def format_demand_response(forecast_data: list[dict], summary: dict) -> dict:
 
 # ── Basket ─────────────────────────────────────────────────────────────────────
 
-def format_basket_response(rules: list[dict], summary: dict) -> dict:
-    return _success("basket", rules=rules, summary=summary)
+def format_basket_response(rules: list[dict], summary: dict, pagination: dict | None = None) -> dict:
+    result = _success("basket", rules=rules, summary=summary)
+    if pagination is not None:
+        result["pagination"] = pagination
+    return result

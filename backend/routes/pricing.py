@@ -88,15 +88,15 @@ async def run_pricing(file: UploadFile = File(...)):
     action_counts: dict[str, int] = {"increase": 0, "decrease": 0, "discount": 0, "hold": 0}
     total_confidence = 0.0
 
-    for i, row in enumerate(df.itertuples(index=False)):
+    for i, (_, row) in enumerate(df.iterrows()):
         action_id  = int(action_ids[i])
         probs      = probas[i]
         confidence = float(probs.max())
         action     = PRICING_LABEL_MAP[action_id]
 
-        cur  = float(getattr(row, "_current_price"))
-        comp = float(getattr(row, "_competitor_price"))
-        rat  = float(getattr(row, "_rating"))
+        cur  = float(row['_current_price'])
+        comp = float(row['_competitor_price'])
+        rat  = float(row['_rating'])
 
         # Business override: low rating + overpriced → force decrease
         if rat < 3.0 and (cur / comp if comp > 0 else 1.0) > 1.0:
