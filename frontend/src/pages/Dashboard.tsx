@@ -115,7 +115,7 @@ export default function Dashboard() {
               delay={0.15}
             />
             <KPICard
-              title="AOV"
+              title="Average Order Value"
               value={`$${kpi.avgOrderValue}`}
               trend={5.7}
               icon={<ShoppingBag className="w-5 h-5" />}
