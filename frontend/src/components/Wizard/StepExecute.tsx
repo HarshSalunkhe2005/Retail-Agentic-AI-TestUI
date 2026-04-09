@@ -32,7 +32,7 @@ export default function StepExecute() {
     return () => cancelModels();
   }, [runModels, cancelModels]);
 
-  const allDone = selectedModels.length > 0 && selectedModels.every((m) => modelResults[m].status === 'done');
+  const allDone = selectedModels.length > 0 && selectedModels.every((m) => modelResults[m]?.status === 'done');
 
   return (
     <div className="max-w-2xl mx-auto">
