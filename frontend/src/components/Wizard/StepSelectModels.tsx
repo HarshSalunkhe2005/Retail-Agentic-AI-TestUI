@@ -3,7 +3,7 @@ import { useWizardStore } from '../../store/wizardStore';
 import { useShallow } from 'zustand/react/shallow';
 import type { ModelKey } from '../../store/wizardStore';
 import Button from '../Common/Button';
-import { TrendingUp, Users, BarChart2, ShoppingCart, Package, Check } from 'lucide-react';
+import { TrendingUp, Users, BarChart2, ShoppingCart, Check, XCircle } from 'lucide-react';
 
 interface ModelOption {
   key: ModelKey;
@@ -16,15 +16,6 @@ interface ModelOption {
 }
 
 const MODELS: ModelOption[] = [
-  {
-    key: 'pricing',
-    label: 'Pricing Intelligence',
-    description: 'Dynamic pricing optimization with demand elasticity analysis',
-    icon: TrendingUp,
-    color: 'purple',
-    features: ['Price elasticity', 'Revenue optimization', 'Competitor analysis'],
-    estimatedTime: '~2s',
-  },
   {
     key: 'churn',
     label: 'Customer Health & Churn',
@@ -53,12 +44,12 @@ const MODELS: ModelOption[] = [
     estimatedTime: '~2.5s',
   },
   {
-    key: 'inventory',
-    label: 'Inventory Reorder',
-    description: 'ABC classification and reorder point optimization',
-    icon: Package,
-    color: 'pink',
-    features: ['ABC/XYZ analysis', 'Reorder points', 'Safety stock'],
+    key: 'pricing',
+    label: 'Pricing Intelligence',
+    description: 'Dynamic pricing optimization with demand elasticity analysis',
+    icon: TrendingUp,
+    color: 'purple',
+    features: ['Price elasticity', 'Revenue optimization', 'Competitor analysis'],
     estimatedTime: '~2s',
   },
 ];
@@ -88,30 +79,31 @@ const colorConfig: Record<string, { border: string; bg: string; text: string; ba
     text: 'text-green-300',
     badge: 'bg-green-500/20 text-green-300',
   },
-  pink: {
-    border: 'border-pink-500/40',
-    bg: 'bg-pink-500/10',
-    text: 'text-pink-300',
-    badge: 'bg-pink-500/20 text-pink-300',
-  },
 };
 
 export default function StepSelectModels() {
-  const { selectedModels, toggleModel, nextStep, prevStep, setSelectedModels } = useWizardStore(
+  const { selectedModels, toggleModel, nextStep, prevStep, setSelectedModels, compatibleModels } = useWizardStore(
     useShallow((s) => ({
       selectedModels: s.selectedModels,
       toggleModel: s.toggleModel,
       nextStep: s.nextStep,
       prevStep: s.prevStep,
       setSelectedModels: s.setSelectedModels,
+      compatibleModels: s.compatibleModels,
     }))
   );
 
+  // When compatibleModels is known, only allow compatible ones to be selected.
+  const isAvailable = (key: ModelKey) =>
+    compatibleModels === null || compatibleModels.includes(key);
+
+  const availableModels = MODELS.filter((m) => isAvailable(m.key));
+
   const toggleAll = () => {
-    if (selectedModels.length === MODELS.length) {
+    if (selectedModels.length === availableModels.length) {
       setSelectedModels([]);
     } else {
-      setSelectedModels(MODELS.map((m) => m.key));
+      setSelectedModels(availableModels.map((m) => m.key));
     }
   };
 
@@ -123,25 +115,30 @@ export default function StepSelectModels() {
         className="text-center mb-8"
       >
         <h2 className="text-2xl font-bold text-white mb-2">Choose Models to Run</h2>
-        <p className="text-slate-400">Select which AI models to execute on your data</p>
+        <p className="text-slate-400">
+          {compatibleModels !== null
+            ? `${compatibleModels.length} model${compatibleModels.length !== 1 ? 's' : ''} compatible with your dataset`
+            : 'Select which AI models to execute on your data'}
+        </p>
       </motion.div>
 
       {/* Select all toggle */}
       <div className="flex items-center justify-between mb-4">
         <p className="text-sm text-slate-400">
-          {selectedModels.length} of {MODELS.length} models selected
+          {selectedModels.length} of {availableModels.length} compatible models selected
         </p>
         <button
           onClick={toggleAll}
           className="text-sm text-purple-400 hover:text-purple-300 transition-colors"
         >
-          {selectedModels.length === MODELS.length ? 'Deselect all' : 'Select all'}
+          {selectedModels.length === availableModels.length ? 'Deselect all' : 'Select all'}
         </button>
       </div>
 
       {/* Model cards */}
       <div className="space-y-3">
         {MODELS.map((model, i) => {
+          const available = isAvailable(model.key);
           const selected = selectedModels.includes(model.key);
           const cfg = colorConfig[model.color];
           const Icon = model.icon;
@@ -152,32 +149,48 @@ export default function StepSelectModels() {
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: i * 0.07 }}
-              onClick={() => toggleModel(model.key)}
-              className={`relative flex items-start gap-4 p-4 rounded-2xl border cursor-pointer transition-all duration-200
-                ${selected ? `${cfg.border} ${cfg.bg}` : 'border-white/10 bg-white/3 hover:bg-white/5'}`}
+              onClick={() => available && toggleModel(model.key)}
+              className={`relative flex items-start gap-4 p-4 rounded-2xl border transition-all duration-200
+                ${!available
+                  ? 'border-white/5 bg-white/2 opacity-50 cursor-not-allowed'
+                  : selected
+                  ? `${cfg.border} ${cfg.bg} cursor-pointer`
+                  : 'border-white/10 bg-white/3 hover:bg-white/5 cursor-pointer'}`}
             >
               {/* Icon */}
               <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0
-                ${selected ? `${cfg.bg} border ${cfg.border}` : 'bg-white/5 border border-white/10'}`}>
-                <Icon className={`w-5 h-5 ${selected ? cfg.text : 'text-slate-400'}`} />
+                ${!available
+                  ? 'bg-white/5 border border-white/5'
+                  : selected
+                  ? `${cfg.bg} border ${cfg.border}`
+                  : 'bg-white/5 border border-white/10'}`}>
+                <Icon className={`w-5 h-5 ${!available ? 'text-slate-600' : selected ? cfg.text : 'text-slate-400'}`} />
               </div>
 
               {/* Content */}
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-1">
-                  <p className={`font-semibold text-sm ${selected ? 'text-white' : 'text-slate-300'}`}>
+                  <p className={`font-semibold text-sm ${!available ? 'text-slate-600' : selected ? 'text-white' : 'text-slate-300'}`}>
                     {model.label}
                   </p>
-                  <span className={`text-xs px-2 py-0.5 rounded-full ${selected ? cfg.badge : 'bg-white/5 text-slate-500'}`}>
-                    {model.estimatedTime}
-                  </span>
+                  {available ? (
+                    <span className={`text-xs px-2 py-0.5 rounded-full ${selected ? cfg.badge : 'bg-white/5 text-slate-500'}`}>
+                      {model.estimatedTime}
+                    </span>
+                  ) : (
+                    <span className="text-xs px-2 py-0.5 rounded-full bg-red-500/10 text-red-500/70 flex items-center gap-1">
+                      <XCircle className="w-3 h-3" />
+                      Not available for this dataset
+                    </span>
+                  )}
                 </div>
-                <p className="text-xs text-slate-400 mb-2">{model.description}</p>
+                <p className={`text-xs mb-2 ${!available ? 'text-slate-600' : 'text-slate-400'}`}>{model.description}</p>
                 <div className="flex flex-wrap gap-1.5">
                   {model.features.map((f) => (
                     <span
                       key={f}
-                      className="text-xs px-2 py-0.5 rounded bg-white/5 text-slate-500 border border-white/5"
+                      className={`text-xs px-2 py-0.5 rounded border
+                        ${!available ? 'bg-white/2 text-slate-700 border-white/3' : 'bg-white/5 text-slate-500 border-white/5'}`}
                     >
                       {f}
                     </span>
@@ -186,10 +199,12 @@ export default function StepSelectModels() {
               </div>
 
               {/* Checkbox */}
-              <div className={`w-5 h-5 rounded-md border flex items-center justify-center shrink-0 transition-all
-                ${selected ? `${cfg.bg} ${cfg.border}` : 'border-white/20 bg-white/5'}`}>
-                {selected && <Check className={`w-3 h-3 ${cfg.text}`} />}
-              </div>
+              {available && (
+                <div className={`w-5 h-5 rounded-md border flex items-center justify-center shrink-0 transition-all
+                  ${selected ? `${cfg.bg} ${cfg.border}` : 'border-white/20 bg-white/5'}`}>
+                  {selected && <Check className={`w-3 h-3 ${cfg.text}`} />}
+                </div>
+              )}
             </motion.div>
           );
         })}

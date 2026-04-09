@@ -6,7 +6,7 @@ export interface CSVRow {
   [key: string]: string | number;
 }
 
-export type ModelKey = 'pricing' | 'churn' | 'demand' | 'basket' | 'inventory';
+export type ModelKey = 'pricing' | 'churn' | 'demand' | 'basket';
 
 export interface ModelResult {
   name: string;
@@ -47,6 +47,7 @@ export interface WizardState {
   csvHeaders: string[];
   selectedSegments: string[];
   selectedModels: ModelKey[];
+  compatibleModels: ModelKey[] | null;
   modelResults: Record<ModelKey, ModelResult>;
   kpiMetrics: KPIMetrics | null;
   segmentData: SegmentData[];
@@ -62,6 +63,7 @@ export interface WizardState {
   setSelectedSegments: (segments: string[]) => void;
   toggleModel: (model: ModelKey) => void;
   setSelectedModels: (models: ModelKey[]) => void;
+  setCompatibleModels: (models: ModelKey[] | null) => void;
   startProcessing: () => void;
   updateModelResult: (model: ModelKey, result: Partial<ModelResult>) => void;
   setResults: (kpi: KPIMetrics, segments: SegmentData[], inventory: InventoryItem[]) => void;
@@ -73,7 +75,6 @@ const defaultModelResults: Record<ModelKey, ModelResult> = {
   churn: { name: 'Customer Churn', status: 'idle', data: null },
   demand: { name: 'Demand Forecasting', status: 'idle', data: null },
   basket: { name: 'Market Basket Analysis', status: 'idle', data: null },
-  inventory: { name: 'Inventory Reorder', status: 'idle', data: null },
 };
 
 export const useWizardStore = create<WizardState>((set) => ({
@@ -82,7 +83,8 @@ export const useWizardStore = create<WizardState>((set) => ({
   csvData: [],
   csvHeaders: [],
   selectedSegments: [],
-  selectedModels: ['pricing', 'churn', 'demand', 'basket', 'inventory'],
+  selectedModels: ['pricing', 'churn', 'demand', 'basket'],
+  compatibleModels: null,
   modelResults: defaultModelResults,
   kpiMetrics: null,
   segmentData: [],
@@ -103,6 +105,7 @@ export const useWizardStore = create<WizardState>((set) => ({
         : [...s.selectedModels, model],
     })),
   setSelectedModels: (models) => set({ selectedModels: models }),
+  setCompatibleModels: (models) => set({ compatibleModels: models }),
   startProcessing: () =>
     set({
       isProcessing: true,
@@ -125,7 +128,8 @@ export const useWizardStore = create<WizardState>((set) => ({
       csvData: [],
       csvHeaders: [],
       selectedSegments: [],
-      selectedModels: ['pricing', 'churn', 'demand', 'basket', 'inventory'],
+      selectedModels: ['pricing', 'churn', 'demand', 'basket'],
+      compatibleModels: null,
       modelResults: defaultModelResults,
       kpiMetrics: null,
       segmentData: [],
