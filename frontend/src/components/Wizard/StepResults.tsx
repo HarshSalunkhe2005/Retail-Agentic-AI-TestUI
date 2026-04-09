@@ -79,7 +79,7 @@ const SECTION_META: Record<ModelKey, { emoji: string; title: string; subtitle: s
   basket: {
     emoji: '🛒',
     title: 'Market Basket Analysis',
-    subtitle: 'Association rules · Cross-sell opportunities',
+    subtitle: 'Association rules · Product affinity analysis',
     accentClass: 'border-green-500/20 bg-green-500/3',
   },
   pricing: {
