@@ -27,6 +27,7 @@ from utils.column_detector import detect_churn
 from utils.data_validation import validate_csv, parse_csv
 from utils.model_loader import load_pickle
 from utils.response_formatter import format_churn_response, error_response
+from utils.currency_detector import detect_currency
 
 logger = logging.getLogger(__name__)
 router = APIRouter()
@@ -138,15 +139,18 @@ async def run_churn(file: UploadFile = File(...)):
     ])
     model_probas = churn_model.predict_proba(features_matrix)
 
+    # Detect currency symbol from monetary column
+    currency_symbol = detect_currency(df, [m_col])
+
     records: list[dict] = []
     seg_dist: dict[str, int] = {}
     total_churn_risk = 0.0
     high_risk_count = 0
 
-    for i, (row_tuple, cluster_id) in enumerate(zip(df.itertuples(index=False), cluster_ids)):
-        r = float(row_tuple._R)
-        f = float(row_tuple._F)
-        m = float(row_tuple._M)
+    for i, ((_, row_data), cluster_id) in enumerate(zip(df.iterrows(), cluster_ids)):
+        r = float(row_data['_R'])
+        f = float(row_data['_F'])
+        m = float(row_data['_M'])
 
         segment     = label_map.get(int(cluster_id), "Unknown")
         churn_prob  = _churn_prob(r, f)
@@ -161,8 +165,7 @@ async def run_churn(file: UploadFile = File(...)):
             high_risk_count += 1
 
         cid = (
-            str(getattr(row_tuple, id_col.replace(" ", "_"), i + 1))
-            if id_col else f"CUST-{i + 1:04d}"
+            str(row_data[id_col]) if id_col and id_col in row_data.index else f"CUST-{i + 1:04d}"
         )
 
         records.append({
@@ -182,6 +185,7 @@ async def run_churn(file: UploadFile = File(...)):
         "segment_distribution": seg_dist,
         "avg_churn_risk":       round(total_churn_risk / n, 2) if n else 0.0,
         "high_risk_count":      high_risk_count,
+        "currency_symbol":      currency_symbol,
     }
 
     return format_churn_response(records, summary)
