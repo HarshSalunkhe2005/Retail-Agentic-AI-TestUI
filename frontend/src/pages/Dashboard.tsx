@@ -109,7 +109,7 @@ export default function Dashboard() {
         {/* Inventory Reorder Dashboard — shown when Model 6 results are available */}
         {hasInventoryResults ? (
           <InventoryDashboard
-            {...(inventoryResult!.data as InventoryDashboardProps)}
+            {...(inventoryResult!.data as unknown as InventoryDashboardProps)}
           />
         ) : (
           <>
