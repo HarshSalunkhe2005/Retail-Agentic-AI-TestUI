@@ -6,7 +6,6 @@ import {
   TrendingUp,
   Users,
   ShoppingCart,
-  Package,
   Wand2,
   ArrowRight,
 } from 'lucide-react';
@@ -36,12 +35,6 @@ const features = [
     desc: 'Association rules for cross-sell opportunities',
     color: 'green',
   },
-  {
-    icon: Package,
-    title: 'Inventory Reorder',
-    desc: 'ABC classification and safety stock optimization',
-    color: 'pink',
-  },
 ];
 
 const colorMap: Record<string, { bg: string; border: string; text: string; icon: string }> = {
@@ -49,7 +42,6 @@ const colorMap: Record<string, { bg: string; border: string; text: string; icon:
   cyan: { bg: 'bg-cyan-500/10', border: 'border-cyan-500/20', text: 'text-cyan-300', icon: 'from-cyan-600 to-cyan-400' },
   orange: { bg: 'bg-orange-500/10', border: 'border-orange-500/20', text: 'text-orange-300', icon: 'from-orange-600 to-orange-400' },
   green: { bg: 'bg-green-500/10', border: 'border-green-500/20', text: 'text-green-300', icon: 'from-green-600 to-green-400' },
-  pink: { bg: 'bg-pink-500/10', border: 'border-pink-500/20', text: 'text-pink-300', icon: 'from-pink-600 to-pink-400' },
 };
 
 export default function Home() {
@@ -91,7 +83,7 @@ export default function Home() {
 
           <p className="text-xl text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed">
             Upload your retail data, run AI-powered models, and get actionable insights on pricing,
-            churn, demand forecasting, basket analysis, and inventory.
+            churn, demand forecasting, and basket analysis.
           </p>
 
           <div className="flex gap-4 justify-center">
@@ -114,13 +106,13 @@ export default function Home() {
           transition={{ delay: 0.4 }}
           className="text-center mb-12"
         >
-          <h2 className="text-3xl font-bold text-white mb-3">5 AI Models, One Platform</h2>
+          <h2 className="text-3xl font-bold text-white mb-3">4 AI Models, One Platform</h2>
           <p className="text-slate-400">
             Each model solves a specific retail challenge with production-grade ML
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-5 gap-4">
+        <div className="grid grid-cols-4 gap-4">
           {features.map(({ icon: Icon, title, desc, color }, i) => {
             const cfg = colorMap[color];
             return (

@@ -30,7 +30,6 @@ from routes.pricing import router as pricing_router  # noqa: E402
 from routes.churn import router as churn_router  # noqa: E402
 from routes.demand import router as demand_router  # noqa: E402
 from routes.basket import router as basket_router  # noqa: E402
-from routes.inventory import router as inventory_router  # noqa: E402
 
 # ── Logging ────────────────────────────────────────────────────────────────────
 logging.basicConfig(
@@ -62,7 +61,6 @@ app.include_router(pricing_router,    prefix=API_PREFIX)
 app.include_router(churn_router,      prefix=API_PREFIX)
 app.include_router(demand_router,     prefix=API_PREFIX)
 app.include_router(basket_router,     prefix=API_PREFIX)
-app.include_router(inventory_router,  prefix=API_PREFIX)
 
 
 # ── Startup event ──────────────────────────────────────────────────────────────

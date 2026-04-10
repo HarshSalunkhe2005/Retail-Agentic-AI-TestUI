@@ -1,6 +1,6 @@
 import { useCallback, useRef } from 'react';
 import { useWizardStore } from '../store/wizardStore';
-import type { ModelKey, KPIMetrics, SegmentData, InventoryItem } from '../store/wizardStore';
+import type { ModelKey, KPIMetrics, SegmentData } from '../store/wizardStore';
 
 const API_BASE = import.meta.env.VITE_API_URL ?? 'http://localhost:8000/api';
 
@@ -21,21 +21,6 @@ async function callModel(endpoint: string, file: File): Promise<Record<string, u
   return json as Record<string, unknown>;
 }
 
-async function callInventory(
-  file: File,
-  basketRules: unknown[],
-): Promise<Record<string, unknown>> {
-  const fd = new FormData();
-  fd.append('file', file);
-  fd.append('basket_rules', JSON.stringify(basketRules));
-  const response = await fetch(`${API_BASE}/models/inventory`, {
-    method: 'POST',
-    body: fd,
-  });
-  const json = await response.json();
-  return json as Record<string, unknown>;
-}
-
 // ── KPI + segment builders from API responses ────────────────────────────────
 
 function buildKpiFromResponses(
@@ -43,8 +28,6 @@ function buildKpiFromResponses(
 ): KPIMetrics {
   const kpi: KPIMetrics = {
     fillRate: 0,
-    inventoryTurns: 0,
-    stockoutRate: 0,
     totalRevenue: 0,
     avgOrderValue: 0,
     activeCustomers: 0,
@@ -139,11 +122,7 @@ export function useDataProcessing() {
 
     const apiResults: Partial<Record<ModelKey, Record<string, unknown>>> = {};
 
-    // Run non-inventory models first (in parallel)
-    const nonInventoryModels = selectedModels.filter((m) => m !== 'inventory');
-    const inventorySelected  = selectedModels.includes('inventory');
-
-    const nonInventoryPromises = nonInventoryModels.map(async (model) => {
+    const modelPromises = selectedModels.map(async (model) => {
       useWizardStore.getState().updateModelResult(model, { status: 'running' });
 
       const endpoint = MODEL_ENDPOINTS[model];
@@ -176,45 +155,14 @@ export function useDataProcessing() {
       useWizardStore.setState({ processingProgress: Math.round((completed / total) * 100) });
     });
 
-    await Promise.all(nonInventoryPromises);
-
-    // Run inventory model last, passing basket rules from Model 5
-    if (inventorySelected && csvFile && !cancelRef.current) {
-      useWizardStore.getState().updateModelResult('inventory', { status: 'running' });
-
-      try {
-        // Extract basket rules from basket model result (pipeline: Model 5 → Model 6)
-        const basketResult = apiResults.basket;
-        const basketRules = (basketResult?.rules as unknown[]) ?? [];
-
-        const result = await callInventory(csvFile, basketRules);
-        if (!cancelRef.current) {
-          apiResults.inventory = result;
-          useWizardStore.getState().updateModelResult('inventory', {
-            status: result.status === 'error' ? 'error' : 'done',
-            data: result,
-          });
-        }
-      } catch (err) {
-        if (!cancelRef.current) {
-          useWizardStore.getState().updateModelResult('inventory', {
-            status: 'error',
-            data: { error: String(err), model: 'inventory' },
-          });
-        }
-      }
-
-      completed++;
-      useWizardStore.setState({ processingProgress: Math.round((completed / total) * 100) });
-    }
+    await Promise.all(modelPromises);
 
     if (cancelRef.current) return;
 
     const kpi = buildKpiFromResponses(apiResults);
     const segments = buildSegmentsFromChurn(apiResults.churn);
-    const inventory: InventoryItem[] = [];
 
-    useWizardStore.getState().setResults(kpi, segments, inventory);
+    useWizardStore.getState().setResults(kpi, segments);
 
     useWizardStore.setState({ isProcessing: false, processingProgress: 100 });
     setTimeout(() => {

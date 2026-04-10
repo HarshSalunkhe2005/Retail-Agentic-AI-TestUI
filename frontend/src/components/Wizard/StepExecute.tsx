@@ -11,7 +11,6 @@ const MODEL_ICONS: Record<string, string> = {
   churn: '👥',
   demand: '📊',
   basket: '🛒',
-  inventory: '📦',
 };
 
 export default function StepExecute() {
