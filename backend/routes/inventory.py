@@ -137,28 +137,20 @@ def _generate_po_recommendations(
     default_categories = ["Electronics", "Apparel", "Home", "Food", "Health"]
 
     # ── Build per-product records from pricing data ────────────────────────────
+    # stock_code: prefer explicit "stock_code" field, fall back to "product_name", then "UNKNOWN"
+    # description: prefer "product_name" field, fall back to "stock_code", then "Unknown Product"
     products = []
-    if pricing_data:
-        for i, rec in enumerate(pricing_data):
-            products.append({
-                "stock_code": f"SKU-{i + 1:04d}",
-                "description": str(rec.get("product_name", f"Product {i + 1}")),
-                "current_price": float(rec.get("current_price", 50.0)),
-                "recommended_price": float(rec.get("recommended_price", rec.get("current_price", 50.0))),
-                "action": str(rec.get("recommended_action", "hold")),
-                "confidence": float(rec.get("confidence", 0.5)),
-            })
-    else:
-        # Fallback: generate synthetic SKU list
-        for i in range(20):
-            products.append({
-                "stock_code": f"SKU-{i + 1:04d}",
-                "description": f"Product {i + 1}",
-                "current_price": float(np.random.uniform(10, 200)),
-                "recommended_price": float(np.random.uniform(10, 200)),
-                "action": "hold",
-                "confidence": 0.5,
-            })
+    for rec in pricing_data:
+        stock_code = str(rec.get("stock_code") or rec.get("product_name") or "UNKNOWN")
+        description = str(rec.get("product_name") or rec.get("stock_code") or "Unknown Product")
+        products.append({
+            "stock_code": stock_code,
+            "description": description,
+            "current_price": float(rec.get("current_price", 50.0)),
+            "recommended_price": float(rec.get("recommended_price", rec.get("current_price", 50.0))),
+            "action": str(rec.get("recommended_action", "hold")),
+            "confidence": float(rec.get("confidence", 0.5)),
+        })
 
     # ── Distribute demand across products ─────────────────────────────────────
     n = len(products)
@@ -326,6 +318,33 @@ def _build_response(po_list: list[dict], demand_data: list[dict]) -> dict:
 
 @router.post("/models/inventory")
 async def run_inventory(request: InventoryRequest):
+    # Validate that ALL 4 model outputs are present before executing
+    missing: list[str] = []
+    if not request.demand_data:
+        missing.append("demand")
+    if not request.basket_rules:
+        missing.append("basket")
+    if not request.pricing_data:
+        missing.append("pricing")
+    if not request.churn_data and not request.churn_summary:
+        missing.append("churn")
+
+    if missing:
+        sorted_missing = sorted(missing)
+        return JSONResponse(
+            status_code=422,
+            content={
+                "status": "error",
+                "model": "inventory",
+                "message": (
+                    f"Missing outputs from model(s): {', '.join(sorted_missing)}. "
+                    "All 4 models (Churn, Demand, Basket, Pricing) must complete "
+                    "successfully before running inventory analysis."
+                ),
+                "missing_models": sorted_missing,
+            },
+        )
+
     try:
         po_list = _generate_po_recommendations(
             churn_data=request.churn_data,

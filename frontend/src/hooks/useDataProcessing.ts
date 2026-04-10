@@ -192,8 +192,9 @@ export function useDataProcessing() {
 
     useWizardStore.getState().setResults(kpi, segments);
 
-    // ── Auto-trigger inventory model after all 4 models complete ─────────────
-    const allSucceeded = selectedModels.every(
+    // ── Auto-trigger inventory model ONLY after all 4 required models complete ──
+    const ALL_REQUIRED_MODELS: ModelKey[] = ['pricing', 'churn', 'demand', 'basket'];
+    const allSucceeded = ALL_REQUIRED_MODELS.every(
       (m) => useWizardStore.getState().modelResults[m]?.status === 'done'
     );
 
