@@ -1,6 +1,6 @@
 # Sample Data — Retail Agentic AI
 
-This folder contains a single comprehensive CSV file compatible with **all four AI models** simultaneously.
+This folder contains a comprehensive dataset for full integration testing **and** five focused test datasets for testing each model individually.
 
 ---
 
@@ -9,6 +9,11 @@ This folder contains a single comprehensive CSV file compatible with **all four 
 | File | Rows | Compatible Model(s) |
 |------|------|---------------------|
 | `comprehensive_retail_data.csv` | 1,000 | ✅ **ALL 4 models** — **Recommended** |
+| `churn_test.csv` | 100 | Churn Prediction |
+| `demand_test.csv` | 100 | Demand Forecasting |
+| `basket_test.csv` | 80 | Market Basket Analysis |
+| `pricing_test.csv` | 60 | Pricing Intelligence |
+| `inventory_test.csv` | 100 | Inventory Reorder (all 4 upstream models) |
 
 ---
 
@@ -82,12 +87,59 @@ comprehensive_retail_data.csv → Compatible: Churn ✅  Demand ✅  Basket ✅ 
 
 ---
 
+## Test Datasets (Individual Model Testing)
+
+Use these datasets to test each model in isolation:
+
+### 1. `churn_test.csv` (100 rows)
+- **Model:** Churn Prediction
+- **Columns:** CustomerID, RecencyDays, FrequencyMonths, MonetaryValue, Date, ProductName, Sales
+- **Use Case:** Test customer churn prediction
+- **Expected Output:** Churn risk scores, customer segments
+
+### 2. `demand_test.csv` (100 rows)
+- **Model:** Demand Forecasting
+- **Columns:** Date, Sales, Category, ProductName, Quantity
+- **Use Case:** Test demand forecasting with time-series data
+- **Expected Output:** 12-week forecast with confidence bands
+
+### 3. `basket_test.csv` (80 rows)
+- **Model:** Market Basket Analysis
+- **Columns:** Invoice, ProductName, Category, Sales, Date, Quantity
+- **Characteristics:** Strong product associations pre-configured
+- **Expected Output:** Product association rules with lift/confidence
+
+### 4. `pricing_test.csv` (60 rows)
+- **Model:** Pricing Intelligence
+- **Columns:** ProductName, current_price, competitor_price, Rating, Sales
+- **Use Case:** Test pricing recommendations
+- **Expected Output:** Price optimization (increase/decrease/hold/discount)
+
+### 5. `inventory_test.csv` (100 rows)
+- **Model:** Inventory Reorder Analysis
+- **Columns:** All columns from all 4 models
+- **Use Case:** Test complete end-to-end analysis
+- **Expected Output:** PO recommendations with priority
+
+---
+
+## Main Dataset
+
+### `comprehensive_retail_data.csv` (1,000 rows)
+- Full-year retail data (2024)
+- 20-30 customers, 50-60 products
+- 5 product categories
+- Compatible with all 4 models
+- **Use Case:** Integration testing, realistic scenarios
+
+---
+
 ## Validation Checklist
 
 After uploading `comprehensive_retail_data.csv`:
 
-- ✅ Only ONE CSV file in sample-data folder
-- ✅ 1,000 rows of data
+- ✅ 6 CSV files in sample-data folder (1 main + 5 test)
+- ✅ 1,000 rows of data in comprehensive dataset
 - ✅ Column names are EXACT (`current_price`, `competitor_price` lowercase)
 - ✅ Date range: 2024-01-01 to 2024-12-31
 - ✅ No currency symbols in numeric columns
