@@ -6,7 +6,6 @@ import {
   TrendingUp,
   Users,
   ShoppingCart,
-  Package,
   BarChart2,
 } from 'lucide-react';
 
@@ -20,7 +19,6 @@ const modelItems = [
   { icon: Users, label: 'Churn', color: 'text-cyan-400' },
   { icon: BarChart2, label: 'Demand', color: 'text-orange-400' },
   { icon: ShoppingCart, label: 'Basket', color: 'text-green-400' },
-  { icon: Package, label: 'Inventory', color: 'text-pink-400' },
 ];
 
 export default function Sidebar() {

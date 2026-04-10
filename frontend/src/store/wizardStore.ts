@@ -6,7 +6,7 @@ export interface CSVRow {
   [key: string]: string | number;
 }
 
-export type ModelKey = 'pricing' | 'churn' | 'demand' | 'basket' | 'inventory';
+export type ModelKey = 'pricing' | 'churn' | 'demand' | 'basket';
 
 export interface ModelResult {
   name: string;
@@ -24,20 +24,9 @@ export interface SegmentData {
 
 export interface KPIMetrics {
   fillRate: number;
-  inventoryTurns: number;
-  stockoutRate: number;
   totalRevenue: number;
   avgOrderValue: number;
   activeCustomers: number;
-}
-
-export interface InventoryItem {
-  sku: string;
-  name: string;
-  urgency: 'critical' | 'high' | 'medium' | 'low';
-  stockLevel: number;
-  reorderPoint: number;
-  daysToStockout: number;
 }
 
 export interface WizardState {
@@ -50,7 +39,6 @@ export interface WizardState {
   modelResults: Record<ModelKey, ModelResult>;
   kpiMetrics: KPIMetrics | null;
   segmentData: SegmentData[];
-  inventoryItems: InventoryItem[];
   isProcessing: boolean;
   processingProgress: number;
 
@@ -64,7 +52,7 @@ export interface WizardState {
   setCompatibleModels: (models: ModelKey[] | null) => void;
   startProcessing: () => void;
   updateModelResult: (model: ModelKey, result: Partial<ModelResult>) => void;
-  setResults: (kpi: KPIMetrics, segments: SegmentData[], inventory: InventoryItem[]) => void;
+  setResults: (kpi: KPIMetrics, segments: SegmentData[]) => void;
   reset: () => void;
 }
 
@@ -73,20 +61,20 @@ const defaultModelResults: Record<ModelKey, ModelResult> = {
   churn: { name: 'Customer Churn', status: 'idle', data: null },
   demand: { name: 'Demand Forecasting', status: 'idle', data: null },
   basket: { name: 'Market Basket Analysis', status: 'idle', data: null },
-  inventory: { name: 'Inventory Reorder', status: 'idle', data: null },
 };
+
+const defaultSelectedModels: ModelKey[] = ['pricing', 'churn', 'demand', 'basket'];
 
 export const useWizardStore = create<WizardState>((set) => ({
   currentStep: 1,
   csvFile: null,
   csvData: [],
   csvHeaders: [],
-  selectedModels: ['pricing', 'churn', 'demand', 'basket', 'inventory'],
+  selectedModels: defaultSelectedModels,
   compatibleModels: null,
   modelResults: defaultModelResults,
   kpiMetrics: null,
   segmentData: [],
-  inventoryItems: [],
   isProcessing: false,
   processingProgress: 0,
 
@@ -116,20 +104,19 @@ export const useWizardStore = create<WizardState>((set) => ({
         [model]: { ...s.modelResults[model], ...result },
       },
     })),
-  setResults: (kpi, segments, inventory) =>
-    set({ kpiMetrics: kpi, segmentData: segments, inventoryItems: inventory }),
+  setResults: (kpi, segments) =>
+    set({ kpiMetrics: kpi, segmentData: segments }),
   reset: () =>
     set({
       currentStep: 1,
       csvFile: null,
       csvData: [],
       csvHeaders: [],
-      selectedModels: ['pricing', 'churn', 'demand', 'basket', 'inventory'],
+      selectedModels: defaultSelectedModels,
       compatibleModels: null,
       modelResults: defaultModelResults,
       kpiMetrics: null,
       segmentData: [],
-      inventoryItems: [],
       isProcessing: false,
       processingProgress: 0,
     }),

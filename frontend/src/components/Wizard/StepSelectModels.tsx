@@ -3,7 +3,7 @@ import { useWizardStore } from '../../store/wizardStore';
 import { useShallow } from 'zustand/react/shallow';
 import type { ModelKey } from '../../store/wizardStore';
 import Button from '../Common/Button';
-import { TrendingUp, Users, BarChart2, ShoppingCart, Package, Check, XCircle } from 'lucide-react';
+import { TrendingUp, Users, BarChart2, ShoppingCart, Check, XCircle } from 'lucide-react';
 
 interface ModelOption {
   key: ModelKey;
@@ -52,15 +52,6 @@ const MODELS: ModelOption[] = [
     features: ['Price elasticity', 'Revenue optimization', 'Competitor analysis'],
     estimatedTime: '~2s',
   },
-  {
-    key: 'inventory',
-    label: 'Inventory Reorder (Model 6)',
-    description: 'ABC classification · EOQ · GBR risk scoring · budget-constrained PO generation',
-    icon: Package,
-    color: 'pink',
-    features: ['ABC classification', 'EOQ calculation', 'GBR risk scoring', 'Purchase orders'],
-    estimatedTime: '~4s',
-  },
 ];
 
 const colorConfig: Record<string, { border: string; bg: string; text: string; badge: string }> = {
@@ -87,12 +78,6 @@ const colorConfig: Record<string, { border: string; bg: string; text: string; ba
     bg: 'bg-green-500/10',
     text: 'text-green-300',
     badge: 'bg-green-500/20 text-green-300',
-  },
-  pink: {
-    border: 'border-pink-500/40',
-    bg: 'bg-pink-500/10',
-    text: 'text-pink-300',
-    badge: 'bg-pink-500/20 text-pink-300',
   },
 };
 
