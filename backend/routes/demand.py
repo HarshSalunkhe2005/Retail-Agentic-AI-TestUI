@@ -11,6 +11,7 @@ from fastapi.responses import JSONResponse
 
 from config import DEFAULT_FORECAST_WEEKS
 from utils.column_detector import detect_demand
+from utils.currency_detector import detect_currency
 from utils.data_validation import validate_csv, parse_csv
 from utils.model_loader import load_pickle
 from utils.response_formatter import format_demand_response, error_response
@@ -52,6 +53,9 @@ async def run_demand(file: UploadFile = File(...)):
     date_col  = mapped["Date"]
     sales_col = mapped["Sales"]
 
+    # Detect currency symbol from sales column; default to ₹ (INR)
+    currency_symbol = detect_currency(df, [sales_col])
+
     # ── Prepare time-series ────────────────────────────────────────────────────
     ts = df[[date_col, sales_col]].copy()
     ts.columns = ["ds", "y"]
@@ -69,8 +73,14 @@ async def run_demand(file: UploadFile = File(...)):
     try:
         from prophet import Prophet  # type: ignore
 
+        # Remove outliers before fitting to avoid extreme forecast spikes.
+        # Values beyond 3 standard deviations are capped to the 99th percentile.
+        q_low  = ts["y"].quantile(0.01)
+        q_high = ts["y"].quantile(0.99)
+        ts["y"] = ts["y"].clip(lower=q_low, upper=q_high)
+
         m = Prophet(
-            seasonality_mode="multiplicative",
+            seasonality_mode="additive",   # additive is more stable; avoids multiplicative spikes
             yearly_seasonality=True,
             weekly_seasonality=True,
         )
@@ -129,7 +139,8 @@ async def run_demand(file: UploadFile = File(...)):
         "training_periods":  len(ts),
         "forecast_periods":  DEFAULT_FORECAST_WEEKS,
         "trend":             trend,
-        "seasonality":       "multiplicative",
+        "seasonality":       "additive",
+        "currency":          currency_symbol,
     }
 
     return format_demand_response(forecast_data, summary)

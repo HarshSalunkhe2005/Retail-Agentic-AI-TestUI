@@ -20,6 +20,7 @@ interface PricingRecord {
   recommended_action: string;
   recommended_price: number;
   confidence: number;
+  currency?: string;
 }
 
 interface PricingSummary {
@@ -29,6 +30,7 @@ interface PricingSummary {
   discount_count: number;
   hold_count: number;
   avg_confidence: number;
+  currency?: string;
 }
 
 interface PricingDashboardProps {
@@ -84,6 +86,9 @@ export default function PricingDashboard({ data, summary }: PricingDashboardProp
   const totalPages = Math.ceil(data.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const paginatedData = data.slice(startIndex, startIndex + itemsPerPage);
+
+  // Use currency from the API response; fall back to ₹ (INR)
+  const currencySymbol = summary.currency ?? '₹';
 
   const pieData = [
     { name: 'Increase', value: summary.increase_count, fill: ACTION_COLORS.increase },
@@ -223,9 +228,9 @@ export default function PricingDashboard({ data, summary }: PricingDashboardProp
                 {paginatedData.map((r) => (
                   <tr key={r.product_id} className="border-b border-white/5 hover:bg-white/3 transition-colors">
                     <td className="py-2.5 pr-4 text-slate-300">{r.product_name}</td>
-                    <td className="py-2.5 pr-4 text-right text-white">${r.current_price.toFixed(2)}</td>
-                    <td className="py-2.5 pr-4 text-right text-slate-400">${r.competitor_price.toFixed(2)}</td>
-                    <td className="py-2.5 pr-4 text-right text-white font-medium">${r.recommended_price.toFixed(2)}</td>
+                    <td className="py-2.5 pr-4 text-right text-white">{currencySymbol}{r.current_price.toFixed(2)}</td>
+                    <td className="py-2.5 pr-4 text-right text-slate-400">{currencySymbol}{r.competitor_price.toFixed(2)}</td>
+                    <td className="py-2.5 pr-4 text-right text-white font-medium">{currencySymbol}{r.recommended_price.toFixed(2)}</td>
                     <td className="py-2.5 pr-4 text-center">
                       <ActionBadge action={r.recommended_action} />
                     </td>

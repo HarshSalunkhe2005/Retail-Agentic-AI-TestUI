@@ -20,11 +20,11 @@ logger = logging.getLogger(__name__)
 router = APIRouter()
 
 # ── Constants ──────────────────────────────────────────────────────────────────
-ORDERING_COST = 50.0          # £ per purchase order
+ORDERING_COST = 50.0          # ordering cost per purchase order
 HOLDING_RATE = 0.25           # 25 % of unit price per year
 LEAD_TIME_WEEKS = 4           # typical supplier lead time
 WEEKS_PER_YEAR = 52
-TOTAL_BUDGET = 2_000_000.0    # £ planning budget
+TOTAL_BUDGET = 2_000_000.0    # planning budget
 
 PRIORITY_THRESHOLDS = {
     "Critical": 0.75,
@@ -233,7 +233,7 @@ def _generate_po_recommendations(
             "forecast_demand": round(prod_weekly_demand * LEAD_TIME_WEEKS, 2),
             "order_quantity": order_qty,
             "unit_price": round(unit_price, 2),
-            "po_value_gbp": po_value,
+            "po_value": po_value,
             "risk_score": round(risk_score, 4),
             "priority": priority,
             "reason": reason,
@@ -250,13 +250,13 @@ def _generate_po_recommendations(
     return po_list
 
 
-def _build_response(po_list: list[dict], demand_data: list[dict]) -> dict:
+def _build_response(po_list: list[dict], demand_data: list[dict], currency: str = "₹") -> dict:
     """Build the full structured response."""
 
     total_skus = len(po_list)
     # Active POs: Critical + High priority
     active_pos = sum(1 for r in po_list if r["priority"] in ("Critical", "High"))
-    total_po_value = round(sum(r["po_value_gbp"] for r in po_list), 2)
+    total_po_value = round(sum(r["po_value"] for r in po_list), 2)
     avg_risk = round(sum(r["risk_score"] for r in po_list) / max(total_skus, 1), 4)
     critical_count = sum(1 for r in po_list if r["priority"] == "Critical")
     budget_utilization = round((total_po_value / TOTAL_BUDGET) * 100, 2)
@@ -300,7 +300,7 @@ def _build_response(po_list: list[dict], demand_data: list[dict]) -> dict:
     # Clean table output (remove internal fields)
     table_columns = [
         "stock_code", "description", "category",
-        "forecast_demand", "order_quantity", "unit_price", "po_value_gbp",
+        "forecast_demand", "order_quantity", "unit_price", "po_value",
         "risk_score", "priority", "reason",
     ]
     po_table = [{col: row[col] for col in table_columns if col in row} for row in po_list]
@@ -308,6 +308,7 @@ def _build_response(po_list: list[dict], demand_data: list[dict]) -> dict:
     return {
         "model": "inventory",
         "status": "success",
+        "currency": currency,
         "kpis": kpis,
         "po_table": po_table,
         "charts": charts,
@@ -353,7 +354,10 @@ async def run_inventory(request: InventoryRequest):
             basket_rules=request.basket_rules,
             pricing_data=request.pricing_data,
         )
-        return _build_response(po_list, request.demand_data)
+        # Derive currency from pricing summary (populated by the pricing model);
+        # fall back to ₹ (INR) if not present.
+        currency = request.pricing_summary.get("currency", "₹")
+        return _build_response(po_list, request.demand_data, currency)
     except Exception as exc:
         logger.error("Inventory model error: %s", exc, exc_info=True)
         return JSONResponse(

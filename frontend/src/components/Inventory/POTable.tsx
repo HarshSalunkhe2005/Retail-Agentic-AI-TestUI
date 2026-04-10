@@ -8,7 +8,7 @@ export interface PORow {
   forecast_demand: number;
   order_quantity: number;
   unit_price: number;
-  po_value_gbp: number;
+  po_value: number;
   risk_score: number;
   priority: 'Critical' | 'High' | 'Medium' | 'Low';
   reason: string;
@@ -17,6 +17,7 @@ export interface PORow {
 interface Props {
   rows: PORow[];
   pageSize?: number;
+  currency?: string;
 }
 
 const PRIORITY_BADGE: Record<string, string> = {
@@ -26,12 +27,12 @@ const PRIORITY_BADGE: Record<string, string> = {
   Low:      'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30',
 };
 
-function formatCurrency(v: number) {
-  if (v >= 1_000) return `£${(v / 1_000).toFixed(1)}K`;
-  return `£${v.toFixed(0)}`;
+function formatCurrency(v: number, symbol: string) {
+  if (v >= 1_000) return `${symbol}${(v / 1_000).toFixed(1)}K`;
+  return `${symbol}${v.toFixed(0)}`;
 }
 
-export default function POTable({ rows, pageSize = 10 }: Props) {
+export default function POTable({ rows, pageSize = 10, currency = '₹' }: Props) {
   const [page, setPage] = useState(0);
   const totalPages = Math.ceil(rows.length / pageSize);
   const slice = rows.slice(page * pageSize, (page + 1) * pageSize);
@@ -66,7 +67,7 @@ export default function POTable({ rows, pageSize = 10 }: Props) {
                 <td className="px-4 py-3 text-slate-400">{row.category}</td>
                 <td className="px-4 py-3 text-right text-slate-300">{row.forecast_demand.toFixed(1)}</td>
                 <td className="px-4 py-3 text-right text-slate-300">{row.order_quantity.toLocaleString()}</td>
-                <td className="px-4 py-3 text-right text-slate-300">{formatCurrency(row.po_value_gbp)}</td>
+                <td className="px-4 py-3 text-right text-slate-300">{formatCurrency(row.po_value, currency)}</td>
                 <td className="px-4 py-3 text-right">
                   <span
                     className={`text-xs font-mono ${
