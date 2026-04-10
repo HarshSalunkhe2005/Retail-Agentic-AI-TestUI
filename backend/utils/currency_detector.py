@@ -12,7 +12,7 @@ _CURRENCY_SYMBOLS = [
 _SAMPLE_SIZE = 20
 
 
-def detect_currency(df: pd.DataFrame, money_columns: list[str], default: str = "$") -> str:
+def detect_currency(df: pd.DataFrame, money_columns: list[str], default: str = "₹") -> str:
     """Scan the first few rows of *money_columns* for known currency symbols.
 
     Returns the first symbol found, or *default* if none is detected.

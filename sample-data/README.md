@@ -1,6 +1,6 @@
 # Sample Data — Retail Agentic AI
 
-This folder contains sample CSV files for the AI platform. Use the focused files to test individual models, or upload the complete dataset to run all four models at once.
+This folder contains sample CSV files for the AI platform. Use `comprehensive_retail_data.csv` to run **all four models at once**, or upload the focused files to test individual models.
 
 ---
 
@@ -8,6 +8,7 @@ This folder contains sample CSV files for the AI platform. Use the focused files
 
 | File | Rows | Compatible Model(s) |
 |------|------|---------------------|
+| `comprehensive_retail_data.csv` | 5,000 | ✅ **ALL 4 models** — **Recommended** |
 | `churn_analysis.csv` | 150 | ✅ **Churn** ONLY |
 | `demand_forecast.csv` | 104 | ✅ **Demand** ONLY |
 | `market_basket.csv` | ~3,700 | ✅ **Basket** ONLY |
@@ -34,15 +35,53 @@ This folder contains sample CSV files for the AI platform. Use the focused files
 
 3. Open [http://localhost:5173](http://localhost:5173) → **Launch Wizard**
 
-4. **Step 1 – Upload**: drag-and-drop any CSV
+4. **Step 1 – Upload**: drag-and-drop `comprehensive_retail_data.csv`
    - The app auto-detects which models are compatible
-   - Only matching models will show as ✅ available
+   - All four models will show as ✅ available
 
 5. Follow the wizard steps to run models and view results.
 
 ---
 
 ## File Details
+
+### `comprehensive_retail_data.csv` — All 4 Models (Recommended) ⭐
+
+5,000 transaction rows spanning 2023–2025, covering 250 unique customers, multiple products per category, and realistic seasonal patterns. **Upload this file once to enable all four AI models simultaneously.**
+
+**Columns:**
+
+| Column | Type | Used by |
+|--------|------|---------|
+| `InvoiceID` | string | Basket |
+| `Date` | YYYY-MM-DD | Demand |
+| `CustomerID` | string | Churn |
+| `ProductName` | string | Basket, Pricing |
+| `Category` | string | Basket, Pricing |
+| `SKU` | string | Basket |
+| `Revenue` | float | Demand |
+| `Quantity` | int | — |
+| `UnitPrice` | float | Pricing |
+| `RecencyDays` | int | Churn |
+| `FrequencyMonths` | float | Churn |
+| `MonetaryValue` | float | Churn |
+| `CompetitorPrice` | float | Pricing |
+
+**Dataset characteristics:**
+- **5,000 rows**, no missing values
+- **Date range:** 2023-01-01 – 2025-12-31
+- **250 unique customers** across three value segments
+- **5 product categories:** Electronics (~25%), Apparel (~25%), Home (~20%), Food (~15%), Health (~15%)
+- **Seasonal patterns:** Q4 (Oct–Dec) ~40% higher activity; June–July summer dip ~–10%
+- **Customer segments:** High-value (~20%), Medium-value (~50%), Low-value (~30%)
+- **Realistic monetary values** – UnitPrice range 100–8,000 ₹ depending on category
+
+**Expected compatibility:**
+```
+comprehensive_retail_data.csv → Compatible: Churn ✅  Demand ✅  Basket ✅  Pricing ✅
+```
+
+---
 
 ### `churn_analysis.csv` — Customer Churn Model
 
@@ -147,9 +186,10 @@ complete_retail_data.csv → Compatible: Churn ✅  Demand ✅  Basket ✅  Pric
 Upload each focused file and confirm strict model compatibility:
 
 ```
-churn_analysis.csv        → Compatible: Churn ONLY   ✅
-demand_forecast.csv       → Compatible: Demand ONLY  ✅
-market_basket.csv         → Compatible: Basket ONLY  ✅
-pricing_optimization.csv  → Compatible: Pricing ONLY ✅
-complete_retail_data.csv  → Compatible: ALL 4 models ✅
+comprehensive_retail_data.csv → Compatible: ALL 4 models      ✅ (recommended)
+churn_analysis.csv            → Compatible: Churn ONLY         ✅
+demand_forecast.csv           → Compatible: Demand ONLY        ✅
+market_basket.csv             → Compatible: Basket ONLY        ✅
+pricing_optimization.csv      → Compatible: Pricing ONLY       ✅
+complete_retail_data.csv      → Compatible: ALL 4 models       ✅
 ```
