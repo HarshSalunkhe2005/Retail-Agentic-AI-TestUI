@@ -9,7 +9,7 @@ import DemandDashboard from '../Dashboard/DemandDashboard';
 import BasketDashboard from '../Dashboard/BasketDashboard';
 import PricingDashboard from '../Dashboard/PricingDashboard';
 import InventoryDashboard from '../Dashboard/InventoryDashboard';
-import { RotateCcw, TrendingUp, AlertCircle, ChevronDown, ChevronUp } from 'lucide-react';
+import { RotateCcw, AlertCircle, ChevronDown, ChevronUp } from 'lucide-react';
 import { exportAsJSON } from '../../utils/csvParser';
 import type { ModelKey } from '../../store/wizardStore';
 
@@ -241,16 +241,10 @@ export default function StepResults() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.5 }}
-        className="mt-8 flex justify-between items-center"
+        className="mt-8 flex justify-end"
       >
-        <p className="text-xs text-slate-500">
-          💡 Head to Dashboard for live metrics and deeper analysis
-        </p>
-        <Button
-          onClick={() => navigate('/dashboard')}
-          icon={<TrendingUp className="w-4 h-4" />}
-        >
-          Open Dashboard
+        <Button variant="ghost" size="sm" onClick={handleReset} icon={<RotateCcw className="w-4 h-4" />}>
+          New Analysis
         </Button>
       </motion.div>
     </div>

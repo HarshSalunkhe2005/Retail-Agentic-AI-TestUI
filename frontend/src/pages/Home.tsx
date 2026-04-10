@@ -8,7 +8,6 @@ import {
   ShoppingCart,
   Package,
   Wand2,
-  LayoutDashboard,
   ArrowRight,
 } from 'lucide-react';
 
@@ -102,14 +101,6 @@ export default function Home() {
               icon={<Wand2 className="w-5 h-5" />}
             >
               Start Analysis
-            </Button>
-            <Button
-              size="lg"
-              variant="secondary"
-              onClick={() => navigate('/dashboard')}
-              icon={<LayoutDashboard className="w-5 h-5" />}
-            >
-              View Dashboard
             </Button>
           </div>
         </motion.div>
