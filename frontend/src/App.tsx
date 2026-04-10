@@ -3,6 +3,7 @@ import Navbar from './components/Common/Navbar';
 import Sidebar from './components/Common/Sidebar';
 import Home from './pages/Home';
 import WizardPage from './pages/Wizard';
+import InventoryPage from './pages/Inventory';
 
 export const API_BASE_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:8000/api';
 
@@ -17,6 +18,7 @@ export default function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/wizard" element={<WizardPage />} />
+              <Route path="/inventory" element={<InventoryPage />} />
             </Routes>
           </main>
         </div>

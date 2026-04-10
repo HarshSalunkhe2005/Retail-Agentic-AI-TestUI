@@ -21,6 +21,34 @@ async function callModel(endpoint: string, file: File): Promise<Record<string, u
   return json as Record<string, unknown>;
 }
 
+async function callInventoryModel(
+  apiResults: Partial<Record<ModelKey, Record<string, unknown>>>
+): Promise<Record<string, unknown>> {
+  const churnResult = apiResults.churn ?? {};
+  const demandResult = apiResults.demand ?? {};
+  const basketResult = apiResults.basket ?? {};
+  const pricingResult = apiResults.pricing ?? {};
+
+  const payload = {
+    churn_data: (churnResult.data as unknown[]) ?? [],
+    churn_summary: (churnResult.summary as Record<string, unknown>) ?? {},
+    demand_data: (demandResult.forecast_data as unknown[]) ?? [],
+    demand_summary: (demandResult.summary as Record<string, unknown>) ?? {},
+    basket_rules: (basketResult.rules as unknown[]) ?? [],
+    basket_summary: (basketResult.summary as Record<string, unknown>) ?? {},
+    pricing_data: (pricingResult.data as unknown[]) ?? [],
+    pricing_summary: (pricingResult.summary as Record<string, unknown>) ?? {},
+  };
+
+  const response = await fetch(`${API_BASE}/models/inventory`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  });
+  const json = await response.json();
+  return json as Record<string, unknown>;
+}
+
 // ── KPI + segment builders from API responses ────────────────────────────────
 
 function buildKpiFromResponses(
@@ -163,6 +191,31 @@ export function useDataProcessing() {
     const segments = buildSegmentsFromChurn(apiResults.churn);
 
     useWizardStore.getState().setResults(kpi, segments);
+
+    // ── Auto-trigger inventory model after all 4 models complete ─────────────
+    const allSucceeded = selectedModels.every(
+      (m) => useWizardStore.getState().modelResults[m]?.status === 'done'
+    );
+
+    if (allSucceeded) {
+      useWizardStore.getState().setInventoryResult({ status: 'running' });
+      try {
+        const inventoryResult = await callInventoryModel(apiResults);
+        if (!cancelRef.current) {
+          useWizardStore.getState().setInventoryResult({
+            status: inventoryResult.status === 'error' ? 'error' : 'done',
+            data: inventoryResult,
+          });
+        }
+      } catch (err) {
+        if (!cancelRef.current) {
+          useWizardStore.getState().setInventoryResult({
+            status: 'error',
+            data: { error: String(err), model: 'inventory' },
+          });
+        }
+      }
+    }
 
     useWizardStore.setState({ isProcessing: false, processingProgress: 100 });
     setTimeout(() => {

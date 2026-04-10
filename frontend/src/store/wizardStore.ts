@@ -37,6 +37,7 @@ export interface WizardState {
   selectedModels: ModelKey[];
   compatibleModels: ModelKey[] | null;
   modelResults: Record<ModelKey, ModelResult>;
+  inventoryResult: ModelResult;
   kpiMetrics: KPIMetrics | null;
   segmentData: SegmentData[];
   isProcessing: boolean;
@@ -52,6 +53,7 @@ export interface WizardState {
   setCompatibleModels: (models: ModelKey[] | null) => void;
   startProcessing: () => void;
   updateModelResult: (model: ModelKey, result: Partial<ModelResult>) => void;
+  setInventoryResult: (result: Partial<ModelResult>) => void;
   setResults: (kpi: KPIMetrics, segments: SegmentData[]) => void;
   reset: () => void;
 }
@@ -61,6 +63,12 @@ const defaultModelResults: Record<ModelKey, ModelResult> = {
   churn: { name: 'Customer Churn', status: 'idle', data: null },
   demand: { name: 'Demand Forecasting', status: 'idle', data: null },
   basket: { name: 'Market Basket Analysis', status: 'idle', data: null },
+};
+
+const defaultInventoryResult: ModelResult = {
+  name: 'Inventory Reorder',
+  status: 'idle',
+  data: null,
 };
 
 const defaultSelectedModels: ModelKey[] = ['pricing', 'churn', 'demand', 'basket'];
@@ -73,6 +81,7 @@ export const useWizardStore = create<WizardState>((set) => ({
   selectedModels: defaultSelectedModels,
   compatibleModels: null,
   modelResults: defaultModelResults,
+  inventoryResult: defaultInventoryResult,
   kpiMetrics: null,
   segmentData: [],
   isProcessing: false,
@@ -96,6 +105,7 @@ export const useWizardStore = create<WizardState>((set) => ({
       isProcessing: true,
       processingProgress: 0,
       modelResults: defaultModelResults,
+      inventoryResult: defaultInventoryResult,
     }),
   updateModelResult: (model, result) =>
     set((s) => ({
@@ -103,6 +113,10 @@ export const useWizardStore = create<WizardState>((set) => ({
         ...s.modelResults,
         [model]: { ...s.modelResults[model], ...result },
       },
+    })),
+  setInventoryResult: (result) =>
+    set((s) => ({
+      inventoryResult: { ...s.inventoryResult, ...result },
     })),
   setResults: (kpi, segments) =>
     set({ kpiMetrics: kpi, segmentData: segments }),
@@ -115,6 +129,7 @@ export const useWizardStore = create<WizardState>((set) => ({
       selectedModels: defaultSelectedModels,
       compatibleModels: null,
       modelResults: defaultModelResults,
+      inventoryResult: defaultInventoryResult,
       kpiMetrics: null,
       segmentData: [],
       isProcessing: false,
