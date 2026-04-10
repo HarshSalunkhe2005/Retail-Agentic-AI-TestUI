@@ -42,6 +42,7 @@ const colorMap: Record<string, { bg: string; border: string; text: string; icon:
   cyan: { bg: 'bg-cyan-500/10', border: 'border-cyan-500/20', text: 'text-cyan-300', icon: 'from-cyan-600 to-cyan-400' },
   orange: { bg: 'bg-orange-500/10', border: 'border-orange-500/20', text: 'text-orange-300', icon: 'from-orange-600 to-orange-400' },
   green: { bg: 'bg-green-500/10', border: 'border-green-500/20', text: 'text-green-300', icon: 'from-green-600 to-green-400' },
+  pink: { bg: 'bg-pink-500/10', border: 'border-pink-500/20', text: 'text-pink-300', icon: 'from-pink-600 to-pink-400' },
 };
 
 export default function Home() {
