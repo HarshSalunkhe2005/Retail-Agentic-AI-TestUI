@@ -11,6 +11,7 @@ from fastapi.responses import JSONResponse
 
 from config import PRICING_LABEL_MAP, PRICING_BASE_ADJ
 from utils.column_detector import detect_pricing
+from utils.currency_detector import detect_currency
 from utils.data_validation import validate_csv, parse_csv
 from utils.model_loader import load_pickle
 from utils.response_formatter import format_pricing_response, error_response
@@ -57,6 +58,9 @@ async def run_pricing(file: UploadFile = File(...)):
     rating_count_col     = mapped.get("rating_count")
     product_name_col     = mapped.get("product_name")
 
+    # Detect currency symbol from price column; default to ₹ (INR)
+    currency_symbol = detect_currency(df, [current_price_col])
+
     df["_current_price"]    = pd.to_numeric(df[current_price_col], errors="coerce")
     df["_competitor_price"] = pd.to_numeric(df[competitor_price_col], errors="coerce")
     df["_rating"]           = (
@@ -98,10 +102,21 @@ async def run_pricing(file: UploadFile = File(...)):
         cur  = float(row['_current_price'])
         comp = float(row['_competitor_price'])
         rat  = float(row['_rating'])
+        ratio = cur / comp if comp > 0 else 1.0
 
-        # Business override: low rating + overpriced → force decrease
-        if rat < 3.0 and (cur / comp if comp > 0 else 1.0) > 1.0:
+        # Business logic overrides: apply rule-based corrections based on price
+        # position relative to competitor so the model produces a realistic mix
+        # of actions rather than always predicting "hold".
+        if ratio > 1.10:
+            # Current price is more than 10 % above competitor → decrease
             action = "decrease"
+        elif ratio < 0.90:
+            # Current price is more than 10 % below competitor → increase
+            action = "increase"
+        elif rat < 3.5 and ratio > 1.0:
+            # Low-rated product that is overpriced vs. competitor → discount
+            action = "discount"
+        # else: keep the ML model prediction
 
         if action == "hold":
             rec_price = cur
@@ -124,6 +139,7 @@ async def run_pricing(file: UploadFile = File(...)):
             "recommended_action": action,
             "recommended_price":  round(rec_price, 2),
             "confidence":         round(confidence, 4),
+            "currency":           currency_symbol,
         })
 
     n = len(records)
@@ -134,6 +150,7 @@ async def run_pricing(file: UploadFile = File(...)):
         "discount_count":  action_counts.get("discount", 0),
         "hold_count":      action_counts.get("hold", 0),
         "avg_confidence":  round(total_confidence / n, 4) if n else 0.0,
+        "currency":        currency_symbol,
     }
 
     return format_pricing_response(records, summary)

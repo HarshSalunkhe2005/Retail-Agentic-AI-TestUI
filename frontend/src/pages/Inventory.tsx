@@ -33,12 +33,13 @@ interface InventoryData {
   kpis: InventoryKPIData;
   po_table: PORow[];
   charts: Charts;
+  currency?: string;
 }
 
 // ── Download helpers ───────────────────────────────────────────────────────────
 
 function downloadCSV(rows: PORow[], filename = 'inventory_po_recommendations.csv') {
-  const headers = ['stock_code', 'description', 'category', 'forecast_demand', 'order_quantity', 'unit_price', 'po_value_gbp', 'risk_score', 'priority', 'reason'];
+  const headers = ['stock_code', 'description', 'category', 'forecast_demand', 'order_quantity', 'unit_price', 'po_value', 'risk_score', 'priority', 'reason'];
   const lines = [
     headers.join(','),
     ...rows.map((r) =>
@@ -130,6 +131,7 @@ export default function InventoryPage() {
   }
 
   const { kpis, charts } = data;
+  const currency = data.currency ?? '₹';
 
   return (
     <div className="p-6 space-y-6 max-w-7xl mx-auto">
@@ -140,7 +142,7 @@ export default function InventoryPage() {
       </motion.div>
 
       {/* KPI Cards */}
-      <InventoryKPIs kpis={kpis} />
+      <InventoryKPIs kpis={kpis} currency={currency} />
 
       {/* Charts row */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
@@ -180,7 +182,7 @@ export default function InventoryPage() {
           <h2 className="text-sm font-semibold text-white">PO Recommendations</h2>
           <InventoryFilters filters={filters} categories={categories} onChange={setFilters} />
         </div>
-        <POTable rows={filteredRows} pageSize={10} />
+        <POTable rows={filteredRows} pageSize={10} currency={currency} />
       </div>
     </div>
   );
