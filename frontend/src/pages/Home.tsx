@@ -48,15 +48,15 @@ export default function Home() {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen flex flex-col">
-      {/* Hero */}
-      <section className="flex-1 flex flex-col items-center justify-center text-center px-8 py-24">
-        {/* Glow */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-96 h-96 bg-purple-600/10 rounded-full blur-3xl" />
-          <div className="absolute top-1/3 left-1/3 w-64 h-64 bg-cyan-600/10 rounded-full blur-3xl" />
-        </div>
+    <div className="relative min-h-screen flex flex-col">
+      {/* Glow */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-96 h-96 bg-purple-600/10 rounded-full blur-3xl" />
+        <div className="absolute top-1/3 left-1/3 w-64 h-64 bg-cyan-600/10 rounded-full blur-3xl" />
+      </div>
 
+      {/* Hero */}
+      <section className="relative z-10 flex-1 flex flex-col items-center justify-center text-center px-8 py-24">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -99,7 +99,7 @@ export default function Home() {
       </section>
 
       {/* Features */}
-      <section className="px-8 py-16 max-w-6xl mx-auto w-full">
+      <section className="relative z-10 px-8 py-16 max-w-6xl mx-auto w-full">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -135,7 +135,7 @@ export default function Home() {
       </section>
 
       {/* Workflow */}
-      <section className="px-8 py-16 max-w-4xl mx-auto w-full">
+      <section className="relative z-10 px-8 py-16 max-w-4xl mx-auto w-full">
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
