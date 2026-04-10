@@ -8,7 +8,6 @@ import ChurnDashboard from '../Dashboard/ChurnDashboard';
 import DemandDashboard from '../Dashboard/DemandDashboard';
 import BasketDashboard from '../Dashboard/BasketDashboard';
 import PricingDashboard from '../Dashboard/PricingDashboard';
-import InventoryDashboard from '../Dashboard/InventoryDashboard';
 import { RotateCcw, AlertCircle, ChevronDown, ChevronUp } from 'lucide-react';
 import { exportAsJSON } from '../../utils/csvParser';
 import type { ModelKey } from '../../store/wizardStore';
@@ -62,9 +61,9 @@ function ErrorCard({ message }: { message: string }) {
 
 // ── Section order ─────────────────────────────────────────────────────────────
 
-const RESULT_ORDER: ModelKey[] = ['churn', 'demand', 'basket', 'pricing', 'inventory'];
+const RESULT_ORDER: ModelKey[] = ['churn', 'demand', 'basket', 'pricing'];
 
-const SECTION_META: Record<ModelKey, { emoji: string; title: string; subtitle: string; accentClass: string }> = {
+const SECTION_META: Record<string, { emoji: string; title: string; subtitle: string; accentClass: string }> = {
   churn: {
     emoji: '👥',
     title: 'Customer Health & Churn',
@@ -88,12 +87,6 @@ const SECTION_META: Record<ModelKey, { emoji: string; title: string; subtitle: s
     title: 'Pricing Intelligence',
     subtitle: 'Price optimization · Competitor analysis',
     accentClass: 'border-purple-500/20 bg-purple-500/3',
-  },
-  inventory: {
-    emoji: '📦',
-    title: 'Inventory Reorder (Model 6)',
-    subtitle: 'ABC classification · EOQ · GBR risk scoring · Purchase orders',
-    accentClass: 'border-pink-500/20 bg-pink-500/3',
   },
 };
 
@@ -214,19 +207,6 @@ export default function StepResults() {
                 <PricingDashboard
                   data={apiData.data as Parameters<typeof PricingDashboard>[0]['data']}
                   summary={apiData.summary as Parameters<typeof PricingDashboard>[0]['summary']}
-                />
-              </ResultSection>
-            );
-          }
-
-          if (modelKey === 'inventory') {
-            return (
-              <ResultSection key={modelKey} {...meta}>
-                <InventoryDashboard
-                  purchase_orders={apiData.purchase_orders as Parameters<typeof InventoryDashboard>[0]['purchase_orders']}
-                  inventory_analysis={apiData.inventory_analysis as Parameters<typeof InventoryDashboard>[0]['inventory_analysis']}
-                  summary={apiData.summary as Parameters<typeof InventoryDashboard>[0]['summary']}
-                  chart_data={apiData.chart_data as Parameters<typeof InventoryDashboard>[0]['chart_data']}
                 />
               </ResultSection>
             );
