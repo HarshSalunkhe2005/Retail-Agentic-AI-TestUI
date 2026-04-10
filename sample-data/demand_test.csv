@@ -1,0 +1,101 @@
+Date,Sales,Category,ProductName,Quantity
+2024-01-01,1320,Electronics,Laptop,3
+2024-01-02,1417,Electronics,Phone,4
+2024-01-03,1661,Apparel,T-Shirt,12
+2024-01-04,1729,Home,Rug,6
+2024-01-05,1548,Health,Yoga Mat,3
+2024-01-06,2120,Food,Blender,14
+2024-01-07,1871,Electronics,Headphones,5
+2024-01-08,1460,Apparel,Running Shoes,4
+2024-01-09,1392,Electronics,Laptop,9
+2024-01-10,1560,Electronics,Phone,4
+2024-01-11,1610,Apparel,T-Shirt,4
+2024-01-12,1786,Home,Rug,5
+2024-01-13,1961,Health,Yoga Mat,13
+2024-01-14,2196,Food,Blender,16
+2024-01-15,1459,Electronics,Headphones,4
+2024-01-16,1563,Apparel,Running Shoes,9
+2024-01-17,1695,Electronics,Laptop,8
+2024-01-18,1586,Electronics,Phone,9
+2024-01-19,1817,Apparel,T-Shirt,11
+2024-01-20,2080,Home,Rug,11
+2024-01-21,1960,Health,Yoga Mat,5
+2024-01-22,1652,Food,Blender,8
+2024-01-23,1780,Electronics,Headphones,8
+2024-01-24,1804,Apparel,Running Shoes,9
+2024-01-25,1554,Electronics,Laptop,11
+2024-01-26,1683,Electronics,Phone,10
+2024-01-27,2135,Apparel,T-Shirt,19
+2024-01-28,2317,Home,Rug,10
+2024-01-29,1953,Health,Yoga Mat,5
+2024-01-30,1813,Food,Blender,6
+2024-01-31,1861,Electronics,Headphones,13
+2024-02-01,1905,Apparel,Running Shoes,12
+2024-02-02,1642,Electronics,Laptop,5
+2024-02-03,2087,Electronics,Phone,8
+2024-02-04,2375,Apparel,T-Shirt,7
+2024-02-05,2029,Home,Rug,6
+2024-02-06,1760,Health,Yoga Mat,8
+2024-02-07,1705,Food,Blender,4
+2024-02-08,1849,Electronics,Headphones,6
+2024-02-09,2029,Apparel,Running Shoes,5
+2024-02-10,2543,Electronics,Laptop,6
+2024-02-11,2446,Electronics,Phone,12
+2024-02-12,1929,Apparel,T-Shirt,9
+2024-02-13,2086,Home,Rug,11
+2024-02-14,1805,Health,Yoga Mat,11
+2024-02-15,2090,Food,Blender,5
+2024-02-16,2106,Electronics,Headphones,6
+2024-02-17,2351,Apparel,Running Shoes,8
+2024-02-18,2429,Electronics,Laptop,10
+2024-02-19,1790,Electronics,Phone,9
+2024-02-20,1907,Apparel,T-Shirt,8
+2024-02-21,2106,Home,Rug,7
+2024-02-22,1984,Health,Yoga Mat,8
+2024-02-23,2056,Food,Blender,6
+2024-02-24,2611,Electronics,Headphones,10
+2024-02-25,2738,Apparel,Running Shoes,18
+2024-02-26,1903,Electronics,Laptop,10
+2024-02-27,2209,Electronics,Phone,7
+2024-02-28,2051,Apparel,T-Shirt,16
+2024-02-29,2274,Home,Rug,13
+2024-03-01,2058,Health,Yoga Mat,12
+2024-03-02,2538,Food,Blender,17
+2024-03-03,2473,Electronics,Headphones,14
+2024-03-04,2173,Apparel,Running Shoes,7
+2024-03-05,2333,Electronics,Laptop,19
+2024-03-06,2162,Electronics,Phone,5
+2024-03-07,2254,Apparel,T-Shirt,14
+2024-03-08,2326,Home,Rug,10
+2024-03-09,2729,Health,Yoga Mat,15
+2024-03-10,2872,Food,Blender,9
+2024-03-11,2384,Electronics,Headphones,6
+2024-03-12,2064,Apparel,Running Shoes,6
+2024-03-13,2132,Electronics,Laptop,13
+2024-03-14,2386,Electronics,Phone,9
+2024-03-15,2065,Apparel,T-Shirt,7
+2024-03-16,2674,Home,Rug,11
+2024-03-17,2862,Health,Yoga Mat,9
+2024-03-18,2356,Food,Blender,8
+2024-03-19,2466,Electronics,Headphones,6
+2024-03-20,2403,Apparel,Running Shoes,6
+2024-03-21,2358,Electronics,Laptop,10
+2024-03-22,2390,Electronics,Phone,10
+2024-03-23,2781,Apparel,T-Shirt,8
+2024-03-24,2955,Home,Rug,12
+2024-03-25,2524,Health,Yoga Mat,14
+2024-03-26,2476,Food,Blender,13
+2024-03-27,2558,Electronics,Headphones,9
+2024-03-28,2490,Apparel,Running Shoes,14
+2024-03-29,2405,Electronics,Laptop,19
+2024-03-30,2933,Electronics,Phone,17
+2024-03-31,2971,Apparel,T-Shirt,15
+2024-04-01,2486,Home,Rug,20
+2024-04-02,2297,Health,Yoga Mat,13
+2024-04-03,2585,Food,Blender,17
+2024-04-04,2349,Electronics,Headphones,19
+2024-04-05,2458,Apparel,Running Shoes,12
+2024-04-06,3113,Electronics,Laptop,13
+2024-04-07,2992,Electronics,Phone,8
+2024-04-08,2479,Apparel,T-Shirt,6
+2024-04-09,2589,Home,Rug,6
