@@ -1,10 +1,13 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useWizardStore } from '../store/wizardStore';
+import { useShallow } from 'zustand/react/shallow';
 import KPICard from '../components/Dashboard/KPICard';
 import MetricsChart from '../components/Dashboard/MetricsChart';
 import SegmentComparison from '../components/Dashboard/SegmentComparison';
 import UrgencyMatrix from '../components/Dashboard/UrgencyMatrix';
+import InventoryDashboard from '../components/Dashboard/InventoryDashboard';
+import type { InventoryDashboardProps } from '../components/Dashboard/InventoryDashboard';
 import Button from '../components/Common/Button';
 import { SkeletonKPI, SkeletonChart } from '../components/Common/SkeletonCard';
 import { useNavigate } from 'react-router-dom';
@@ -25,9 +28,21 @@ import {
 } from '../utils/chartUtils';
 
 export default function Dashboard() {
-  const { kpiMetrics, segmentData, inventoryItems } = useWizardStore();
+  const { kpiMetrics, segmentData, inventoryItems, modelResults } = useWizardStore(
+    useShallow((s) => ({
+      kpiMetrics: s.kpiMetrics,
+      segmentData: s.segmentData,
+      inventoryItems: s.inventoryItems,
+      modelResults: s.modelResults,
+    })),
+  );
   const navigate = useNavigate();
   const [isLive] = useState(true);
+
+  // Show Inventory Reorder Dashboard when Model 6 results are available
+  const inventoryResult = modelResults?.inventory;
+  const hasInventoryResults =
+    inventoryResult?.status === 'done' && inventoryResult?.data != null;
 
   // Use wizard data if available, else show zeros/empty
   const kpi = kpiMetrics;
@@ -46,17 +61,31 @@ export default function Dashboard() {
           className="flex items-center justify-between mb-8"
         >
           <div>
-            <h1 className="text-3xl font-black text-white">Live Dashboard</h1>
-            <p className="text-slate-400 text-sm mt-1">
-              Real-time retail analytics • Updated{' '}
-              {new Date().toLocaleTimeString()}
-            </p>
+            {hasInventoryResults ? (
+              <>
+                <h1 className="text-3xl font-black text-white">Inventory Reorder Dashboard</h1>
+                <p className="text-slate-400 text-sm mt-1">
+                  Real-time inventory analytics • Updated{' '}
+                  {new Date().toLocaleTimeString()}
+                </p>
+              </>
+            ) : (
+              <>
+                <h1 className="text-3xl font-black text-white">Live Dashboard</h1>
+                <p className="text-slate-400 text-sm mt-1">
+                  Real-time retail analytics • Updated{' '}
+                  {new Date().toLocaleTimeString()}
+                </p>
+              </>
+            )}
           </div>
           <div className="flex items-center gap-3">
-            <div className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium glass border ${isLive ? 'border-green-500/30 text-green-400' : 'border-slate-500/30 text-slate-400'}`}>
-              <span className={`w-2 h-2 rounded-full ${isLive ? 'bg-green-400 animate-pulse' : 'bg-slate-500'}`} />
-              {isLive ? 'Live' : 'Paused'}
-            </div>
+            {!hasInventoryResults && (
+              <div className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium glass border ${isLive ? 'border-green-500/30 text-green-400' : 'border-slate-500/30 text-slate-400'}`}>
+                <span className={`w-2 h-2 rounded-full ${isLive ? 'bg-green-400 animate-pulse' : 'bg-slate-500'}`} />
+                {isLive ? 'Live' : 'Paused'}
+              </div>
+            )}
             <Button
               variant="secondary"
               size="sm"
@@ -65,18 +94,27 @@ export default function Dashboard() {
             >
               Run Analysis
             </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              icon={<RefreshCw className="w-4 h-4" />}
-            >
-              Refresh
-            </Button>
+            {!hasInventoryResults && (
+              <Button
+                variant="ghost"
+                size="sm"
+                icon={<RefreshCw className="w-4 h-4" />}
+              >
+                Refresh
+              </Button>
+            )}
           </div>
         </motion.div>
 
-        {/* KPI Row */}
-        {showSkeleton ? (
+        {/* Inventory Reorder Dashboard — shown when Model 6 results are available */}
+        {hasInventoryResults ? (
+          <InventoryDashboard
+            {...(inventoryResult!.data as InventoryDashboardProps)}
+          />
+        ) : (
+          <>
+            {/* KPI Row */}
+            {showSkeleton ? (
           <div className="grid grid-cols-6 gap-4 mb-8">
             {Array.from({ length: 6 }).map((_, i) => <SkeletonKPI key={i} />)}
           </div>
@@ -195,6 +233,8 @@ export default function Dashboard() {
               Start Analysis
             </Button>
           </motion.div>
+        )}
+          </>
         )}
       </div>
     </div>
