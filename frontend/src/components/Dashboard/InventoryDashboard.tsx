@@ -77,7 +77,8 @@ interface ChartData {
   urgency_bar: Array<{ name: string; value: number }>;
 }
 
-interface InventoryDashboardProps {
+// Exported types for Dashboard.tsx consumption
+export interface InventoryDashboardProps {
   purchase_orders: InventoryRecord[];
   inventory_analysis: InventoryRecord[];
   summary: InventorySummary;
@@ -400,7 +401,7 @@ export default function InventoryDashboard({
                     <div className="flex items-center gap-2">
                       <UrgencyDot urgency={u} />
                       <span className="text-xs text-slate-300 font-medium">
-                        {urgencyEmoji[u]} {u.toUpperCase()}
+                        {urgencyEmoji[u]} {u}
                       </span>
                     </div>
                     <span className="text-xs text-slate-400">{count} SKUs</span>
@@ -648,7 +649,11 @@ export default function InventoryDashboard({
                       <td className="py-2.5 pr-3 text-slate-300 font-medium">
                         {r.StockCode}
                         {r.ColdStart && (
-                          <span className="ml-1 text-yellow-400" title="Cold-start: limited history">
+                          <span
+                            className="ml-1 text-yellow-400"
+                            title="Cold-start: limited history"
+                            aria-label="Cold-start: limited history"
+                          >
                             &#10052;
                           </span>
                         )}
@@ -674,7 +679,7 @@ export default function InventoryDashboard({
                       </td>
                       <td className="py-2.5 pr-3 text-right text-green-300 font-medium">
                         {r.PO_Value_GBP > 0
-                          ? `\u00a3${r.PO_Value_GBP.toLocaleString()}`
+                          ? `${summary.currency_symbol}${r.PO_Value_GBP.toLocaleString()}`
                           : <span className="text-slate-600">-</span>}
                       </td>
                       <td className="py-2.5 pr-3 text-right text-slate-300">
@@ -693,6 +698,7 @@ export default function InventoryDashboard({
                                 ? '#F39C12'
                                 : '#94a3b8',
                           }}
+                          aria-label={r.Days_To_Stockout >= 999 ? 'No stockout risk' : `${r.Days_To_Stockout} days`}
                         >
                           {r.Days_To_Stockout >= 999 ? '\u221e' : r.Days_To_Stockout}
                         </span>

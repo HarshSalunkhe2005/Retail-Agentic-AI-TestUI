@@ -7,6 +7,7 @@ import MetricsChart from '../components/Dashboard/MetricsChart';
 import SegmentComparison from '../components/Dashboard/SegmentComparison';
 import UrgencyMatrix from '../components/Dashboard/UrgencyMatrix';
 import InventoryDashboard from '../components/Dashboard/InventoryDashboard';
+import type { InventoryDashboardProps } from '../components/Dashboard/InventoryDashboard';
 import Button from '../components/Common/Button';
 import { SkeletonKPI, SkeletonChart } from '../components/Common/SkeletonCard';
 import { useNavigate } from 'react-router-dom';
@@ -108,22 +109,7 @@ export default function Dashboard() {
         {/* Inventory Reorder Dashboard — shown when Model 6 results are available */}
         {hasInventoryResults ? (
           <InventoryDashboard
-            purchase_orders={
-              (inventoryResult!.data as Record<string, unknown>)
-                .purchase_orders as Parameters<typeof InventoryDashboard>[0]['purchase_orders']
-            }
-            inventory_analysis={
-              (inventoryResult!.data as Record<string, unknown>)
-                .inventory_analysis as Parameters<typeof InventoryDashboard>[0]['inventory_analysis']
-            }
-            summary={
-              (inventoryResult!.data as Record<string, unknown>)
-                .summary as Parameters<typeof InventoryDashboard>[0]['summary']
-            }
-            chart_data={
-              (inventoryResult!.data as Record<string, unknown>)
-                .chart_data as Parameters<typeof InventoryDashboard>[0]['chart_data']
-            }
+            {...(inventoryResult!.data as InventoryDashboardProps)}
           />
         ) : (
           <>
