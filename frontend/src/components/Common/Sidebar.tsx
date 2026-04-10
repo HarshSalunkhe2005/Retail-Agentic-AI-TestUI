@@ -3,7 +3,6 @@ import { motion } from 'framer-motion';
 import {
   Home,
   Wand2,
-  LayoutDashboard,
   TrendingUp,
   Users,
   ShoppingCart,
@@ -14,7 +13,6 @@ import {
 const navItems = [
   { to: '/', icon: Home, label: 'Home' },
   { to: '/wizard', icon: Wand2, label: 'Wizard' },
-  { to: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
 ];
 
 const modelItems = [

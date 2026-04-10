@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { BarChart2, Home, Wand2, LayoutDashboard } from 'lucide-react';
+import { BarChart2, Home, Wand2 } from 'lucide-react';
 
 export default function Navbar() {
   const location = useLocation();
@@ -8,7 +8,6 @@ export default function Navbar() {
   const links = [
     { to: '/', label: 'Home', icon: Home },
     { to: '/wizard', label: 'Wizard', icon: Wand2 },
-    { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   ];
 
   return (
