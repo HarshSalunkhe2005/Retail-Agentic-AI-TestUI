@@ -1,0 +1,13 @@
+{
+  "services": {
+    "backend": {
+      "rootDirectory": "backend",
+      "startCommand": "python -m uvicorn main:app --host 0.0.0.0 --port $PORT"
+    },
+    "frontend": {
+      "rootDirectory": "frontend",
+      "startCommand": "npm run preview",
+      "buildCommand": "npm install && npm run build"
+    }
+  }
+}
