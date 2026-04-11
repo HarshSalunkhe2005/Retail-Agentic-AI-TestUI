@@ -1,9 +1,21 @@
 /**
  * API client for the Retail Agentic AI backend.
  * Base URL: http://localhost:8000/api  (overridable via VITE_API_URL)
+ *
+ * VITE_API_URL may be set to either:
+ *   - just the origin:  https://my-backend.up.railway.app
+ *   - with /api suffix: https://my-backend.up.railway.app/api
+ * Both are normalized to always end with /api so routes resolve correctly
+ * in both local dev and Railway deployments without manual URL editing.
  */
+function normalizeApiBase(url: string): string {
+  const trimmed = url.replace(/\/+$/, ''); // strip any trailing slashes
+  return trimmed.endsWith('/api') ? trimmed : `${trimmed}/api`;
+}
 
-export const API_BASE_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:8000/api';
+export const API_BASE_URL = normalizeApiBase(
+  import.meta.env.VITE_API_URL ?? 'http://localhost:8000'
+);
 
 const TIMEOUT_MS = 60_000;
 

@@ -4,8 +4,9 @@ import Sidebar from './components/Common/Sidebar';
 import Home from './pages/Home';
 import WizardPage from './pages/Wizard';
 import InventoryPage from './pages/Inventory';
+import { API_BASE_URL } from './utils/api';
 
-export const API_BASE_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:8000/api';
+export { API_BASE_URL };
 
 export default function App() {
   return (

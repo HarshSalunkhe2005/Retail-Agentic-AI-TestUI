@@ -1,8 +1,7 @@
 import { useCallback, useRef } from 'react';
 import { useWizardStore } from '../store/wizardStore';
 import type { ModelKey, KPIMetrics, SegmentData } from '../store/wizardStore';
-
-const API_BASE = import.meta.env.VITE_API_URL ?? 'http://localhost:8000/api';
+import { API_BASE_URL as API_BASE } from '../utils/api';
 
 // ── helpers ───────────────────────────────────────────────────────────────────
 
