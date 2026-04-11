@@ -2,8 +2,7 @@
 
 Mines association rules directly from the uploaded transaction CSV using FP-Growth
 so that any multi-category dataset will automatically produce cross-category rules.
-Falls back to the pre-trained PKL only when the uploaded data has too few transactions
-to produce meaningful rules.
+Always analyzes the uploaded data only — never falls back to pre-trained/cached models.
 """
 
 from __future__ import annotations
@@ -16,7 +15,6 @@ from fastapi.responses import JSONResponse
 
 from utils.column_detector import detect_basket
 from utils.data_validation import validate_csv, parse_csv
-from utils.model_loader import load_pickle
 from utils.response_formatter import format_basket_response, error_response
 
 logger = logging.getLogger(__name__)
@@ -26,7 +24,8 @@ REQUIRED_COLS  = ["Invoice", "ProductName"]
 TOP_RULES      = 100
 MIN_SUPPORT    = 0.02   # >=2 % of transactions
 MIN_CONFIDENCE = 0.20   # >=20 % confidence
-MIN_INVOICES   = 10     # minimum transactions needed to mine fresh rules
+MIN_TRANSACTIONS_FOR_MINING = 2   # need at least 2 unique invoices to find associations
+MIN_PRODUCTS_FOR_MINING     = 2   # need at least 2 distinct products
 
 
 # -- helpers ------------------------------------------------------------------
@@ -120,43 +119,6 @@ def _mine_rules_from_csv(
     return rules
 
 
-def _rules_from_pretrained(rules_df: pd.DataFrame) -> list[dict]:
-    """Convert pre-trained PKL rules (old format) into the standard output list."""
-    rule_cols            = rules_df.columns.tolist()
-    has_antecedents_desc = "antecedents_desc" in rule_cols
-    has_consequents_desc = "consequents_desc" in rule_cols
-    has_composite        = "composite_score"  in rule_cols
-    has_revenue          = "revenue_weight"   in rule_cols
-    has_rule_id          = "rule_id"          in rule_cols
-
-    rules_out: list[dict] = []
-    for _, row in rules_df.head(TOP_RULES).iterrows():
-        antecedent = (
-            _safe_list(str(row["antecedents_desc"]), "|") if has_antecedents_desc
-            else _safe_list(str(row.get("antecedents_str", "")))
-        )
-        consequent = (
-            _safe_list(str(row["consequents_desc"]), "|") if has_consequents_desc
-            else _safe_list(str(row.get("consequents_str", "")))
-        )
-        entry: dict = {
-            "antecedent": antecedent,
-            "consequent": consequent,
-            "support":    round(float(row.get("support",    0)), 4),
-            "confidence": round(float(row.get("confidence", 0)), 4),
-            "lift":       round(float(row.get("lift",       0)), 4),
-        }
-        if has_composite:
-            entry["composite_score"] = round(float(row["composite_score"]), 4)
-        if has_revenue:
-            entry["revenue_weight"] = round(float(row["revenue_weight"]), 4)
-        if has_rule_id:
-            entry["rule_id"] = row["rule_id"]
-        rules_out.append(entry)
-
-    return rules_out
-
-
 # -- route --------------------------------------------------------------------
 
 @router.post("/models/basket")
@@ -188,52 +150,65 @@ async def run_basket(
 
     # -- Mine rules from the uploaded data ------------------------------------
     rules_df = pd.DataFrame()
-    if n_invoices >= MIN_INVOICES:
-        try:
-            rules_df = _mine_rules_from_csv(df, invoice_col, product_col, category_col)
-        except Exception as exc:
-            logger.warning(
-                "Rule mining failed, will fall back to pre-trained model: %s", exc
-            )
+    try:
+        rules_df = _mine_rules_from_csv(df, invoice_col, product_col, category_col)
+    except Exception as exc:
+        logger.warning("Rule mining failed: %s", exc)
 
-    # -- If mining produced no rules, fall back to pre-trained PKL ------------
-    use_pretrained = rules_df.empty
-    if use_pretrained:
+    # -- If mining produced no rules, return an empty result with explanation --
+    if rules_df.empty:
+        n_products = df[product_col].nunique()
+        if n_invoices < MIN_TRANSACTIONS_FOR_MINING:
+            reason = (
+                f"Insufficient transactions: only {n_invoices} unique invoice(s) found. "
+                f"At least {MIN_TRANSACTIONS_FOR_MINING} transactions are needed to find associations."
+            )
+        elif n_products < MIN_PRODUCTS_FOR_MINING:
+            reason = (
+                f"Insufficient products: only {n_products} unique product(s) found. "
+                f"At least {MIN_PRODUCTS_FOR_MINING} distinct products are needed to find associations."
+            )
+        else:
+            reason = (
+                f"No association rules met the minimum thresholds "
+                f"(support ≥ {MIN_SUPPORT:.0%}, confidence ≥ {MIN_CONFIDENCE:.0%}) "
+                f"from {n_invoices} transactions and {n_products} products. "
+                "Try uploading a larger dataset."
+            )
         logger.info(
-            "Falling back to pre-trained basket model (uploaded data: %d invoices)",
+            "Basket mining produced no rules for uploaded data (%d invoices): %s",
             n_invoices,
+            reason,
         )
-        try:
-            rules_df = load_pickle("basket")
-        except Exception as exc:
-            logger.error("Basket model load error: %s", exc)
-            return JSONResponse(
-                status_code=500,
-                content=error_response("basket", "Failed to load basket analysis model."),
-            )
-        if rules_df is None or rules_df.empty:
-            return JSONResponse(
-                status_code=500,
-                content=error_response("basket", "Basket model contains no rules."),
-            )
-        rules_out   = _rules_from_pretrained(rules_df)
-        cross_cat_count = 0
-    else:
-        # -- Build response list from freshly mined rules ---------------------
-        top_rules  = rules_df.head(TOP_RULES)
-        rules_out: list[dict] = []
-        for _, row in top_rules.iterrows():
-            entry: dict = {
-                "antecedent": row["antecedents_list"],
-                "consequent": row["consequents_list"],
-                "support":    round(float(row.get("support",    0)), 4),
-                "confidence": round(float(row.get("confidence", 0)), 4),
-                "lift":       round(float(row.get("lift",       0)), 4),
-                "rule_id":    int(row["rule_id"]),
-            }
-            rules_out.append(entry)
+        summary: dict = {
+            "total_rules":          0,
+            "cross_category_rules": 0,
+            "products_analyzed":    0,
+            "message":              reason,
+        }
+        pagination = {
+            "total_count": 0,
+            "limit":       limit,
+            "offset":      offset,
+            "returned":    0,
+        }
+        return format_basket_response([], summary, pagination=pagination)
 
-        cross_cat_count = int(top_rules["cross_category"].sum())
+    # -- Build response list from freshly mined rules -------------------------
+    top_rules  = rules_df.head(TOP_RULES)
+    rules_out: list[dict] = []
+    for _, row in top_rules.iterrows():
+        entry: dict = {
+            "antecedent": row["antecedents_list"],
+            "consequent": row["consequents_list"],
+            "support":    round(float(row.get("support",    0)), 4),
+            "confidence": round(float(row.get("confidence", 0)), 4),
+            "lift":       round(float(row.get("lift",       0)), 4),
+            "rule_id":    int(row["rule_id"]),
+        }
+        rules_out.append(entry)
+
+    cross_cat_count = int(top_rules["cross_category"].sum())
 
     # -- Pagination -----------------------------------------------------------
     total_count = len(rules_out)

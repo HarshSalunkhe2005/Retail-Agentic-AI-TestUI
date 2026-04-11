@@ -13,7 +13,6 @@ from config import DEFAULT_FORECAST_WEEKS
 from utils.column_detector import detect_demand
 from utils.currency_detector import detect_currency
 from utils.data_validation import validate_csv, parse_csv
-from utils.model_loader import load_pickle
 from utils.response_formatter import format_demand_response, error_response
 
 logger = logging.getLogger(__name__)
@@ -40,16 +39,6 @@ async def run_demand(file: UploadFile = File(...)):
 
     mapped = detection.mapped
 
-    # ── Load model ─────────────────────────────────────────────────────────────
-    try:
-        prophet_model = load_pickle("demand")
-    except Exception as exc:
-        logger.error("Demand model load error: %s", exc)
-        return JSONResponse(
-            status_code=500,
-            content=error_response("demand", "Failed to load demand forecast model."),
-        )
-
     date_col  = mapped["Date"]
     sales_col = mapped["Sales"]
 
@@ -70,42 +59,59 @@ async def run_demand(file: UploadFile = File(...)):
         )
 
     # ── Fit fresh Prophet model on uploaded data ───────────────────────────────
-    try:
-        from prophet import Prophet  # type: ignore
+    # Suppress verbose Prophet / cmdstanpy output
+    import logging as _lg
+    _lg.getLogger("prophet").setLevel(_lg.WARNING)
+    _lg.getLogger("cmdstanpy").setLevel(_lg.WARNING)
 
-        # Remove outliers before fitting to avoid extreme forecast spikes.
-        # Values beyond 3 standard deviations are capped to the 99th percentile.
-        q_low  = ts["y"].quantile(0.01)
-        q_high = ts["y"].quantile(0.99)
-        ts["y"] = ts["y"].clip(lower=q_low, upper=q_high)
+    from prophet import Prophet  # type: ignore
 
-        m = Prophet(
-            seasonality_mode="additive",   # additive is more stable; avoids multiplicative spikes
-            yearly_seasonality=True,
-            weekly_seasonality=True,
+    # Remove outliers before fitting to avoid extreme forecast spikes.
+    # Values beyond 3 standard deviations are capped to the 99th percentile.
+    q_low  = ts["y"].quantile(0.01)
+    q_high = ts["y"].quantile(0.99)
+    ts["y"] = ts["y"].clip(lower=q_low, upper=q_high)
+
+    # Try progressively simpler Prophet configurations so small / noisy
+    # datasets still produce a forecast without falling back to cached data.
+    prophet_configs = [
+        dict(seasonality_mode="additive", yearly_seasonality=True,  weekly_seasonality=True),
+        dict(seasonality_mode="additive", yearly_seasonality=False, weekly_seasonality=True),
+        dict(seasonality_mode="additive", yearly_seasonality=False, weekly_seasonality=False),
+    ]
+
+    forecast = None
+    last_exc: Exception | None = None
+    seasonality_used = "additive"
+
+    for cfg in prophet_configs:
+        try:
+            m = Prophet(**cfg)
+            m.fit(ts)
+            future   = m.make_future_dataframe(periods=DEFAULT_FORECAST_WEEKS, freq="W")
+            forecast = m.predict(future)
+            forecast["yhat"]       = np.clip(forecast["yhat"],       0, None)
+            forecast["yhat_lower"] = np.clip(forecast["yhat_lower"], 0, None)
+            forecast["yhat_upper"] = np.clip(forecast["yhat_upper"], 0, None)
+            seasonality_used = cfg.get("seasonality_mode", "additive")
+            break
+        except Exception as exc:
+            logger.warning("Prophet fit failed with config %s: %s", cfg, exc)
+            last_exc = exc
+
+    if forecast is None:
+        logger.error("All Prophet fit attempts failed: %s", last_exc)
+        return JSONResponse(
+            status_code=422,
+            content=error_response(
+                "demand",
+                (
+                    "Could not fit a forecast model on the uploaded data. "
+                    "Please check that the dataset contains sufficient date/sales rows "
+                    f"({len(ts)} valid rows found)."
+                ),
+            ),
         )
-        # Suppress Prophet output
-        import logging as _lg
-        _lg.getLogger("prophet").setLevel(_lg.WARNING)
-        _lg.getLogger("cmdstanpy").setLevel(_lg.WARNING)
-
-        m.fit(ts)
-
-        future   = m.make_future_dataframe(periods=DEFAULT_FORECAST_WEEKS, freq="W")
-        forecast = m.predict(future)
-        forecast["yhat"]       = np.clip(forecast["yhat"],       0, None)
-        forecast["yhat_lower"] = np.clip(forecast["yhat_lower"], 0, None)
-        forecast["yhat_upper"] = np.clip(forecast["yhat_upper"], 0, None)
-
-    except Exception as exc:
-        logger.warning("Fresh Prophet fit failed (%s); falling back to pre-trained model.", exc)
-        # Fallback: use the pre-trained model for inference only
-        m        = prophet_model
-        future   = m.make_future_dataframe(periods=DEFAULT_FORECAST_WEEKS, freq="W")
-        forecast = m.predict(future)
-        forecast["yhat"]       = np.clip(forecast["yhat"],       0, None)
-        forecast["yhat_lower"] = np.clip(forecast["yhat_lower"], 0, None)
-        forecast["yhat_upper"] = np.clip(forecast["yhat_upper"], 0, None)
 
     # ── Build actual-vs-forecast data ──────────────────────────────────────────
     hist_map = dict(zip(ts["ds"].dt.strftime("%Y-%m-%d"), ts["y"]))
@@ -139,7 +145,7 @@ async def run_demand(file: UploadFile = File(...)):
         "training_periods":  len(ts),
         "forecast_periods":  DEFAULT_FORECAST_WEEKS,
         "trend":             trend,
-        "seasonality":       "additive",
+        "seasonality":       seasonality_used,
         "currency":          currency_symbol,
     }
 
