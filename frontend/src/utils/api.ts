@@ -79,14 +79,67 @@ export interface AIInsightsResponse {
 }
 
 export async function getAIInsights(payload: AIInsightsRequest): Promise<AIInsightsResponse> {
-  const result = await fetchWithTimeout(`${API_BASE_URL}/ai-insights`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload),
-  });
+  const controller = new AbortController();
+  const timeoutMs = 30_000;
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  let res: Response;
+
+  try {
+    res = await fetch(`${API_BASE_URL}/ai-insights`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+      signal: controller.signal,
+    });
+  } catch (err) {
+    if ((err as Error).name === 'AbortError') {
+      throw new Error('AI request timed out after 30 seconds. Please try a shorter question and try again.');
+    }
+    throw new Error('Unable to connect to AI service. Please ensure backend and Ollama are running.');
+  } finally {
+    clearTimeout(timer);
+  }
+
+  let responseData: Record<string, unknown> | null = null;
+  let jsonParseFailed = false;
+  try {
+    responseData = (await res.json()) as Record<string, unknown>;
+  } catch {
+    jsonParseFailed = true;
+  }
+
+  if (!res.ok) {
+    if (jsonParseFailed) {
+      throw new Error(`AI service returned HTTP ${res.status} with an invalid JSON payload.`);
+    }
+
+    const aiErrorResult = responseData as { response?: string; message?: string } | null;
+    const backendMessage = aiErrorResult?.message ?? aiErrorResult?.response;
+
+    if (res.status === 503) {
+      throw new Error(
+        backendMessage ??
+          'Ollama is not available (503). Please start Ollama locally and try again.'
+      );
+    }
+    if (res.status === 504) {
+      throw new Error(backendMessage ?? 'AI request timed out (504). Please ask a shorter question.');
+    }
+    if (res.status === 500) {
+      throw new Error(backendMessage ?? 'AI service failed (500). Please retry in a moment.');
+    }
+
+    throw new Error(backendMessage ?? `AI request failed (HTTP ${res.status}).`);
+  }
+
+  if (jsonParseFailed) {
+    throw new Error('AI service returned an invalid JSON response.');
+  }
+
+  const parsedResult = responseData ?? {};
 
   return {
-    response: String((result as { response?: string }).response ?? ''),
-    model_used: String((result as { model_used?: string }).model_used ?? 'mistral'),
+    response: String((parsedResult as { response?: string }).response ?? ''),
+    model_used: String((parsedResult as { model_used?: string }).model_used ?? 'mistral'),
   };
 }
