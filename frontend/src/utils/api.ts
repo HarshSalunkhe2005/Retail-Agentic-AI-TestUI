@@ -79,11 +79,48 @@ export interface AIInsightsResponse {
 }
 
 export async function getAIInsights(payload: AIInsightsRequest): Promise<AIInsightsResponse> {
-  const result = await fetchWithTimeout(`${API_BASE_URL}/ai-insights`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload),
-  });
+  const controller = new AbortController();
+  const timeoutMs = 30_000;
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  let res: Response;
+
+  try {
+    res = await fetch(`${API_BASE_URL}/ai-insights`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+      signal: controller.signal,
+    });
+  } catch (err) {
+    if ((err as Error).name === 'AbortError') {
+      throw new Error('AI request timed out after 30 seconds. Please try again.');
+    }
+    throw new Error('Unable to connect to AI service. Please ensure backend and Ollama are running.');
+  } finally {
+    clearTimeout(timer);
+  }
+
+  const result = (await res.json().catch(() => null)) as Record<string, unknown> | null;
+  if (!res.ok) {
+    const backendMessage =
+      (result as { response?: string; message?: string } | null)?.message ??
+      (result as { response?: string; message?: string } | null)?.response;
+
+    if (res.status === 503) {
+      throw new Error(
+        backendMessage ??
+          'Ollama is not available (503). Please start Ollama locally and try again.'
+      );
+    }
+    if (res.status === 504) {
+      throw new Error(backendMessage ?? 'AI request timed out (504). Please ask a shorter question.');
+    }
+    if (res.status === 500) {
+      throw new Error(backendMessage ?? 'AI service failed (500). Please retry in a moment.');
+    }
+
+    throw new Error(backendMessage ?? `AI request failed (HTTP ${res.status}).`);
+  }
 
   return {
     response: String((result as { response?: string }).response ?? ''),
