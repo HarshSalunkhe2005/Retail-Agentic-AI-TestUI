@@ -64,3 +64,29 @@ export async function runModel(
     body: fd,
   });
 }
+
+export interface AIInsightsRequest {
+  churn_results: Record<string, unknown> | null;
+  demand_results: Record<string, unknown> | null;
+  pricing_results: Record<string, unknown> | null;
+  basket_results: Record<string, unknown> | null;
+  user_question: string;
+}
+
+export interface AIInsightsResponse {
+  response: string;
+  model_used: string;
+}
+
+export async function getAIInsights(payload: AIInsightsRequest): Promise<AIInsightsResponse> {
+  const result = await fetchWithTimeout(`${API_BASE_URL}/ai-insights`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  });
+
+  return {
+    response: String((result as { response?: string }).response ?? ''),
+    model_used: String((result as { model_used?: string }).model_used ?? 'mistral'),
+  };
+}
