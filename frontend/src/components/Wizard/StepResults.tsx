@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useWizardStore } from '../../store/wizardStore';
 import { useShallow } from 'zustand/react/shallow';
@@ -92,6 +92,7 @@ const SECTION_META: Record<string, { emoji: string; title: string; subtitle: str
 };
 
 interface ChatMessage {
+  id: string;
   role: 'user' | 'assistant';
   content: string;
 }
@@ -112,6 +113,9 @@ export default function StepResults() {
   const [isAskingAI, setIsAskingAI] = useState(false);
   const [aiError, setAIError] = useState<string | null>(null);
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
+  const [aiModelName, setAIModelName] = useState('mistral');
+  const messageCounterRef = useRef(0);
+  const chatEndRef = useRef<HTMLDivElement | null>(null);
 
   const handleExportJSON = () => {
     const exportData: Record<string, unknown> = {};
@@ -136,13 +140,21 @@ export default function StepResults() {
     basket_results: modelResults.basket?.status === 'done' ? modelResults.basket.data : null,
   };
 
+  useEffect(() => {
+    chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [chatHistory, isAskingAI]);
+
   const handleAskAI = async () => {
     const userQuestion = question.trim();
     if (!userQuestion || isAskingAI) return;
+    const nextId = (suffix: string) => {
+      messageCounterRef.current += 1;
+      return `${Date.now()}-${messageCounterRef.current}-${suffix}`;
+    };
 
     setAIError(null);
     setQuestion('');
-    setChatHistory((prev) => [...prev, { role: 'user', content: userQuestion }]);
+    setChatHistory((prev) => [...prev, { id: nextId('user'), role: 'user', content: userQuestion }]);
     setIsAskingAI(true);
 
     try {
@@ -150,13 +162,21 @@ export default function StepResults() {
         ...aiPayloadBase,
         user_question: userQuestion,
       });
-      setChatHistory((prev) => [...prev, { role: 'assistant', content: result.response }]);
+      setAIModelName(result.model_used || 'mistral');
+      setChatHistory((prev) => [
+        ...prev,
+        { id: nextId('assistant'), role: 'assistant', content: result.response },
+      ]);
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to fetch AI insights.';
       setAIError(message);
       setChatHistory((prev) => [
         ...prev,
-        { role: 'assistant', content: 'I could not reach the local AI service. Please try again.' },
+        {
+          id: nextId('assistant-error'),
+          role: 'assistant',
+          content: 'I could not reach the local AI service. Please try again.',
+        },
       ]);
     } finally {
       setIsAskingAI(false);
@@ -292,19 +312,19 @@ export default function StepResults() {
           >
             <div className="p-4 border-b border-white/10 flex items-center gap-2">
               <MessageSquare className="w-4 h-4 text-purple-300" />
-              <h3 className="text-sm font-semibold text-white">AI Chat (Mistral Local)</h3>
+              <h3 className="text-sm font-semibold text-white">AI Chat ({aiModelName} local)</h3>
             </div>
 
-            <div className="p-4 space-y-3 h-80 overflow-y-auto">
+            <div className="p-4 space-y-3 h-80 overflow-y-auto" role="log" aria-label="Chat history">
               {chatHistory.length === 0 && (
                 <div className="text-sm text-slate-400">
                   Ask a question about your model outputs. Example: Why should I increase prices?
                 </div>
               )}
 
-              {chatHistory.map((msg, idx) => (
+              {chatHistory.map((msg) => (
                 <div
-                  key={`${msg.role}-${idx}`}
+                  key={msg.id}
                   className={`rounded-xl p-3 text-sm ${
                     msg.role === 'user'
                       ? 'bg-cyan-500/15 border border-cyan-500/25 text-cyan-100'
@@ -317,6 +337,7 @@ export default function StepResults() {
                   <p className="whitespace-pre-wrap">{msg.content}</p>
                 </div>
               ))}
+              <div ref={chatEndRef} />
             </div>
 
             <div className="p-4 border-t border-white/10 space-y-2">
@@ -325,10 +346,18 @@ export default function StepResults() {
                 value={question}
                 onChange={(e) => setQuestion(e.target.value)}
                 placeholder="Ask a follow-up question..."
+                aria-label="Ask AI a question"
                 rows={3}
                 className="w-full rounded-xl bg-black/20 border border-white/10 px-3 py-2 text-sm text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
               />
-              <Button variant="primary" size="sm" onClick={handleAskAI} loading={isAskingAI} className="w-full justify-center">
+              <Button
+                variant="primary"
+                size="sm"
+                onClick={handleAskAI}
+                loading={isAskingAI}
+                disabled={!question.trim() || isAskingAI}
+                className="w-full justify-center"
+              >
                 {isAskingAI ? 'Thinking...' : 'Ask AI'}
               </Button>
             </div>

@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import logging
+import socket
 from urllib import error as urllib_error
 from urllib import request as urllib_request
 
@@ -22,7 +23,7 @@ class AIInsightsRequest(BaseModel):
     demand_results: dict | None = None
     pricing_results: dict | None = None
     basket_results: dict | None = None
-    user_question: str = "What are the top business actions we should take?"
+    user_question: str = ""
 
 
 def _build_prompt(payload: AIInsightsRequest) -> str:
@@ -36,7 +37,7 @@ def _build_prompt(payload: AIInsightsRequest) -> str:
         "You are a retail analytics assistant. Analyze the provided model outputs and give concise, "
         "actionable business recommendations.\n\n"
         f"Model outputs:\n{json.dumps(context, indent=2, default=str)}\n\n"
-        f"User question: {payload.user_question}\n\n"
+        f"User question: {payload.user_question or 'What are the top business actions we should take?'}\n\n"
         "Provide: (1) key insight, (2) recommended actions, (3) potential risks."
     )
 
@@ -60,6 +61,15 @@ async def ai_insights(payload: AIInsightsRequest):
     try:
         with urllib_request.urlopen(req, timeout=OLLAMA_TIMEOUT_SECONDS) as response:
             raw = response.read().decode("utf-8")
+    except socket.timeout:
+        logger.warning("Ollama request timed out after %ss", OLLAMA_TIMEOUT_SECONDS)
+        return JSONResponse(
+            status_code=504,
+            content={
+                "response": "AI request timed out. Please try a shorter question and try again.",
+                "model_used": OLLAMA_MODEL,
+            },
+        )
     except urllib_error.URLError as exc:
         logger.warning("Ollama connection failed: %s", exc)
         return JSONResponse(
@@ -69,15 +79,6 @@ async def ai_insights(payload: AIInsightsRequest):
                     "Could not connect to local Ollama service. "
                     "Please ensure Ollama is running at the configured endpoint."
                 ),
-                "model_used": OLLAMA_MODEL,
-            },
-        )
-    except TimeoutError:
-        logger.warning("Ollama request timed out after %ss", OLLAMA_TIMEOUT_SECONDS)
-        return JSONResponse(
-            status_code=504,
-            content={
-                "response": "AI request timed out. Please try a shorter question and try again.",
                 "model_used": OLLAMA_MODEL,
             },
         )
@@ -95,7 +96,7 @@ async def ai_insights(payload: AIInsightsRequest):
         parsed = json.loads(raw)
         ai_text = str(parsed.get("response", "")).strip()
     except json.JSONDecodeError:
-        logger.warning("Invalid JSON from Ollama: %s", raw[:300])
+        logger.warning("Invalid JSON response received from Ollama generate API.")
         return JSONResponse(
             status_code=502,
             content={
