@@ -81,7 +81,7 @@ export default function AIChat({
           <MessageSquare className="w-4 h-4 text-purple-300" />
           <h3 className="text-sm font-semibold text-white">AI Insights Chat</h3>
         </div>
-        <span className="text-[11px] text-purple-200/90">Powered by Mistral ({aiModelName})</span>
+        <span className="text-[11px] text-purple-200/90">Powered by {aiModelName || 'mistral'}</span>
       </div>
 
       <div className="p-4 space-y-3 h-80 overflow-y-auto" role="log" aria-label="Chat history">
@@ -124,10 +124,10 @@ export default function AIChat({
           onKeyDown={(e) => {
             if (e.key === 'Enter' && !e.shiftKey) {
               e.preventDefault();
-              void handleAskAI();
+              handleAskAI();
             }
           }}
-          placeholder="Ask a follow-up question..."
+          placeholder="Ask a follow-up question... (Enter to send, Shift+Enter for new line)"
           aria-label="Ask AI a question"
           rows={3}
           className="w-full rounded-xl bg-black/20 border border-white/10 px-3 py-2 text-sm text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50"

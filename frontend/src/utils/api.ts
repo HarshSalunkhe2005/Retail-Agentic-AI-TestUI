@@ -93,18 +93,28 @@ export async function getAIInsights(payload: AIInsightsRequest): Promise<AIInsig
     });
   } catch (err) {
     if ((err as Error).name === 'AbortError') {
-      throw new Error('AI request timed out after 30 seconds. Please try again.');
+      throw new Error('AI request timed out after 30 seconds. Please try a shorter question and try again.');
     }
     throw new Error('Unable to connect to AI service. Please ensure backend and Ollama are running.');
   } finally {
     clearTimeout(timer);
   }
 
-  const result = (await res.json().catch(() => null)) as Record<string, unknown> | null;
+  let responseData: Record<string, unknown> | null = null;
+  let jsonParseFailed = false;
+  try {
+    responseData = (await res.json()) as Record<string, unknown>;
+  } catch {
+    jsonParseFailed = true;
+  }
+
   if (!res.ok) {
-    const backendMessage =
-      (result as { response?: string; message?: string } | null)?.message ??
-      (result as { response?: string; message?: string } | null)?.response;
+    if (jsonParseFailed) {
+      throw new Error(`AI service returned HTTP ${res.status} with an invalid JSON payload.`);
+    }
+
+    const aiErrorResult = responseData as { response?: string; message?: string } | null;
+    const backendMessage = aiErrorResult?.message ?? aiErrorResult?.response;
 
     if (res.status === 503) {
       throw new Error(
@@ -122,8 +132,14 @@ export async function getAIInsights(payload: AIInsightsRequest): Promise<AIInsig
     throw new Error(backendMessage ?? `AI request failed (HTTP ${res.status}).`);
   }
 
+  if (jsonParseFailed) {
+    throw new Error('AI service returned an invalid JSON response.');
+  }
+
+  const parsedResult = responseData ?? {};
+
   return {
-    response: String((result as { response?: string }).response ?? ''),
-    model_used: String((result as { model_used?: string }).model_used ?? 'mistral'),
+    response: String((parsedResult as { response?: string }).response ?? ''),
+    model_used: String((parsedResult as { model_used?: string }).model_used ?? 'mistral'),
   };
 }
