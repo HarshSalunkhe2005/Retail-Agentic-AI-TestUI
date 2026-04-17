@@ -27,8 +27,8 @@ WEEKS_PER_YEAR = 52
 TOTAL_BUDGET = 2_000_000.0    # planning budget
 
 PRIORITY_THRESHOLDS = {
-    "Critical": 0.75,
-    "High": 0.50,
+    "Critical": 0.62,
+    "High": 0.45,
     "Medium": 0.25,
     # Below 0.25 → Low
 }
