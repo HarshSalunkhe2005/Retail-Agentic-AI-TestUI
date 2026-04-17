@@ -128,7 +128,7 @@ export default function StepResults() {
   };
 
   return (
-    <div className={`mx-auto ${isAIOpen ? 'max-w-7xl' : 'max-w-5xl'}`}>
+    <div className={`mx-auto w-full ${isAIOpen ? 'max-w-[1800px]' : 'max-w-5xl'}`}>
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -159,8 +159,8 @@ export default function StepResults() {
         </div>
       </motion.div>
 
-      <div className={isAIOpen ? 'grid gap-6 lg:grid-cols-[minmax(0,1fr)_380px]' : ''}>
-        <div>
+      <div className={isAIOpen ? 'grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(380px,420px)]' : ''}>
+        <div className="min-w-0">
           {/* Model result sections in order */}
           <div className="space-y-4">
             {orderedModels.map((modelKey) => {

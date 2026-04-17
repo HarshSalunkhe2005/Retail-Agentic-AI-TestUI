@@ -1,9 +1,11 @@
 /**
  * API client for the Retail Agentic AI backend.
- * Base URL: http://localhost:8000/api  (overridable via VITE_API_URL)
+ * Backend base: http://localhost:8000 (overridable via VITE_API_BASE_URL in .env)
  */
 
-export const API_BASE_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:8000/api';
+const rawApiBase = (import.meta.env.VITE_API_BASE_URL ?? import.meta.env.VITE_API_URL ?? 'http://localhost:8000')
+  .replace(/\/+$/, '');
+export const API_BASE_URL = rawApiBase.endsWith('/api') ? rawApiBase : `${rawApiBase}/api`;
 
 const TIMEOUT_MS = 60_000;
 

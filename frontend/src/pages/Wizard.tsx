@@ -31,7 +31,7 @@ export default function WizardPage() {
 
   return (
     <div className="min-h-screen pt-8 pb-16">
-      <div className="max-w-5xl mx-auto px-6">
+      <div className={`${currentStep === 5 ? 'max-w-[1800px]' : 'max-w-5xl'} mx-auto px-6`}>
         {/* Step indicator */}
         <motion.div
           initial={{ opacity: 0, y: -10 }}

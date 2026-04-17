@@ -5,6 +5,8 @@ __pycache__/
 file_hierarchy.txt
 .streamlit/secrets.toml
 .env
+!backend/.env
+!frontend/.env
 
 # Frontend
 frontend/node_modules/
