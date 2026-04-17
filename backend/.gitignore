@@ -12,10 +12,6 @@ venv/
 .venv/
 env/
 
-# Environment secrets
-.env
-!.env
-
 # Editor / OS
 .DS_Store
 .idea/
