@@ -16,10 +16,10 @@ export const URGENCY_COLORS: Record<string, string> = {
   low: '#22c55e',
 };
 
-export function formatCurrency(value: number): string {
-  if (value >= 1_000_000) return `$${(value / 1_000_000).toFixed(1)}M`;
-  if (value >= 1_000) return `$${(value / 1_000).toFixed(0)}K`;
-  return `$${value.toFixed(0)}`;
+export function formatCurrency(value: number, symbol = '₹'): string {
+  if (value >= 1_000_000) return `${symbol}${(value / 1_000_000).toFixed(1)}M`;
+  if (value >= 1_000) return `${symbol}${(value / 1_000).toFixed(0)}K`;
+  return `${symbol}${value.toFixed(0)}`;
 }
 
 export function formatNumber(value: number): string {

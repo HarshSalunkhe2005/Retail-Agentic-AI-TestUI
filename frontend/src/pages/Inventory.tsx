@@ -163,7 +163,7 @@ export default function InventoryPage() {
           <Download className="w-3.5 h-3.5" /> CSV
         </button>
         <button
-          onClick={() => downloadCSV(data.po_table, 'inventory_po_recommendations.tsv')}
+          onClick={() => downloadCSV(data.po_table, 'inventory_po_recommendations.csv')}
           className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium bg-cyan-500/10 text-cyan-300 border border-cyan-500/20 hover:bg-cyan-500/20 transition-all"
         >
           <FileDown className="w-3.5 h-3.5" /> Excel (CSV)

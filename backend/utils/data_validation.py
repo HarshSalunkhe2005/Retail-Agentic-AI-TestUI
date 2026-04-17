@@ -14,7 +14,23 @@ logger = logging.getLogger(__name__)
 
 
 async def validate_csv(file: UploadFile) -> bytes:
-    """Read upload, check size, return raw bytes."""
+    """Read upload, check size, type, and return raw bytes."""
+    # Validate file extension
+    filename = (file.filename or "").lower()
+    if not filename.endswith(".csv"):
+        raise HTTPException(
+            status_code=400,
+            detail=f"Invalid file type. Expected a .csv file, got '{filename}'.",
+        )
+    
+    # Validate content type (browsers may send various MIME types for CSVs)
+    allowed_types = {"text/csv", "text/plain", "application/vnd.ms-excel", "application/octet-stream"}
+    if file.content_type and file.content_type not in allowed_types:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Invalid content type. Expected a CSV file, got '{file.content_type}'.",
+        )
+
     content = await file.read()
     if len(content) > UPLOAD_MAX_SIZE:
         raise HTTPException(

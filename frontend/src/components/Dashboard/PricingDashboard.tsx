@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import {
   PieChart,
@@ -83,6 +83,9 @@ export default function PricingDashboard({ data, summary }: PricingDashboardProp
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
+  // Reset to page 1 when data changes
+  useEffect(() => { setCurrentPage(1); }, [data]);
+
   const totalPages = Math.ceil(data.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const paginatedData = data.slice(startIndex, startIndex + itemsPerPage);
@@ -93,6 +96,7 @@ export default function PricingDashboard({ data, summary }: PricingDashboardProp
   const pieData = [
     { name: 'Increase', value: summary.increase_count, fill: ACTION_COLORS.increase },
     { name: 'Decrease', value: summary.decrease_count, fill: ACTION_COLORS.decrease },
+    { name: 'Discount', value: summary.discount_count, fill: ACTION_COLORS.discount },
     { name: 'Hold', value: summary.hold_count, fill: ACTION_COLORS.hold },
   ].filter((d) => d.value > 0);
 
@@ -179,7 +183,7 @@ export default function PricingDashboard({ data, summary }: PricingDashboardProp
         >
           <h3 className="text-sm font-semibold text-white mb-4">Action Summary</h3>
           <div className="space-y-3">
-            {(['increase', 'hold', 'decrease'] as const).map((action) => {
+            {(['increase', 'hold', 'decrease', 'discount'] as const).map((action) => {
               const countKey = `${action}_count` as keyof PricingSummary;
               const count = summary[countKey] as number;
               const pct = summary.total_products > 0

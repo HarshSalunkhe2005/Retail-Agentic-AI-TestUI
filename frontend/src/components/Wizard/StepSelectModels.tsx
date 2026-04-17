@@ -40,7 +40,7 @@ const MODELS: ModelOption[] = [
     description: 'Association rules for cross-sell and upsell opportunities',
     icon: ShoppingCart,
     color: 'green',
-    features: ['Apriori algorithm', 'Association rules', 'Cross-sell maps'],
+    features: ['FP-Growth algorithm', 'Association rules', 'Cross-sell maps'],
     estimatedTime: '~2.5s',
   },
   {

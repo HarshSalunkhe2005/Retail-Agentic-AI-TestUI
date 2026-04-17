@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Link2, Package, Star } from 'lucide-react';
 import KPICard from './KPICard';
@@ -43,6 +43,9 @@ function LiftBadge({ lift }: { lift: number }) {
 export default function BasketDashboard({ rules, summary }: BasketDashboardProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
+
+  // Reset to page 1 when rules data changes
+  useEffect(() => { setCurrentPage(1); }, [rules]);
 
   const sortedRules = [...rules].sort(
     (a, b) => (b.composite_score ?? b.lift) - (a.composite_score ?? a.lift)

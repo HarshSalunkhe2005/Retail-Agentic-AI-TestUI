@@ -2,6 +2,14 @@ import { useCallback } from 'react';
 import { useWizardStore } from '../store/wizardStore';
 import type { WizardStep } from '../store/wizardStore';
 
+const STEPS = [
+  { id: 1, label: 'Upload', description: 'Upload CSV data' },
+  { id: 2, label: 'Preview', description: 'Preview & segment' },
+  { id: 3, label: 'Models', description: 'Select models' },
+  { id: 4, label: 'Execute', description: 'Run analysis' },
+  { id: 5, label: 'Results', description: 'View results' },
+];
+
 export function useWizard() {
   // Subscribe only to currentStep to avoid re-rendering Wizard.tsx on every
   // unrelated state change (e.g. processingProgress, modelResults updates).
@@ -34,19 +42,11 @@ export function useWizard() {
     return s.currentStep > 1 && s.currentStep < 5;
   }, []);
 
-  const steps = [
-    { id: 1, label: 'Upload', description: 'Upload CSV data' },
-    { id: 2, label: 'Preview', description: 'Preview & segment' },
-    { id: 3, label: 'Models', description: 'Select models' },
-    { id: 4, label: 'Execute', description: 'Run analysis' },
-    { id: 5, label: 'Results', description: 'View results' },
-  ];
-
   return {
     currentStep,
     goToStep,
     canGoNext,
     canGoPrev,
-    steps,
+    steps: STEPS,
   };
 }

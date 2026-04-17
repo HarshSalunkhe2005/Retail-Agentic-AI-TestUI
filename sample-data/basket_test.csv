@@ -1,81 +1,94 @@
-Invoice,ProductName,Category,Sales,Date,Quantity
-INV-001,Sofa,Home,13177.03,2024-04-19,3
-INV-001,Rug,Home,1306.26,2024-04-19,1
-INV-002,Office Desk,Home,6852.41,2024-04-06,2
-INV-002,Office Chair,Home,5642.81,2024-04-06,2
-INV-002,Desk Lamp,Home,1967.99,2024-04-06,3
-INV-003,Cookware Set,Home,2004.63,2024-03-03,1
-INV-003,Dishware Set,Home,2536.25,2024-03-03,2
-INV-004,Laptop,Electronics,143049.84,2024-03-26,3
-INV-004,Laptop Bag,Electronics,3358.83,2024-03-26,3
-INV-004,USB Hub,Electronics,1625.86,2024-03-26,2
-INV-005,Phone,Electronics,50918.93,2024-04-26,2
-INV-005,Phone Case,Electronics,1355.41,2024-04-26,3
-INV-006,Yoga Mat,Health,2247.23,2024-01-18,2
-INV-006,Resistance Bands,Health,1268.57,2024-01-18,2
-INV-006,Water Bottle,Health,346.83,2024-01-18,1
-INV-007,Sofa,Home,8600.86,2024-04-07,2
-INV-007,Rug,Home,2281.09,2024-04-07,2
-INV-007,Throw Pillow,Home,347.92,2024-04-07,1
-INV-008,Office Desk,Home,3296.09,2024-02-14,1
-INV-008,Office Chair,Home,7627.63,2024-02-14,3
-INV-009,Cookware Set,Home,2242.48,2024-02-01,1
-INV-009,Dishware Set,Home,3908.0,2024-02-01,3
-INV-010,Laptop,Electronics,124588.52,2024-03-01,3
-INV-010,Laptop Bag,Electronics,1191.61,2024-03-01,1
-INV-011,Phone,Electronics,46677.89,2024-04-08,2
-INV-011,Phone Case,Electronics,1635.84,2024-04-08,3
-INV-011,Screen Protector,Electronics,827.85,2024-04-08,3
-INV-012,Yoga Mat,Health,1218.88,2024-02-09,1
-INV-012,Resistance Bands,Health,1319.71,2024-02-09,2
-INV-013,Sofa,Home,12685.49,2024-02-20,3
-INV-013,Rug,Home,3737.24,2024-02-20,3
-INV-013,Throw Pillow,Home,996.0,2024-02-20,3
-INV-014,Office Desk,Home,9792.79,2024-04-18,3
-INV-014,Office Chair,Home,2965.89,2024-04-18,1
-INV-014,Desk Lamp,Home,2060.23,2024-04-18,3
-INV-015,Cookware Set,Home,4335.68,2024-03-09,2
-INV-015,Dishware Set,Home,1401.67,2024-03-09,1
-INV-015,Kitchen Utensils,Home,866.43,2024-03-09,2
-INV-016,Laptop,Electronics,82899.7,2024-04-15,2
-INV-016,Laptop Bag,Electronics,2465.08,2024-04-15,2
-INV-016,USB Hub,Electronics,1562.19,2024-04-15,2
-INV-017,Phone,Electronics,75326.2,2024-01-23,3
-INV-017,Phone Case,Electronics,1428.16,2024-01-23,3
-INV-017,Screen Protector,Electronics,946.27,2024-01-23,3
-INV-018,Yoga Mat,Health,3666.58,2024-02-25,3
-INV-018,Resistance Bands,Health,1391.45,2024-02-25,2
-INV-018,Water Bottle,Health,334.52,2024-02-25,1
-INV-019,Sofa,Home,9125.73,2024-02-01,2
-INV-019,Rug,Home,3512.87,2024-02-01,3
-INV-019,Throw Pillow,Home,349.6,2024-02-01,1
-INV-020,Office Desk,Home,6031.51,2024-01-24,2
-INV-020,Office Chair,Home,5421.18,2024-01-24,2
-INV-020,Desk Lamp,Home,2028.46,2024-01-24,3
-INV-021,Cookware Set,Home,2106.98,2024-03-12,1
-INV-021,Dishware Set,Home,1283.97,2024-03-12,1
-INV-021,Kitchen Utensils,Home,1413.05,2024-03-12,3
-INV-022,Laptop,Electronics,92626.25,2024-03-29,2
-INV-022,Laptop Bag,Electronics,2375.12,2024-03-29,2
-INV-023,Phone,Electronics,47215.96,2024-01-12,2
-INV-023,Phone Case,Electronics,1420.15,2024-01-12,3
-INV-024,Yoga Mat,Health,3622.26,2024-03-01,3
-INV-024,Resistance Bands,Health,1429.12,2024-03-01,2
-INV-024,Water Bottle,Health,1014.47,2024-03-01,3
-INV-025,Sofa,Home,8552.53,2024-02-04,2
-INV-025,Rug,Home,1253.11,2024-02-04,1
-INV-025,Throw Pillow,Home,646.74,2024-02-04,2
-INV-026,Office Desk,Home,3352.71,2024-01-25,1
-INV-026,Office Chair,Home,5851.54,2024-01-25,2
-INV-027,Cookware Set,Home,2014.42,2024-01-13,1
-INV-027,Dishware Set,Home,2620.49,2024-01-13,2
-INV-027,Kitchen Utensils,Home,499.97,2024-01-13,1
-INV-028,Laptop,Electronics,49268.65,2024-02-05,1
-INV-028,Laptop Bag,Electronics,3450.34,2024-02-05,3
-INV-029,Phone,Electronics,46025.88,2024-03-22,2
-INV-029,Phone Case,Electronics,506.39,2024-03-22,1
-INV-030,Yoga Mat,Health,2323.54,2024-03-02,2
-INV-030,Resistance Bands,Health,617.82,2024-03-02,1
-INV-030,Water Bottle,Health,645.97,2024-03-02,2
-INV-031,Sofa,Home,8233.35,2024-01-09,2
-INV-031,Rug,Home,1116.41,2024-01-09,1
+Invoice,ProductName,Category
+INV001,Wireless Bluetooth Headphones,Electronics
+INV001,Phone Case Premium,Electronics
+INV001,USB-C Charging Cable,Electronics
+INV002,Organic Green Tea,Food & Beverages
+INV002,Organic Honey,Food & Beverages
+INV002,Herbal Shampoo,Personal Care
+INV003,Running Shoes Pro,Sports
+INV003,Fitness Resistance Bands,Sports
+INV003,Protein Powder,Health
+INV004,Ceramic Coffee Mug Set,Kitchen
+INV004,Bamboo Cutting Board,Kitchen
+INV004,Glass Food Container Set,Kitchen
+INV005,Premium Yoga Mat,Sports
+INV005,Fitness Resistance Bands,Sports
+INV005,Stainless Steel Water Bottle,Kitchen
+INV006,Laptop Stand Adjustable,Electronics
+INV006,Wireless Mouse,Electronics
+INV006,LED Desk Lamp,Electronics
+INV007,Cotton Bath Towel Set,Home
+INV007,Aromatherapy Candles,Home
+INV007,Essential Oil Diffuser,Home
+INV008,Kitchen Knife Set,Kitchen
+INV008,Stainless Steel Cookware Set,Kitchen
+INV008,Bamboo Cutting Board,Kitchen
+INV009,Smart Watch Basic,Electronics
+INV009,Wireless Bluetooth Headphones,Electronics
+INV009,Portable Phone Charger,Electronics
+INV010,Travel Backpack,Travel
+INV010,Insulated Lunch Box,Travel
+INV010,Reusable Grocery Bags,Travel
+INV011,Organic Green Tea,Food & Beverages
+INV011,Organic Honey,Food & Beverages
+INV012,Wireless Mouse,Electronics
+INV012,LED Desk Lamp,Electronics
+INV012,USB-C Charging Cable,Electronics
+INV013,Premium Yoga Mat,Sports
+INV013,Cotton Bath Towel Set,Home
+INV013,Stainless Steel Water Bottle,Kitchen
+INV014,Ceramic Coffee Mug Set,Kitchen
+INV014,Organic Green Tea,Food & Beverages
+INV014,Organic Honey,Food & Beverages
+INV015,Running Shoes Pro,Sports
+INV015,Fitness Resistance Bands,Sports
+INV016,Laptop Stand Adjustable,Electronics
+INV016,Wireless Mouse,Electronics
+INV017,Kitchen Knife Set,Kitchen
+INV017,Glass Food Container Set,Kitchen
+INV017,Bamboo Cutting Board,Kitchen
+INV018,Essential Oil Diffuser,Home
+INV018,Aromatherapy Candles,Home
+INV018,Herbal Shampoo,Personal Care
+INV019,Smart Watch Basic,Electronics
+INV019,Noise Cancelling Earbuds,Electronics
+INV019,Phone Case Premium,Electronics
+INV020,Travel Backpack,Travel
+INV020,Insulated Lunch Box,Travel
+INV021,Wireless Bluetooth Headphones,Electronics
+INV021,Portable Phone Charger,Electronics
+INV021,USB-C Charging Cable,Electronics
+INV022,Organic Green Tea,Food & Beverages
+INV022,Herbal Shampoo,Personal Care
+INV022,Organic Honey,Food & Beverages
+INV023,Premium Yoga Mat,Sports
+INV023,Protein Powder,Health
+INV023,Fitness Resistance Bands,Sports
+INV024,Kitchen Knife Set,Kitchen
+INV024,Stainless Steel Cookware Set,Kitchen
+INV025,Memory Foam Pillow,Home
+INV025,Cotton Bath Towel Set,Home
+INV025,Aromatherapy Candles,Home
+INV026,Wireless Mouse,Electronics
+INV026,Laptop Stand Adjustable,Electronics
+INV027,Ceramic Coffee Mug Set,Kitchen
+INV027,Bamboo Cutting Board,Kitchen
+INV028,Running Shoes Pro,Sports
+INV028,Stainless Steel Water Bottle,Kitchen
+INV029,LED Desk Lamp,Electronics
+INV029,Bluetooth Speaker Mini,Electronics
+INV030,Organic Honey,Food & Beverages
+INV030,Organic Green Tea,Food & Beverages
+INV030,Digital Kitchen Scale,Kitchen
+INV031,Noise Cancelling Earbuds,Electronics
+INV031,Wireless Bluetooth Headphones,Electronics
+INV032,Essential Oil Diffuser,Home
+INV032,Herbal Shampoo,Personal Care
+INV033,Glass Food Container Set,Kitchen
+INV033,Insulated Lunch Box,Travel
+INV034,Smart Watch Basic,Electronics
+INV034,Wireless Mouse,Electronics
+INV034,Portable Phone Charger,Electronics
+INV035,Fitness Resistance Bands,Sports
+INV035,Premium Yoga Mat,Sports
+INV035,Protein Powder,Health

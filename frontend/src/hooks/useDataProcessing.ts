@@ -1,26 +1,12 @@
 import { useCallback, useRef } from 'react';
 import { useWizardStore } from '../store/wizardStore';
 import type { ModelKey, KPIMetrics, SegmentData } from '../store/wizardStore';
-
-const rawApiBase = (import.meta.env.VITE_API_BASE_URL ?? import.meta.env.VITE_API_URL ?? 'http://localhost:8000')
-  .replace(/\/+$/, '');
-const API_BASE = rawApiBase.endsWith('/api') ? rawApiBase : `${rawApiBase}/api`;
+import { API_BASE_URL as API_BASE, runModel } from '../utils/api';
 
 // ── helpers ───────────────────────────────────────────────────────────────────
 
-function buildFormData(file: File): FormData {
-  const fd = new FormData();
-  fd.append('file', file);
-  return fd;
-}
-
 async function callModel(endpoint: string, file: File): Promise<Record<string, unknown>> {
-  const response = await fetch(`${API_BASE}${endpoint}`, {
-    method: 'POST',
-    body: buildFormData(file),
-  });
-  const json = await response.json();
-  return json as Record<string, unknown>;
+  return runModel(endpoint, file);
 }
 
 async function callInventoryModel(
@@ -48,6 +34,11 @@ async function callInventoryModel(
     body: JSON.stringify(payload),
   });
   const json = await response.json();
+  if (!response.ok || (json as { status?: string }).status === 'error') {
+    throw new Error(
+      (json as { message?: string }).message ?? `Inventory model failed (HTTP ${response.status})`
+    );
+  }
   return json as Record<string, unknown>;
 }
 
@@ -143,11 +134,11 @@ export function useDataProcessing() {
     let completed = 0;
     const total = selectedModels.length;
 
-    const MODEL_ENDPOINTS: Partial<Record<ModelKey, string>> = {
-      pricing:   '/models/pricing',
-      churn:     '/models/churn',
-      demand:    '/models/demand',
-      basket:    '/models/basket?limit=100',
+    const MODEL_NAMES: Partial<Record<ModelKey, string>> = {
+      pricing:   'pricing',
+      churn:     'churn',
+      demand:    'demand',
+      basket:    'basket',
     };
 
     const apiResults: Partial<Record<ModelKey, Record<string, unknown>>> = {};
@@ -155,16 +146,16 @@ export function useDataProcessing() {
     const modelPromises = selectedModels.map(async (model) => {
       useWizardStore.getState().updateModelResult(model, { status: 'running' });
 
-      const endpoint = MODEL_ENDPOINTS[model];
+      const modelName = MODEL_NAMES[model];
 
-      if (!endpoint || !csvFile) {
+      if (!modelName || !csvFile) {
         useWizardStore.getState().updateModelResult(model, {
           status: 'done',
           data: { processed: true, model, timestamp: Date.now() },
         });
       } else {
         try {
-          const result = await callModel(endpoint, csvFile);
+          const result = await callModel(modelName, csvFile);
           if (cancelRef.current) return;
 
           apiResults[model] = result;

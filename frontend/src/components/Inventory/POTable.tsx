@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 export interface PORow {
@@ -34,6 +34,10 @@ function formatCurrency(v: number, symbol: string) {
 
 export default function POTable({ rows, pageSize = 10, currency = '₹' }: Props) {
   const [page, setPage] = useState(0);
+
+  // Reset to first page when filtered rows change
+  useEffect(() => { setPage(0); }, [rows]);
+
   const totalPages = Math.ceil(rows.length / pageSize);
   const slice = rows.slice(page * pageSize, (page + 1) * pageSize);
 

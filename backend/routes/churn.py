@@ -54,8 +54,9 @@ def _build_label_map(kmeans) -> dict[int, str]:
     centers = kmeans.cluster_centers_
     # Score = monetary + frequency − recency (higher = better)
     scores = centers[:, 2] + centers[:, 1] - centers[:, 0]
-    sorted_clusters = np.argsort(scores)  # ascending: worst → best
-    return {int(sorted_clusters[i]): _SEGMENT_LABELS[i] for i in range(4)}
+    sorted_clusters = np.argsort(centers.mean(axis=1))[::-1]
+    n_clusters = min(len(sorted_clusters), len(_SEGMENT_LABELS))
+    return {int(sorted_clusters[i]): _SEGMENT_LABELS[i] for i in range(n_clusters)}
 
 
 def _churn_prob(recency: float, frequency: float) -> float:
