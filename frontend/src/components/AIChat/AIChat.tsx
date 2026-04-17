@@ -74,7 +74,7 @@ export default function AIChat({
     <motion.aside
       initial={{ opacity: 0, x: 16 }}
       animate={{ opacity: 1, x: 0 }}
-      className="rounded-2xl border border-purple-500/20 bg-purple-500/5 h-fit lg:sticky lg:top-6"
+      className="rounded-2xl border border-purple-500/20 bg-purple-500/5 overflow-hidden h-fit lg:sticky lg:top-6 lg:min-w-[380px] lg:max-h-[calc(100vh-7rem)] lg:flex lg:flex-col"
     >
       <div className="p-4 border-b border-white/10 flex items-center justify-between gap-2">
         <div className="flex items-center gap-2">
@@ -84,7 +84,11 @@ export default function AIChat({
         <span className="text-[11px] text-purple-200/90">Powered by {aiModelName || 'mistral'}</span>
       </div>
 
-      <div className="p-4 space-y-3 h-80 overflow-y-auto" role="log" aria-label="Chat history">
+      <div
+        className="p-4 space-y-3 h-[26rem] overflow-y-auto lg:h-auto lg:min-h-[22rem] lg:flex-1"
+        role="log"
+        aria-label="Chat history"
+      >
         {chatHistory.length === 0 && (
           <div className="text-sm text-slate-400">
             Ask a question about your model outputs. Example: Why should I increase prices?

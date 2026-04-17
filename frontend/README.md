@@ -12,6 +12,16 @@ npm run dev
 
 Open [http://localhost:5173](http://localhost:5173) in your browser.
 
+### Environment
+
+Use `frontend/.env` for runtime configuration:
+
+```env
+VITE_API_BASE_URL=http://localhost:8000
+```
+
+`frontend/.env.example` is only a template reference.
+
 ## 🏗️ Build for Production
 
 ```bash

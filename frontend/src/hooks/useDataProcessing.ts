@@ -2,7 +2,9 @@ import { useCallback, useRef } from 'react';
 import { useWizardStore } from '../store/wizardStore';
 import type { ModelKey, KPIMetrics, SegmentData } from '../store/wizardStore';
 
-const API_BASE = import.meta.env.VITE_API_URL ?? 'http://localhost:8000/api';
+const rawApiBase = (import.meta.env.VITE_API_BASE_URL ?? import.meta.env.VITE_API_URL ?? 'http://localhost:8000')
+  .replace(/\/+$/, '');
+const API_BASE = rawApiBase.endsWith('/api') ? rawApiBase : `${rawApiBase}/api`;
 
 // ── helpers ───────────────────────────────────────────────────────────────────
 

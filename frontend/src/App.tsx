@@ -5,8 +5,6 @@ import Home from './pages/Home';
 import WizardPage from './pages/Wizard';
 import InventoryPage from './pages/Inventory';
 
-export const API_BASE_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:8000/api';
-
 export default function App() {
   return (
     <BrowserRouter>

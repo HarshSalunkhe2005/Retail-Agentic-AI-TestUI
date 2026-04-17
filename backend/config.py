@@ -1,22 +1,37 @@
 import os
 import logging
 from pathlib import Path
+try:
+    from dotenv import load_dotenv
+except ImportError:  # pragma: no cover - fallback for environments without python-dotenv installed
+    def load_dotenv(*_args, **_kwargs):
+        return False
 
 logger = logging.getLogger(__name__)
 
 # ── Paths ──────────────────────────────────────────────────────────────────────
 BASE_DIR   = Path(__file__).resolve().parent
 MODELS_DIR = BASE_DIR.parent / "models"   # repo-level models/ directory
+load_dotenv(BASE_DIR / ".env")
 
 # ── Server ─────────────────────────────────────────────────────────────────────
 HOST = os.getenv("HOST", "0.0.0.0")
 PORT = int(os.getenv("PORT", 8000))
 
 # ── CORS ───────────────────────────────────────────────────────────────────────
-CORS_ORIGINS = ["*"]
+_cors_origins_raw = os.getenv("CORS_ORIGINS", "*")
+CORS_ORIGINS = (
+    ["*"]
+    if _cors_origins_raw.strip() == "*"
+    else [origin.strip() for origin in _cors_origins_raw.split(",") if origin.strip()]
+)
 
 # ── Upload ─────────────────────────────────────────────────────────────────────
-UPLOAD_MAX_SIZE = 100 * 1024 * 1024  # 100 MB in bytes
+try:
+    UPLOAD_MAX_SIZE = int(os.getenv("UPLOAD_MAX_SIZE", 100 * 1024 * 1024))
+except ValueError:
+    logger.warning("Invalid UPLOAD_MAX_SIZE value. Falling back to 104857600 bytes.")
+    UPLOAD_MAX_SIZE = 100 * 1024 * 1024
 
 # ── API ────────────────────────────────────────────────────────────────────────
 API_PREFIX = "/api"
