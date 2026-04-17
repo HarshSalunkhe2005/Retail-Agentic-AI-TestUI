@@ -7,7 +7,7 @@ const rawApiBase = (import.meta.env.VITE_API_BASE_URL ?? import.meta.env.VITE_AP
   .replace(/\/+$/, '');
 export const API_BASE_URL = rawApiBase.endsWith('/api') ? rawApiBase : `${rawApiBase}/api`;
 
-const TIMEOUT_MS = 180_000;
+const TIMEOUT_MS = 60_000;
 
 async function fetchWithTimeout(
   url: string,
