@@ -31,7 +31,7 @@ try:
     UPLOAD_MAX_SIZE = int(os.getenv("UPLOAD_MAX_SIZE", "104857600"))
 except ValueError:
     logger.warning("Invalid UPLOAD_MAX_SIZE value. Falling back to 104857600 bytes.")
-    UPLOAD_MAX_SIZE = 100 * 1024 * 1024
+    UPLOAD_MAX_SIZE = 104857600
 
 # ── API ────────────────────────────────────────────────────────────────────────
 API_PREFIX = "/api"
