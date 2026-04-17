@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { Download, FileDown, FileJson } from 'lucide-react';
+import { Download, FileJson } from 'lucide-react';
 import { useWizardStore } from '../store/wizardStore';
 import { useShallow } from 'zustand/react/shallow';
 
@@ -161,12 +161,6 @@ export default function InventoryPage() {
           className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 hover:bg-emerald-500/20 transition-all"
         >
           <Download className="w-3.5 h-3.5" /> CSV
-        </button>
-        <button
-          onClick={() => downloadCSV(data.po_table, 'inventory_po_recommendations.csv')}
-          className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium bg-cyan-500/10 text-cyan-300 border border-cyan-500/20 hover:bg-cyan-500/20 transition-all"
-        >
-          <FileDown className="w-3.5 h-3.5" /> Excel (CSV)
         </button>
         <button
           onClick={() => downloadJSON({ kpis, po_table: data.po_table, charts })}

@@ -5,10 +5,6 @@ import { API_BASE_URL as API_BASE, runModel } from '../utils/api';
 
 // ── helpers ───────────────────────────────────────────────────────────────────
 
-async function callModel(endpoint: string, file: File): Promise<Record<string, unknown>> {
-  return runModel(endpoint, file);
-}
-
 async function callInventoryModel(
   apiResults: Partial<Record<ModelKey, Record<string, unknown>>>
 ): Promise<Record<string, unknown>> {
@@ -155,7 +151,7 @@ export function useDataProcessing() {
         });
       } else {
         try {
-          const result = await callModel(modelName, csvFile);
+          const result = await runModel(modelName, csvFile);
           if (cancelRef.current) return;
 
           apiResults[model] = result;

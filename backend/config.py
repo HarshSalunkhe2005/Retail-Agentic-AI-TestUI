@@ -53,7 +53,6 @@ MODEL_FILES = {
     "kmeans":         "kmeans.pkl",
     "rfm_scaler":     "rfm_scaler.pkl",
     "demand":         "forecast_prophet.pkl",
-    "basket":         "model5_basket_analysis.pkl",
 }
 
 # ── Pricing ────────────────────────────────────────────────────────────────────
