@@ -36,14 +36,7 @@ except ValueError:
 # ── API ────────────────────────────────────────────────────────────────────────
 API_PREFIX = "/api"
 
-# ── Local AI (Ollama) ──────────────────────────────────────────────────────────
-OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
-OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "mistral")
-try:
-    OLLAMA_TIMEOUT_SECONDS = int(os.getenv("OLLAMA_TIMEOUT_SECONDS", 30))
-except ValueError:
-    logger.warning("Invalid OLLAMA_TIMEOUT_SECONDS value. Falling back to 30 seconds.")
-    OLLAMA_TIMEOUT_SECONDS = 30
+
 
 # ── Model file names ───────────────────────────────────────────────────────────
 MODEL_FILES = {

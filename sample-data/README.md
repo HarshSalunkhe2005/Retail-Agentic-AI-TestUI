@@ -6,11 +6,11 @@ Test datasets for validating each AI model individually and all models together.
 
 | File | Purpose | Compatible Models | Rows |
 |------|---------|-------------------|------|
-| `pricing_test.csv` | Pricing intelligence testing | Pricing only | 30 products |
+| `pricing_test.csv` | Pricing intelligence testing (includes discount-triggering products) | Pricing only | 38 products |
 | `churn_test.csv` | Customer health & churn analysis | Churn only | 50 customers |
 | `demand_test.csv` | Demand forecasting | Demand only | 51 weeks |
 | `basket_test.csv` | Market basket analysis | Basket only | 93 rows, 35 invoices |
-| `comprehensive_retail_data.csv` | **All models at once** | Pricing + Churn + Demand + Basket | 120+ rows |
+| `comprehensive_retail_data.csv` | **All models at once** (Sales trend upward) | Pricing + Churn + Demand + Basket | 120+ rows |
 
 ## Column Mappings
 

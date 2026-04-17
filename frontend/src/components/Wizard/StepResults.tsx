@@ -1,17 +1,16 @@
-import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useWizardStore } from '../../store/wizardStore';
 import { useShallow } from 'zustand/react/shallow';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import Button from '../Common/Button';
 import ChurnDashboard from '../Dashboard/ChurnDashboard';
 import DemandDashboard from '../Dashboard/DemandDashboard';
 import BasketDashboard from '../Dashboard/BasketDashboard';
 import PricingDashboard from '../Dashboard/PricingDashboard';
-import { RotateCcw, AlertCircle, ChevronDown, ChevronUp, Sparkles } from 'lucide-react';
+import { RotateCcw, AlertCircle, ChevronDown, ChevronUp } from 'lucide-react';
 import { exportAsJSON } from '../../utils/csvParser';
 import type { ModelKey } from '../../store/wizardStore';
-import AIChat from '../AIChat';
 
 // ── Section header ─────────────────────────────────────────────────────────────
 
@@ -102,7 +101,6 @@ export default function StepResults() {
     }))
   );
   const navigate = useNavigate();
-  const [isAIOpen, setIsAIOpen] = useState(false);
 
   const handleExportJSON = () => {
     const exportData: Record<string, unknown> = {};
@@ -120,15 +118,8 @@ export default function StepResults() {
   // Show results in defined order, only for models that were selected and have results
   const orderedModels = RESULT_ORDER.filter((m) => selectedModels.includes(m));
 
-  const aiPayloadBase = {
-    churn_results: modelResults.churn?.status === 'done' ? modelResults.churn.data : null,
-    demand_results: modelResults.demand?.status === 'done' ? modelResults.demand.data : null,
-    pricing_results: modelResults.pricing?.status === 'done' ? modelResults.pricing.data : null,
-    basket_results: modelResults.basket?.status === 'done' ? modelResults.basket.data : null,
-  };
-
   return (
-    <div className={`mx-auto w-full ${isAIOpen ? 'max-w-[1800px]' : 'max-w-5xl'}`}>
+    <div className="mx-auto w-full max-w-5xl">
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -142,14 +133,6 @@ export default function StepResults() {
           </p>
         </div>
         <div className="flex gap-2">
-          <Button
-            variant={isAIOpen ? 'primary' : 'secondary'}
-            size="sm"
-            onClick={() => setIsAIOpen((v) => !v)}
-            icon={<Sparkles className="w-4 h-4" />}
-          >
-            {isAIOpen ? 'Hide AI Insights' : 'AI Insights'}
-          </Button>
           <Button variant="secondary" size="sm" onClick={handleExportJSON}>
             Export JSON
           </Button>
@@ -159,104 +142,91 @@ export default function StepResults() {
         </div>
       </motion.div>
 
-      <div className={isAIOpen ? 'grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(380px,420px)]' : ''}>
-        <div className="min-w-0">
-          {/* Model result sections in order */}
-          <div className="space-y-4">
-            {orderedModels.map((modelKey) => {
-              const result = modelResults[modelKey];
-              const meta = SECTION_META[modelKey];
+      {/* Model result sections in order */}
+      <div className="space-y-4">
+        {orderedModels.map((modelKey) => {
+          const result = modelResults[modelKey];
+          const meta = SECTION_META[modelKey];
 
-              if (!result || result.status === 'idle') return null;
+          if (!result || result.status === 'idle') return null;
 
-              if (result.status === 'error') {
-                return (
-                  <ResultSection key={modelKey} {...meta}>
-                    <ErrorCard
-                      message={
-                        (result.data as { message?: string } | null)?.message ??
-                        (result.data as { error?: string } | null)?.error ??
-                        'An error occurred while running this model.'
-                      }
-                    />
-                  </ResultSection>
-                );
-              }
+          if (result.status === 'error') {
+            return (
+              <ResultSection key={modelKey} {...meta}>
+                <ErrorCard
+                  message={
+                    (result.data as { message?: string } | null)?.message ??
+                    (result.data as { error?: string } | null)?.error ??
+                    'An error occurred while running this model.'
+                  }
+                />
+              </ResultSection>
+            );
+          }
 
-              if (result.status !== 'done' || !result.data) return null;
+          if (result.status !== 'done' || !result.data) return null;
 
-              const apiData = result.data as Record<string, unknown>;
+          const apiData = result.data as Record<string, unknown>;
 
-              if (modelKey === 'churn') {
-                return (
-                  <ResultSection key={modelKey} {...meta}>
-                    <ChurnDashboard
-                      data={apiData.data as Parameters<typeof ChurnDashboard>[0]['data']}
-                      summary={apiData.summary as Parameters<typeof ChurnDashboard>[0]['summary']}
-                    />
-                  </ResultSection>
-                );
-              }
+          if (modelKey === 'churn') {
+            return (
+              <ResultSection key={modelKey} {...meta}>
+                <ChurnDashboard
+                  data={apiData.data as Parameters<typeof ChurnDashboard>[0]['data']}
+                  summary={apiData.summary as Parameters<typeof ChurnDashboard>[0]['summary']}
+                />
+              </ResultSection>
+            );
+          }
 
-              if (modelKey === 'demand') {
-                return (
-                  <ResultSection key={modelKey} {...meta}>
-                    <DemandDashboard
-                      forecastData={apiData.forecast_data as Parameters<typeof DemandDashboard>[0]['forecastData']}
-                      summary={apiData.summary as Parameters<typeof DemandDashboard>[0]['summary']}
-                    />
-                  </ResultSection>
-                );
-              }
+          if (modelKey === 'demand') {
+            return (
+              <ResultSection key={modelKey} {...meta}>
+                <DemandDashboard
+                  forecastData={apiData.forecast_data as Parameters<typeof DemandDashboard>[0]['forecastData']}
+                  summary={apiData.summary as Parameters<typeof DemandDashboard>[0]['summary']}
+                />
+              </ResultSection>
+            );
+          }
 
-              if (modelKey === 'basket') {
-                return (
-                  <ResultSection key={modelKey} {...meta}>
-                    <BasketDashboard
-                      rules={apiData.rules as Parameters<typeof BasketDashboard>[0]['rules']}
-                      summary={apiData.summary as Parameters<typeof BasketDashboard>[0]['summary']}
-                    />
-                  </ResultSection>
-                );
-              }
+          if (modelKey === 'basket') {
+            return (
+              <ResultSection key={modelKey} {...meta}>
+                <BasketDashboard
+                  rules={apiData.rules as Parameters<typeof BasketDashboard>[0]['rules']}
+                  summary={apiData.summary as Parameters<typeof BasketDashboard>[0]['summary']}
+                />
+              </ResultSection>
+            );
+          }
 
-              if (modelKey === 'pricing') {
-                return (
-                  <ResultSection key={modelKey} {...meta}>
-                    <PricingDashboard
-                      data={apiData.data as Parameters<typeof PricingDashboard>[0]['data']}
-                      summary={apiData.summary as Parameters<typeof PricingDashboard>[0]['summary']}
-                    />
-                  </ResultSection>
-                );
-              }
+          if (modelKey === 'pricing') {
+            return (
+              <ResultSection key={modelKey} {...meta}>
+                <PricingDashboard
+                  data={apiData.data as Parameters<typeof PricingDashboard>[0]['data']}
+                  summary={apiData.summary as Parameters<typeof PricingDashboard>[0]['summary']}
+                />
+              </ResultSection>
+            );
+          }
 
-              return null;
-            })}
-          </div>
-
-          {/* Bottom CTA */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.5 }}
-            className="mt-8 flex justify-end"
-          >
-            <Button variant="ghost" size="sm" onClick={handleReset} icon={<RotateCcw className="w-4 h-4" />}>
-              New Analysis
-            </Button>
-          </motion.div>
-        </div>
-
-        {isAIOpen && (
-          <AIChat
-            churnResults={aiPayloadBase.churn_results as Record<string, unknown> | null}
-            demandResults={aiPayloadBase.demand_results as Record<string, unknown> | null}
-            pricingResults={aiPayloadBase.pricing_results as Record<string, unknown> | null}
-            basketResults={aiPayloadBase.basket_results as Record<string, unknown> | null}
-          />
-        )}
+          return null;
+        })}
       </div>
+
+      {/* Bottom CTA */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.5 }}
+        className="mt-8 flex justify-end"
+      >
+        <Button variant="ghost" size="sm" onClick={handleReset} icon={<RotateCcw className="w-4 h-4" />}>
+          New Analysis
+        </Button>
+      </motion.div>
     </div>
   );
 }
