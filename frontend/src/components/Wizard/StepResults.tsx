@@ -128,7 +128,7 @@ export default function StepResults() {
   };
 
   return (
-    <div className={`mx-auto w-full ${isAIOpen ? 'max-w-[1700px]' : 'max-w-5xl'}`}>
+    <div className={`mx-auto w-full ${isAIOpen ? 'max-w-[1800px]' : 'max-w-5xl'}`}>
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
