@@ -55,7 +55,10 @@ export default function InventoryFilters({ filters, categories, onChange }: Prop
       {/* Active POs only toggle */}
       <label className="flex items-center gap-2 cursor-pointer">
         <div
-          onClick={() => onChange({ ...filters, activeOnly: !filters.activeOnly })}
+          onClick={() => {
+            const next = !filters.activeOnly;
+            onChange({ ...filters, activeOnly: next, ...(next ? { priority: 'All' } : {}) });
+          }}
           className={`relative w-8 h-4 rounded-full transition-colors ${
             filters.activeOnly ? 'bg-emerald-500' : 'bg-white/10'
           }`}
